@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - HobbyHub</title>
+    <link rel="stylesheet" href="login-style.css">
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="welcome-section">
+        <div class="logo">Hobby<span>Hub</span></div>
+
+        <h1>Welcome Back!</h1>
+
+        <p>
+            Continue your hobby journey and connect
+            with people who share your interests.
+        </p>
+
+        <div class="features">
+            <div>✨ Discover new hobbies</div>
+            <div>👥 Join communities</div>
+            <div>💜 Meet like-minded people</div>
+        </div>
+    </div>
+
+
+    <div class="form-section">
+
+        <div class="form-box">
+
+            <h2>Login</h2>
+            <p class="subtitle">Welcome back to HobbyHub</p>
+
+            <form id="loginForm">
+
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <div class="password-info">
+                    Password must contain:
+                    <br>• At least 8 characters
+                    <br>• 1 capital letter
+                    <br>• 1 number
+                    <br>• 1 special symbol
+                </div>
+
+                <div class="options">
+                    <label>
+                        <input type="checkbox" id="remember">
+                        Remember me
+                    </label>
+
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button type="submit">Login</button>
+
+            </form>
+
+            <p class="register-text">
+                Don't have an account?
+                <a href="../register/register.html">Create Account</a>
+            </p>
+
+            <a class="home-link" href="../index/index.html">
+                ← Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="login-script.js"></script>
+
+</body>
+</html>

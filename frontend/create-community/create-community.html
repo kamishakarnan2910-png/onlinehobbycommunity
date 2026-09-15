@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Community - HobbyHub</title>
+    <link rel="stylesheet" href="create-community-style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">Hobby<span>Hub</span></div>
+
+    <div class="nav-links">
+        <a href="../home/home.html">Home</a>
+        <a href="../explore/explore.html">Explore</a>
+        <a href="../community/community.html">Communities</a>
+        <a href="../notifications/notifications.html">🔔</a>
+        <a href="../profile/profile.html">👤</a>
+    </div>
+</nav>
+
+<main>
+
+    <div class="page-heading">
+        <span>✨ BUILD YOUR COMMUNITY</span>
+        <h1>Create a <strong>Community</strong></h1>
+        <p>Bring people together around a hobby you love.</p>
+    </div>
+
+    <div class="form-card">
+
+        <form id="communityForm">
+
+            <div class="input-group">
+                <label>Community Name</label>
+                <input
+                    type="text"
+                    id="communityName"
+                    placeholder="Eg: Creative Artists"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Description</label>
+                <textarea
+                    id="description"
+                    placeholder="Tell people what your community is about..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="row">
+
+                <div class="input-group">
+                    <label>Hobby Category</label>
+                    <select id="category" required>
+                        <option value="">Select Category</option>
+                        <option value="Creative">Creative</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Reading">Reading</option>
+                        <option value="Music">Music</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Learning">Learning</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Community Type</label>
+                    <select id="communityType" required>
+                        <option value="">Select Type</option>
+                        <option value="Public">Public</option>
+                        <option value="Private">Private</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="input-group">
+                <label>Community Image</label>
+
+                <div class="upload-box">
+                    <span>🖼️</span>
+                    <p>Choose an image for your community</p>
+                    <input type="file" id="communityImage" accept="image/*">
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a href="../community/community.html" class="cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="submit">
+                    Create Community ✨
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+<script src="create-community-script.js"></script>
+
+</body>
+</html>

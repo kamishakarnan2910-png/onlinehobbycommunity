@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HobbyHub | Explore</title>
+
+    <link rel="stylesheet" href="explore-style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <a href="../home/home.html" class="logo">
+        ✦ HobbyHub
+    </a>
+
+    <div class="nav-links">
+
+        <a href="../home/home.html">Home</a>
+
+        <a href="explore.html" class="active">
+            Explore
+        </a>
+
+        <a href="../community/community.html">
+            Communities
+        </a>
+
+        <a href="../notifications/notifications.html">
+            🔔
+        </a>
+
+        <a href="../profile/profile.html" class="profile-btn">
+            👤
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main>
+
+    <!-- HEADER -->
+
+    <section class="explore-header">
+
+        <div class="badge">
+            ✨ DISCOVER SOMETHING NEW
+        </div>
+
+        <h1>
+            Explore Your <span>Passion</span>
+        </h1>
+
+        <p>
+            Find hobbies you love and communities
+            where you belong.
+        </p>
+
+
+        <div class="search-box">
+
+            <span>🔍</span>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search hobbies..."
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- CATEGORIES -->
+
+    <section class="categories">
+
+        <button class="category active" data-category="all">
+            All
+        </button>
+
+        <button class="category" data-category="creative">
+            🎨 Creative
+        </button>
+
+        <button class="category" data-category="learning">
+            📚 Learning
+        </button>
+
+        <button class="category" data-category="technology">
+            💻 Technology
+        </button>
+
+        <button class="category" data-category="lifestyle">
+            🌱 Lifestyle
+        </button>
+
+        <button class="category" data-category="music">
+            🎵 Music
+        </button>
+
+    </section>
+
+
+    <!-- HOBBIES -->
+
+    <section class="hobbies">
+
+        <div class="section-title">
+            <div>
+                <p>EXPLORE HOBBIES</p>
+                <h2>Popular Right Now</h2>
+            </div>
+
+            <span id="resultCount">
+                9 hobbies
+            </span>
+        </div>
+
+
+        <div class="hobby-grid" id="hobbyGrid">
+
+
+            <div class="hobby-card"
+                 data-category="creative"
+                 data-name="art design">
+
+                <div class="hobby-image purple">
+                    🎨
+                </div>
+
+                <h3>Art & Design</h3>
+
+                <p>
+                    Draw, paint and express your creativity.
+                </p>
+
+                <div class="info">
+                    <span>👥 245 members</span>
+                    <button>Join</button>
+                </div>
+
+            </div>
+
+
+            <div class="hobby-card"
+                 data-category="creative"
+                 data-name="photography">
+
+                <div class="hobby-image pink">
+                    📷
+                </div>
+
+                <h3>Photography</h3>
+
+                <p>
+                    Capture beautiful moments and stories.
+                </p>
+
+                <div class="info">
+                    <span>👥 189 members</span>
+                    <button>Join</button>
+                </div>
+
+            </div>
+
+
+            <div class="hobby-card"
+                 data-category="music"
+                 data-name="music">
+
+                <div class="hobby-image blue">
+                    🎵
+                </div>
+
+                <h3>Music</h3>
+
+                <p>
+                    Discover music and share your passion.
+                </p>
+
+                <div class="info">
+                    <span>👥 310 members</span>
+                    <button>Join</button>
+                </div>
+
+            </div>
+
+
+            <div class="hobby-card"
+                 data-category="learning"
+                 data-name="reading books">
+
+                <div class="hobby-image yellow">
+                    📚
+                </div>
+
+                <h3>Reading</h3>
+
+                <p>
+                    Explore stories and discover new worlds.
+                </p>
+
+                <div class="info">
+                    <span>👥 276 members</span>
+                    <button>Join</button>
+                </div>
+
+            </div>
+
+
+            <div class="hobby-card"
+                 data-category="technology"
+                 data-name="technology coding">
+
+                <div class="hobby-image orange">
+                    💻
+                </div>
+
+                <h3>Technology</h3>
+
+                <p>
+                    Learn, build and explore new technology.
+                </p>
+
+                <div class="info">
+                    <span>👥 320 members</span>
+                    <button>Join</button>
+                </div>
+
+            </div>
+
+
+            <div class="hobby-card"
+                 data-category="lifestyle"
+                 data-name="gardening">
+
+                <div class="hobby-image green">
+                    🌱
+                </div>
+
+                <h3>Gardening</h3>
+
+                <p>
+                    Grow plants and enjoy nature.
+                </p>
+
+                <div class="info">
+                    <span>👥 145 members</span>
+                    <button>Join</button>
+                </div>
+
+            </div>
+
+
+            <div class="hobby-card"
+                 data-category="creative"
+                 data-name="craft diy">
+
+                <div class="hobby-image violet">
+                    🧶
+                </div>
+
+                <h3>Craft & DIY</h3>
+
+                <p>
+                    Make creative things with your hands.
+                </p>
+
+                <div class="info">
+                    <span>👥 132 members</span>
+                    <button>Join</button>
+                </div>
+
+            </div>
+
+
+            <div class="hobby-card"
+                 data-category="learning"
+                 data-name="language learning">
+
+                <div class="hobby-image lavender">
+                    🌍
+                </div>
+
+                <h3>Languages</h3>
+
+                <p>
+                    Learn languages and connect with others.
+                </p>
+
+                <div class="info">
+                    <span>👥 198 members</span>
+                    <button>Join</button>
+                </div>
+
+            </div>
+
+
+            <div class="hobby-card"
+                 data-category="lifestyle"
+                 data-name="cooking">
+
+                <div class="hobby-image peach">
+                    🍳
+                </div>
+
+                <h3>Cooking</h3>
+
+                <p>
+                    Try recipes and share your creations.
+                </p>
+
+                <div class="info">
+                    <span>👥 224 members</span>
+                    <button>Join</button>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div id="noResults" class="no-results">
+            <div>🔍</div>
+            <h3>No hobbies found</h3>
+            <p>Try another search or category.</p>
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div>
+        <strong>✦ HobbyHub</strong>
+        <p>Connect through hobbies. Grow together.</p>
+    </div>
+
+    <div class="footer-links">
+
+        <a href="../home/home.html">Home</a>
+
+        <a href="../community/community.html">
+            Communities
+        </a>
+
+        <a href="../profile/profile.html">
+            Profile
+        </a>
+
+    </div>
+
+</footer>
+
+
+<script src="explore-script.js"></script>
+
+</body>
+</html>
