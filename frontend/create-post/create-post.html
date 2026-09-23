@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HobbyHub | Create Post</title>
+
+    <link rel="stylesheet" href="create-post-style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="../index/index.html" class="logo">
+        ✦ Hobby<span>Hub</span>
+    </a>
+
+    <nav>
+        <a href="../home/home.html">Home</a>
+        <a href="../explore/explore.html">Explore</a>
+        <a href="../community/community.html">Community</a>
+        <a href="../create-community/create-community.html">Create</a>
+        <a href="../profile/profile.html">Profile</a>
+        <a href="../notifications/notifications.html">🔔</a>
+        <a href="../settings/settings.html">⚙️</a>
+        <a href="../help/help.html">Help</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <div class="back">
+        <a href="../posts/posts.html">
+            ← Back to Community Feed
+        </a>
+    </div>
+
+
+    <section class="heading">
+
+        <p>SHARE YOUR IDEA</p>
+
+        <h1>Create a Post ✨</h1>
+
+        <span>
+            Share your creativity, ideas and experiences with the community.
+        </span>
+
+    </section>
+
+
+    <section class="create-layout">
+
+
+        <!-- Form -->
+
+        <div class="form-card">
+
+            <form id="postForm">
+
+                <!-- Community ID -->
+                <input
+                    type="hidden"
+                    id="communityId"
+                    value="1"
+                >
+
+
+                <div class="input-group">
+
+                    <label for="title">
+                        Post Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="Give your post a title"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select id="category" required>
+
+                        <option value="">
+                            Select a category
+                        </option>
+
+                        <option value="Drawing">
+                            🎨 Drawing
+                        </option>
+
+                        <option value="Painting">
+                            🖌️ Painting
+                        </option>
+
+                        <option value="Photography">
+                            📸 Photography
+                        </option>
+
+                        <option value="Digital Art">
+                            💻 Digital Art
+                        </option>
+
+                        <option value="Art Tips">
+                            💡 Art Tips
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="content">
+                        Your Post
+                    </label>
+
+                    <textarea
+                        id="content"
+                        rows="8"
+                        placeholder="Write something you want to share..."
+                        required
+                    ></textarea>
+
+                    <small>
+                        Share something useful, creative or interesting.
+                    </small>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Add a Topic
+                    </label>
+
+                    <div class="topic-list">
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                value="Creative"
+                            >
+                            Creative
+                        </label>
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                value="Beginner"
+                            >
+                            Beginner
+                        </label>
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                value="Tips"
+                            >
+                            Tips
+                        </label>
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                value="Inspiration"
+                            >
+                            Inspiration
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <p id="message"></p>
+
+
+                <div class="buttons">
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        onclick="cancelPost()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="publish-btn"
+                    >
+                        Publish Post →
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- Preview -->
+
+        <aside>
+
+            <div class="preview-card">
+
+                <p class="preview-label">
+                    LIVE PREVIEW
+                </p>
+
+                <div class="preview-user">
+
+                    <div class="avatar">
+                        A
+                    </div>
+
+                    <div>
+                        <h3>Amisha</h3>
+                        <span>
+                            @amisha • Just now
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="preview-content">
+
+                    <h2 id="previewTitle">
+                        Your post title
+                    </h2>
+
+                    <span
+                        class="category"
+                        id="previewCategory"
+                    >
+                        Category
+                    </span>
+
+                    <p id="previewContent">
+                        Your post content will appear here.
+                    </p>
+
+                    <div
+                        class="preview-topics"
+                        id="previewTopics"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="tip-card">
+
+                <div class="tip-icon">
+                    💡
+                </div>
+
+                <div>
+
+                    <h3>Post Tip</h3>
+
+                    <p>
+                        Share clear and useful content.
+                        Friendly posts help build a stronger community.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<script src="create-post-script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Post - HobbyHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="report-container">
+
+    <div class="report-card">
+
+        <div class="icon">⚠️</div>
+
+        <h1>Report a Post</h1>
+
+        <p class="subtitle">
+            Help us keep HobbyHub safe and friendly.
+        </p>
+
+        <form id="reportForm">
+
+            <label for="postId">Post ID</label>
+
+            <input
+                type="number"
+                id="postId"
+                placeholder="Enter post ID"
+                required
+            >
+
+            <label for="reason">Reason</label>
+
+            <select id="reason" required>
+
+                <option value="">
+                    Select a reason
+                </option>
+
+                <option value="Spam">
+                    Spam
+                </option>
+
+                <option value="Harassment">
+                    Harassment
+                </option>
+
+                <option value="Inappropriate Content">
+                    Inappropriate Content
+                </option>
+
+                <option value="False Information">
+                    False Information
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+            <label for="description">
+                Description
+            </label>
+
+            <textarea
+                id="description"
+                placeholder="Explain why you are reporting this post..."
+                rows="5"
+                required
+            ></textarea>
+
+            <button type="submit">
+                Submit Report
+            </button>
+
+            <p id="message"></p>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

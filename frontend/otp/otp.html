@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Verify OTP | HobbyHub</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #eee5ff, #f8f2ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .otp-box {
+            width: 430px;
+            background: white;
+            padding: 45px;
+            border-radius: 25px;
+            box-shadow: 0 15px 45px rgba(91, 63, 125, 0.18);
+            text-align: center;
+        }
+
+        h1 {
+            color: #4d3477;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd2f1;
+            border-radius: 12px;
+            background: #faf8ff;
+            outline: none;
+            text-align: center;
+            font-size: 22px;
+            letter-spacing: 6px;
+        }
+
+        input:focus {
+            border-color: #805dcc;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #7652c7, #9b72df);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        #message {
+            min-height: 20px;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="otp-box">
+
+        <h1>Verify OTP</h1>
+
+        <p>
+            Enter the 6-digit OTP sent to your email.
+        </p>
+
+        <form id="otpForm">
+
+            <input
+                type="text"
+                id="otp"
+                maxlength="6"
+                placeholder="000000"
+                required
+            >
+
+            <button type="submit">
+                Verify OTP
+            </button>
+
+        </form>
+
+        <div id="message"></div>
+
+    </div>
+
+    <script src="otp-script.js"></script>
+
+</body>
+</html>

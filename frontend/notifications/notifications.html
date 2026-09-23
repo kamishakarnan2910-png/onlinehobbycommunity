@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HobbyHub | Notifications</title>
+
+    <link rel="stylesheet" href="notifications-style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="../index/index.html" class="logo">
+        ✦ Hobby<span>Hub</span>
+    </a>
+
+    <nav>
+        <a href="../home/home.html">Home</a>
+        <a href="../explore/explore.html">Explore</a>
+        <a href="../community/community.html">Community</a>
+        <a href="../create-community/create-community.html">Create</a>
+        <a href="../profile/profile.html">Profile</a>
+        <a href="notifications.html" class="active">🔔</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <div class="page-heading">
+        <div>
+            <p class="small-title">STAY UPDATED</p>
+            <h1>Notifications 🔔</h1>
+            <p class="subtitle">
+                See what's happening in your hobby communities.
+            </p>
+        </div>
+
+        <button class="read-btn" onclick="markAllRead()">
+            ✓ Mark all as read
+        </button>
+    </div>
+
+
+    <section class="notification-container">
+
+        <div class="notification unread">
+
+            <div class="notification-icon purple">
+                👥
+            </div>
+
+            <div class="notification-content">
+                <h3>New member joined your community</h3>
+                <p>
+                    Someone joined the <strong>Art Lovers</strong> community.
+                </p>
+                <span>5 minutes ago</span>
+            </div>
+
+            <span class="dot"></span>
+
+        </div>
+
+
+        <div class="notification unread">
+
+            <div class="notification-icon pink">
+                ❤️
+            </div>
+
+            <div class="notification-content">
+                <h3>Someone liked your post</h3>
+                <p>
+                    Your photography post received a new like.
+                </p>
+                <span>20 minutes ago</span>
+            </div>
+
+            <span class="dot"></span>
+
+        </div>
+
+
+        <div class="notification">
+
+            <div class="notification-icon blue">
+                💬
+            </div>
+
+            <div class="notification-content">
+                <h3>New comment on your post</h3>
+                <p>
+                    Someone commented on your latest hobby post.
+                </p>
+                <span>1 hour ago</span>
+            </div>
+
+        </div>
+
+
+        <div class="notification">
+
+            <div class="notification-icon yellow">
+                🌟
+            </div>
+
+            <div class="notification-content">
+                <h3>Community recommendation</h3>
+                <p>
+                    A new coding community may interest you.
+                </p>
+                <span>3 hours ago</span>
+            </div>
+
+        </div>
+
+
+        <div class="notification">
+
+            <div class="notification-icon green">
+                ✅
+            </div>
+
+            <div class="notification-content">
+                <h3>Welcome to HobbyHub!</h3>
+                <p>
+                    Your account is ready. Start exploring hobbies today.
+                </p>
+                <span>Yesterday</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="empty-message" id="emptyMessage">
+        <div>🔔</div>
+        <h2>You're all caught up!</h2>
+        <p>No new notifications.</p>
+    </div>
+
+</main>
+
+
+<script src="notifications-script.js"></script>
+
+</body>
+</html>

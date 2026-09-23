@@ -1,0 +1,94 @@
+function saveSettings() {
+
+    const theme = document.getElementById("theme").value;
+
+    localStorage.setItem(
+        "communityNotify",
+        document.getElementById("communityNotify").checked
+    );
+
+    localStorage.setItem(
+        "postNotify",
+        document.getElementById("postNotify").checked
+    );
+
+    localStorage.setItem(
+        "publicProfile",
+        document.getElementById("publicProfile").checked
+    );
+
+    localStorage.setItem("theme", theme);
+
+    const message = document.getElementById("saveMessage");
+
+    message.textContent = "Settings saved successfully! ✓";
+
+    setTimeout(function() {
+        message.textContent = "";
+    }, 2500);
+}
+
+
+function loadSettings() {
+
+    const communityNotify =
+        localStorage.getItem("communityNotify");
+
+    const postNotify =
+        localStorage.getItem("postNotify");
+
+    const publicProfile =
+        localStorage.getItem("publicProfile");
+
+    const theme =
+        localStorage.getItem("theme");
+
+
+    if (communityNotify !== null) {
+        document.getElementById("communityNotify").checked =
+            communityNotify === "true";
+    }
+
+    if (postNotify !== null) {
+        document.getElementById("postNotify").checked =
+            postNotify === "true";
+    }
+
+    if (publicProfile !== null) {
+        document.getElementById("publicProfile").checked =
+            publicProfile === "true";
+    }
+
+    if (theme !== null) {
+        document.getElementById("theme").value = theme;
+    }
+}
+
+
+function logout() {
+
+    const confirmLogout =
+        confirm("Are you sure you want to logout?");
+
+    if (confirmLogout) {
+        window.location.href = "../login/login.html";
+    }
+}
+
+
+document.getElementById("theme").addEventListener(
+    "change",
+    function() {
+
+        if (this.value === "soft") {
+            document.body.style.background =
+                "linear-gradient(135deg, #f3eaff, #e4d5ff)";
+        } else {
+            document.body.style.background =
+                "linear-gradient(135deg, #f7efff, #eee5ff)";
+        }
+    }
+);
+
+
+loadSettings();

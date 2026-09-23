@@ -3,98 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - HobbyHub</title>
-    <link rel="stylesheet" href="login-style.css">
+
+    <title>Login | HobbyHub</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #eee5ff, #f8f2ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            width: 850px;
+            min-height: 520px;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 15px 45px rgba(91, 63, 125, 0.18);
+        }
+
+        /* LEFT SIDE */
+
+        .welcome-section {
+            width: 50%;
+            background: linear-gradient(145deg, #7652c7, #a27be5);
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+            padding: 45px;
+        }
+
+        .welcome-section h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .welcome-section h3 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section p {
+            font-size: 15px;
+            line-height: 1.7;
+            max-width: 300px;
+            opacity: 0.92;
+        }
+
+        .hobby-icons {
+            margin-top: 35px;
+            font-size: 34px;
+            letter-spacing: 8px;
+        }
+
+        /* RIGHT SIDE */
+
+        .form-section {
+            width: 50%;
+            padding: 55px 50px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-section h2 {
+            color: #4d3477;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #4d3477;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 15px;
+
+            border: 1px solid #ddd2f1;
+            border-radius: 12px;
+
+            background: #faf8ff;
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        .input-group input:focus {
+            border-color: #805dcc;
+            box-shadow: 0 0 0 3px rgba(128, 93, 204, 0.12);
+        }
+
+        #message {
+            min-height: 20px;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+
+            border: none;
+            border-radius: 12px;
+
+            background: linear-gradient(135deg, #7652c7, #9b72df);
+            color: white;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            opacity: 0.9;
+        }
+
+        .register-text {
+            text-align: center;
+            margin-top: 22px;
+
+            color: #777;
+            font-size: 14px;
+        }
+
+        .register-text a {
+            color: #7652c7;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .login-box {
+                width: 92%;
+                flex-direction: column;
+            }
+
+            .welcome-section,
+            .form-section {
+                width: 100%;
+            }
+
+            .welcome-section {
+                min-height: 250px;
+            }
+
+            .form-section {
+                padding: 35px 25px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="login-container">
+    <div class="login-box">
 
-    <div class="welcome-section">
-        <div class="logo">Hobby<span>Hub</span></div>
+        <!-- LEFT SIDE -->
 
-        <h1>Welcome Back!</h1>
+        <div class="welcome-section">
 
-        <p>
-            Continue your hobby journey and connect
-            with people who share your interests.
-        </p>
+            <h1>Welcome Back!</h1>
 
-        <div class="features">
-            <div>✨ Discover new hobbies</div>
-            <div>👥 Join communities</div>
-            <div>💜 Meet like-minded people</div>
+            <h3>Login to your account</h3>
+
+            <p>
+                Connect with people who share your hobbies,
+                discover new interests and be part of our
+                growing community.
+            </p>
+
+            <div class="hobby-icons">
+                🎨 📚 🎵 📷
+            </div>
+
         </div>
-    </div>
 
 
-    <div class="form-section">
+        <!-- RIGHT SIDE -->
 
-        <div class="form-box">
+        <div class="form-section">
 
             <h2>Login</h2>
-            <p class="subtitle">Welcome back to HobbyHub</p>
+
+            <p class="subtitle">
+                Enter your details to continue
+            </p>
 
             <form id="loginForm">
 
                 <div class="input-group">
-                    <label>Email Address</label>
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
                     <input
                         type="email"
                         id="email"
                         placeholder="Enter your email"
                         required
                     >
+
                 </div>
 
+
                 <div class="input-group">
-                    <label>Password</label>
+
+                    <label for="password">
+                        Password
+                    </label>
+
                     <input
                         type="password"
                         id="password"
                         placeholder="Enter your password"
                         required
                     >
+
                 </div>
 
-                <div class="password-info">
-                    Password must contain:
-                    <br>• At least 8 characters
-                    <br>• 1 capital letter
-                    <br>• 1 number
-                    <br>• 1 special symbol
-                </div>
 
-                <div class="options">
-                    <label>
-                        <input type="checkbox" id="remember">
-                        Remember me
-                    </label>
+                <p id="message"></p>
 
-                    <a href="#">Forgot Password?</a>
-                </div>
 
-                <button type="submit">Login</button>
+                <button
+                    type="submit"
+                    class="login-button">
+                    Login
+                </button>
 
             </form>
 
-            <p class="register-text">
-                Don't have an account?
-                <a href="../register/register.html">Create Account</a>
-            </p>
 
-            <a class="home-link" href="../index/index.html">
-                ← Back to Home
-            </a>
+            <p class="register-text">
+
+                Don't have an account?
+
+                <a href="../register/register.html">
+                    Create Account
+                </a>
+
+            </p>
 
         </div>
 
     </div>
 
-</div>
 
-<script src="login-script.js"></script>
+    <script src="login-script.js"></script>
 
 </body>
 </html>

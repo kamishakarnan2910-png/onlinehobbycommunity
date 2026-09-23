@@ -1,0 +1,133 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eee5ff, #f9f5ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.otp-container {
+    width: 900px;
+    max-width: 92%;
+    min-height: 500px;
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 15px 45px rgba(80, 50, 120, 0.15);
+    display: flex;
+}
+
+.welcome-section {
+    width: 45%;
+    padding: 60px 45px;
+    background: linear-gradient(160deg, #7654d6, #a889e8);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.welcome-section h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.welcome-section p {
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.otp-section {
+    width: 55%;
+    padding: 60px 55px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.otp-section h2 {
+    color: #39235f;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #4b3768;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 22px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 6px;
+}
+
+input:focus {
+    border-color: #7654d6;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #7654d6;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #6040bf;
+}
+
+#message {
+    text-align: center;
+    margin-top: 18px;
+    font-weight: bold;
+}
+
+@media (max-width: 700px) {
+
+    .otp-container {
+        flex-direction: column;
+    }
+
+    .welcome-section,
+    .otp-section {
+        width: 100%;
+    }
+
+    .welcome-section {
+        padding: 40px 30px;
+    }
+
+    .welcome-section h1 {
+        font-size: 30px;
+    }
+
+    .otp-section {
+        padding: 40px 30px;
+    }
+}

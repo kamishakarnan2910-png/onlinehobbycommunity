@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HobbyHub | Community Feed</title>
+
+    <link rel="stylesheet" href="posts-style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="../index/index.html" class="logo">
+        ✦ Hobby<span>Hub</span>
+    </a>
+
+    <nav>
+        <a href="../home/home.html">Home</a>
+        <a href="../explore/explore.html">Explore</a>
+        <a href="../community/community.html">Community</a>
+        <a href="../create-community/create-community.html">Create</a>
+        <a href="../profile/profile.html">Profile</a>
+        <a href="../notifications/notifications.html">🔔</a>
+        <a href="../settings/settings.html">⚙️</a>
+        <a href="../help/help.html">Help</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <div class="back">
+        <a href="../community-details/community-details.html?id=1">
+            ← Back to Community
+        </a>
+    </div>
+
+
+    <section class="community-header">
+
+        <div class="community-icon">
+            🎨
+        </div>
+
+        <div>
+            <p>ART & CREATIVITY</p>
+
+            <h1>Creative Artists</h1>
+
+            <span>
+                Share • Learn • Create Together
+            </span>
+        </div>
+
+        <a
+            href="../create-post/create-post.html"
+            class="create-btn"
+        >
+            + Create Post
+        </a>
+
+    </section>
+
+
+    <section class="layout">
+
+        <div class="feed">
+
+            <div class="feed-title">
+
+                <div>
+                    <p class="small-title">
+                        COMMUNITY FEED
+                    </p>
+
+                    <h2>
+                        Latest Posts ✨
+                    </h2>
+                </div>
+
+                <select
+                    id="sortPosts"
+                    onchange="sortPosts()"
+                >
+                    <option value="latest">
+                        Latest
+                    </option>
+
+                    <option value="popular">
+                        Popular
+                    </option>
+                </select>
+
+            </div>
+
+
+            <!-- Database posts will appear here -->
+
+            <div id="postsContainer">
+
+                <div class="empty-posts">
+                    <h3>
+                        Loading posts...
+                    </h3>
+
+                    <p>
+                        Please wait.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <aside>
+
+            <div class="side-card">
+
+                <h3>
+                    Creative Artists 👥
+                </h3>
+
+                <p>
+                    A creative community for people who enjoy
+                    drawing, painting, sketching and digital art.
+                </p>
+
+                <div class="side-info">
+
+                    <span>
+                        👥 Community Members
+                    </span>
+
+                    <span>
+                        🌎 Public Community
+                    </span>
+
+                </div>
+
+                <a
+                    href="../community-details/community-details.html?id=1"
+                >
+                    View Community →
+                </a>
+
+            </div>
+
+
+            <div class="side-card">
+
+                <h3>
+                    Popular Topics
+                </h3>
+
+                <div class="tags">
+
+                    <span>#Drawing</span>
+
+                    <span>#Painting</span>
+
+                    <span>#Sketching</span>
+
+                    <span>#DigitalArt</span>
+
+                    <span>#ArtTips</span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<script src="posts-script.js"></script>
+
+</body>
+</html>

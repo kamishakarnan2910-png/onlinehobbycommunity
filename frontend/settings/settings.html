@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HobbyHub | Settings</title>
+
+    <link rel="stylesheet" href="settings-style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="../index/index.html" class="logo">
+        ✦ Hobby<span>Hub</span>
+    </a>
+
+    <nav>
+        <a href="../home/home.html">Home</a>
+        <a href="../explore/explore.html">Explore</a>
+        <a href="../community/community.html">Community</a>
+        <a href="../create-community/create-community.html">Create</a>
+        <a href="../profile/profile.html">Profile</a>
+        <a href="../notifications/notifications.html">🔔</a>
+        <a href="settings.html" class="active">⚙️</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <div class="page-heading">
+        <p class="small-title">PERSONALIZE</p>
+        <h1>Settings ⚙️</h1>
+        <p>Manage your HobbyHub account and preferences.</p>
+    </div>
+
+
+    <section class="settings-container">
+
+        <!-- Account -->
+
+        <div class="settings-section">
+
+            <div class="section-icon">👤</div>
+
+            <div class="section-content">
+
+                <h2>Account</h2>
+                <p>Manage your personal account information.</p>
+
+                <div class="setting-item">
+                    <div>
+                        <h3>Profile</h3>
+                        <span>Update your profile information</span>
+                    </div>
+
+                    <a href="../profile/profile.html" class="action-link">
+                        Edit
+                    </a>
+                </div>
+
+                <div class="setting-item">
+                    <div>
+                        <h3>Email Address</h3>
+                        <span>Manage your account email</span>
+                    </div>
+
+                    <span class="email-text">
+                        user@example.com
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Notifications -->
+
+        <div class="settings-section">
+
+            <div class="section-icon">🔔</div>
+
+            <div class="section-content">
+
+                <h2>Notifications</h2>
+                <p>Choose which notifications you want to receive.</p>
+
+                <div class="setting-item">
+
+                    <div>
+                        <h3>Community Notifications</h3>
+                        <span>Get updates from your communities</span>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" id="communityNotify" checked>
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+
+                <div class="setting-item">
+
+                    <div>
+                        <h3>Post Interactions</h3>
+                        <span>Likes and comments on your posts</span>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" id="postNotify" checked>
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Privacy -->
+
+        <div class="settings-section">
+
+            <div class="section-icon">🔒</div>
+
+            <div class="section-content">
+
+                <h2>Privacy</h2>
+                <p>Control your profile visibility.</p>
+
+                <div class="setting-item">
+
+                    <div>
+                        <h3>Public Profile</h3>
+                        <span>Allow other users to view your profile</span>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" id="publicProfile" checked>
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Appearance -->
+
+        <div class="settings-section">
+
+            <div class="section-icon">🎨</div>
+
+            <div class="section-content">
+
+                <h2>Appearance</h2>
+                <p>Customize how HobbyHub looks.</p>
+
+                <div class="setting-item">
+
+                    <div>
+                        <h3>Theme</h3>
+                        <span>Choose your preferred theme</span>
+                    </div>
+
+                    <select id="theme">
+                        <option value="light">Light</option>
+                        <option value="soft">Soft Purple</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="save-area">
+
+            <p id="saveMessage"></p>
+
+            <button class="save-btn" onclick="saveSettings()">
+                Save Changes
+            </button>
+
+        </div>
+
+
+        <div class="logout-area">
+
+            <button class="logout-btn" onclick="logout()">
+                🚪 Logout
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="settings-script.js"></script>
+
+</body>
+</html>

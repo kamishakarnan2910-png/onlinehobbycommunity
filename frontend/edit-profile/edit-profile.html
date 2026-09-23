@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HobbyHub | Edit Profile</title>
+
+    <link rel="stylesheet" href="edit-profile-style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="../index/index.html" class="logo">
+        ✦ Hobby<span>Hub</span>
+    </a>
+
+    <nav>
+        <a href="../home/home.html">Home</a>
+        <a href="../explore/explore.html">Explore</a>
+        <a href="../community/community.html">Community</a>
+        <a href="../create-community/create-community.html">Create</a>
+        <a href="../profile/profile.html">Profile</a>
+        <a href="../notifications/notifications.html">🔔</a>
+        <a href="../settings/settings.html">⚙️</a>
+        <a href="../help/help.html">Help</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <section class="page-heading">
+
+        <p>PROFILE SETTINGS</p>
+
+        <h1>Edit Your Profile ✨</h1>
+
+        <span>
+            Update your information and tell the community about yourself.
+        </span>
+
+    </section>
+
+
+    <section class="edit-container">
+
+        <div class="profile-preview">
+
+            <div class="avatar" id="avatar">
+                A
+            </div>
+
+            <h2 id="previewName">Amisha</h2>
+
+            <p id="previewUsername">@amisha</p>
+
+            <div class="preview-line"></div>
+
+            <p class="preview-text">
+                Your profile information will appear here.
+            </p>
+
+        </div>
+
+
+        <div class="form-card">
+
+            <form id="profileForm">
+
+                <div class="input-group">
+
+                    <label for="name">Full Name</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your full name"
+                        value="Amisha"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="username">Username</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Enter username"
+                        value="amisha"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="two-column">
+
+                    <div class="input-group">
+
+                        <label for="location">Location</label>
+
+                        <input
+                            type="text"
+                            id="location"
+                            placeholder="Eg: Thanjavur"
+                            value="Thanjavur"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="education">Education</label>
+
+                        <input
+                            type="text"
+                            id="education"
+                            placeholder="Eg: CSE Student"
+                            value="Computer Science Student"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="bio">About Me</label>
+
+                    <textarea
+                        id="bio"
+                        rows="5"
+                        placeholder="Write something about yourself..."
+                    >Exploring hobbies, learning new skills and connecting with creative people ✨</textarea>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>My Hobbies</label>
+
+                    <div class="hobby-options">
+
+                        <label class="hobby-option">
+                            <input type="checkbox" value="Drawing">
+                            🎨 Drawing
+                        </label>
+
+                        <label class="hobby-option">
+                            <input type="checkbox" value="Photography">
+                            📸 Photography
+                        </label>
+
+                        <label class="hobby-option">
+                            <input type="checkbox" value="Coding">
+                            💻 Coding
+                        </label>
+
+                        <label class="hobby-option">
+                            <input type="checkbox" value="Reading">
+                            📚 Reading
+                        </label>
+
+                        <label class="hobby-option">
+                            <input type="checkbox" value="Movies">
+                            🎬 Movies
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <p id="message"></p>
+
+
+                <div class="buttons">
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        onclick="cancelEdit()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        Save Profile ✓
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="edit-profile-script.js"></script>
+
+</body>
+</html>

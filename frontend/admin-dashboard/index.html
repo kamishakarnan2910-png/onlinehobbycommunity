@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - HobbyHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            HobbyHub
+        </div>
+
+        <div class="admin-info">
+            <div class="admin-icon">A</div>
+            <div>
+                <h3>Admin</h3>
+                <p>Administrator</p>
+            </div>
+        </div>
+
+        <nav>
+            <button class="nav-item active">
+                Dashboard
+            </button>
+
+            <button class="nav-item">
+                Users
+            </button>
+
+            <button class="nav-item">
+                Communities
+            </button>
+
+            <button class="nav-item">
+                Posts
+            </button>
+
+            <button class="nav-item">
+                Reports
+            </button>
+        </nav>
+
+        <button id="logoutButton" class="logout-button">
+            Logout
+        </button>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p>Manage your Online Hobby Community</p>
+            </div>
+
+            <div class="profile-badge">
+                Admin
+            </div>
+        </header>
+
+        <section class="welcome-card">
+            <div>
+                <h2>Welcome, Admin! 👋</h2>
+                <p>
+                    Monitor users, communities, posts and reports
+                    from one place.
+                </p>
+            </div>
+        </section>
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div>
+                    <p>Total Users</p>
+                    <h2 id="totalUsers">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🌐</div>
+                <div>
+                    <p>Communities</p>
+                    <h2 id="totalCommunities">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div>
+                    <p>Total Posts</p>
+                    <h2 id="totalPosts">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⚠️</div>
+                <div>
+                    <p>Reports</p>
+                    <h2 id="totalReports">0</h2>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="content-card">
+
+            <div class="section-header">
+                <div>
+                    <h2>Admin Overview</h2>
+                    <p>Quick access to community management.</p>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+
+                <button class="action-card">
+                    <span>👥</span>
+                    <strong>Manage Users</strong>
+                    <small>View and manage users</small>
+                </button>
+
+                <button class="action-card">
+                    <span>🌐</span>
+                    <strong>Manage Communities</strong>
+                    <small>View community information</small>
+                </button>
+
+                <button class="action-card">
+                    <span>📝</span>
+                    <strong>Manage Posts</strong>
+                    <small>Review community posts</small>
+                </button>
+
+                <button class="action-card">
+                    <span>⚠️</span>
+                    <strong>Manage Reports</strong>
+                    <small>Review reported content</small>
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

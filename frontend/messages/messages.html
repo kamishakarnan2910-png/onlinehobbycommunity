@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HobbyHub | Messages</title>
+
+    <link rel="stylesheet" href="messages-style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="../index/index.html" class="logo">
+        ✦ Hobby<span>Hub</span>
+    </a>
+
+    <nav>
+        <a href="../home/home.html">Home</a>
+        <a href="../explore/explore.html">Explore</a>
+        <a href="../community/community.html">Community</a>
+        <a href="../create-community/create-community.html">Create</a>
+        <a href="../profile/profile.html">Profile</a>
+        <a href="../notifications/notifications.html">🔔</a>
+        <a href="messages.html" class="active">💬</a>
+        <a href="../settings/settings.html">⚙️</a>
+        <a href="../help/help.html">Help</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <section class="page-heading">
+
+        <p class="small-title">CONNECT WITH PEOPLE</p>
+
+        <h1>Messages 💬</h1>
+
+        <p>
+            Chat with people who share your hobbies and interests.
+        </p>
+
+    </section>
+
+
+    <section class="chat-container">
+
+        <!-- Conversations -->
+
+        <div class="conversation-panel">
+
+            <div class="conversation-heading">
+                <h2>Chats</h2>
+
+                <button onclick="newChat()">＋</button>
+            </div>
+
+
+            <div class="search-box">
+
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    id="searchChat"
+                    placeholder="Search chats..."
+                    onkeyup="searchChats()"
+                >
+
+            </div>
+
+
+            <div class="chat-list">
+
+                <div class="chat-item active-chat"
+                     onclick="openChat('Priya', '🎨', 'Online')">
+
+                    <div class="avatar purple">P</div>
+
+                    <div class="chat-info">
+                        <h3>Priya</h3>
+                        <p>That's a beautiful drawing! 🎨</p>
+                    </div>
+
+                    <span class="chat-time">10:30</span>
+
+                </div>
+
+
+                <div class="chat-item"
+                     onclick="openChat('Rahul', '📸', 'Online')">
+
+                    <div class="avatar pink">R</div>
+
+                    <div class="chat-info">
+                        <h3>Rahul</h3>
+                        <p>Check out this photo 📸</p>
+                    </div>
+
+                    <span class="chat-time">09:45</span>
+
+                </div>
+
+
+                <div class="chat-item"
+                     onclick="openChat('Divya', '📚', 'Offline')">
+
+                    <div class="avatar blue">D</div>
+
+                    <div class="chat-info">
+                        <h3>Divya</h3>
+                        <p>Which book are you reading?</p>
+                    </div>
+
+                    <span class="chat-time">Yesterday</span>
+
+                </div>
+
+
+                <div class="chat-item"
+                     onclick="openChat('Arun', '💻', 'Online')">
+
+                    <div class="avatar green">A</div>
+
+                    <div class="chat-info">
+                        <h3>Arun</h3>
+                        <p>Let's discuss coding ideas.</p>
+                    </div>
+
+                    <span class="chat-time">Yesterday</span>
+
+                </div>
+
+
+                <div class="chat-item"
+                     onclick="openChat('Meena', '🎬', 'Offline')">
+
+                    <div class="avatar orange">M</div>
+
+                    <div class="chat-info">
+                        <h3>Meena</h3>
+                        <p>Did you watch the movie?</p>
+                    </div>
+
+                    <span class="chat-time">Mon</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Chat Area -->
+
+        <div class="message-panel">
+
+            <div class="message-header">
+
+                <div class="avatar purple">P</div>
+
+                <div>
+                    <h2 id="chatName">Priya</h2>
+
+                    <p id="chatStatus">
+                        🟢 Online
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="messages" id="messages">
+
+                <div class="message received">
+                    <p>
+                        Hi! I saw your post in the Art Lovers community. 🎨
+                    </p>
+                    <span>10:25</span>
+                </div>
+
+
+                <div class="message received">
+                    <p>
+                        Your artwork looks really creative!
+                    </p>
+                    <span>10:26</span>
+                </div>
+
+
+                <div class="message sent">
+                    <p>
+                        Thank you! 😊 I really enjoy drawing.
+                    </p>
+                    <span>10:28</span>
+                </div>
+
+
+                <div class="message received">
+                    <p>
+                        That's a beautiful drawing! 🎨
+                    </p>
+                    <span>10:30</span>
+                </div>
+
+            </div>
+
+
+            <div class="message-input">
+
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Type a message..."
+                    onkeydown="handleEnter(event)"
+                >
+
+                <button onclick="sendMessage()">
+                    ➤
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="messages-script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #f7f4fc;
+}
+
+.dashboard {
+    min-height: 100vh;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #7654d6, #53349d);
+    color: white;
+    padding: 28px 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    padding: 5px 12px 30px;
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 10px;
+    margin-bottom: 25px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+}
+
+.admin-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: white;
+    color: #7654d6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.admin-info h3 {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.admin-info p {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-item {
+    border: none;
+    background: transparent;
+    color: white;
+    text-align: left;
+    padding: 13px 15px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.logout-button {
+    margin-top: auto;
+    border: none;
+    padding: 13px;
+    border-radius: 10px;
+    background: white;
+    color: #7654d6;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.main-content {
+    flex: 1;
+    padding: 35px;
+    overflow-y: auto;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.topbar h1 {
+    color: #302047;
+    font-size: 32px;
+    margin-bottom: 7px;
+}
+
+.topbar p {
+    color: #777;
+}
+
+.profile-badge {
+    padding: 11px 18px;
+    background: white;
+    border-radius: 20px;
+    color: #7654d6;
+    font-weight: bold;
+    box-shadow: 0 5px 20px rgba(80, 50, 120, 0.08);
+}
+
+.welcome-card {
+    padding: 28px;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #eee5ff, #f8f3ff);
+    margin-bottom: 25px;
+}
+
+.welcome-card h2 {
+    color: #39235f;
+    margin-bottom: 8px;
+}
+
+.welcome-card p {
+    color: #6f6680;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 6px 22px rgba(80, 50, 120, 0.07);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: #eee5ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+}
+
+.stat-card p {
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.stat-card h2 {
+    color: #39235f;
+}
+
+.content-card {
+    background: white;
+    padding: 28px;
+    border-radius: 20px;
+    box-shadow: 0 6px 22px rgba(80, 50, 120, 0.07);
+}
+
+.section-header h2 {
+    color: #39235f;
+    margin-bottom: 7px;
+}
+
+.section-header p {
+    color: #777;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.action-card {
+    border: 1px solid #eee;
+    background: #fcfaff;
+    padding: 22px;
+    border-radius: 15px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.action-card:hover {
+    border-color: #7654d6;
+    transform: translateY(-2px);
+}
+
+.action-card span {
+    font-size: 25px;
+}
+
+.action-card strong {
+    color: #39235f;
+    font-size: 16px;
+}
+
+.action-card small {
+    color: #777;
+}
+
+@media (max-width: 1000px) {
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+
+    .dashboard {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .logout-button {
+        margin-top: 20px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .stats,
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}

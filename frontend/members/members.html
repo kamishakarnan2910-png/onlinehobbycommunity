@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HobbyHub | Community Members</title>
+
+    <link rel="stylesheet" href="members-style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="../index/index.html" class="logo">
+        ✦ Hobby<span>Hub</span>
+    </a>
+
+    <nav>
+        <a href="../home/home.html">Home</a>
+        <a href="../explore/explore.html">Explore</a>
+        <a href="../community/community.html">Community</a>
+        <a href="../create-community/create-community.html">Create</a>
+        <a href="../profile/profile.html">Profile</a>
+        <a href="../notifications/notifications.html">🔔</a>
+        <a href="../settings/settings.html">⚙️</a>
+        <a href="../help/help.html">Help</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <div class="back">
+        <a href="../community-details/community-details.html">
+            ← Back to Community
+        </a>
+    </div>
+
+
+    <section class="hero">
+
+        <div class="community-icon">
+            🎨
+        </div>
+
+        <div>
+            <p>ART & CREATIVITY</p>
+
+            <h1>Art Lovers</h1>
+
+            <span>
+                Connect with people who love drawing, painting and creativity.
+            </span>
+        </div>
+
+        <button id="joinButton" onclick="toggleJoin()">
+            ✓ Joined
+        </button>
+
+    </section>
+
+
+    <section class="content">
+
+        <div class="main-section">
+
+            <div class="section-header">
+
+                <div>
+                    <p class="small-title">COMMUNITY</p>
+                    <h2>Members 👥</h2>
+                </div>
+
+                <span id="memberCount">
+                    1,248 Members
+                </span>
+
+            </div>
+
+
+            <div class="search-box">
+
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search members..."
+                    onkeyup="searchMembers()"
+                >
+
+            </div>
+
+
+            <div class="members-list" id="membersList">
+
+
+                <div class="member-card">
+
+                    <div class="avatar purple">
+                        A
+                    </div>
+
+                    <div class="member-info">
+
+                        <h3>Amisha</h3>
+                        <p>@amisha</p>
+
+                    </div>
+
+                    <span class="role admin">
+                        Admin
+                    </span>
+
+                    <button onclick="viewProfile('Amisha')">
+                        View Profile
+                    </button>
+
+                </div>
+
+
+                <div class="member-card">
+
+                    <div class="avatar pink">
+                        P
+                    </div>
+
+                    <div class="member-info">
+
+                        <h3>Priya</h3>
+                        <p>@priya_art</p>
+
+                    </div>
+
+                    <span class="role">
+                        Member
+                    </span>
+
+                    <button onclick="viewProfile('Priya')">
+                        View Profile
+                    </button>
+
+                </div>
+
+
+                <div class="member-card">
+
+                    <div class="avatar blue">
+                        R
+                    </div>
+
+                    <div class="member-info">
+
+                        <h3>Rahul</h3>
+                        <p>@rahul_creates</p>
+
+                    </div>
+
+                    <span class="role">
+                        Member
+                    </span>
+
+                    <button onclick="viewProfile('Rahul')">
+                        View Profile
+                    </button>
+
+                </div>
+
+
+                <div class="member-card">
+
+                    <div class="avatar green">
+                        M
+                    </div>
+
+                    <div class="member-info">
+
+                        <h3>Meena</h3>
+                        <p>@meena_draws</p>
+
+                    </div>
+
+                    <span class="role">
+                        Member
+                    </span>
+
+                    <button onclick="viewProfile('Meena')">
+                        View Profile
+                    </button>
+
+                </div>
+
+
+                <div class="member-card">
+
+                    <div class="avatar orange">
+                        D
+                    </div>
+
+                    <div class="member-info">
+
+                        <h3>Divya</h3>
+                        <p>@divya_art</p>
+
+                    </div>
+
+                    <span class="role">
+                        Member
+                    </span>
+
+                    <button onclick="viewProfile('Divya')">
+                        View Profile
+                    </button>
+
+                </div>
+
+
+                <div class="member-card">
+
+                    <div class="avatar violet">
+                        S
+                    </div>
+
+                    <div class="member-info">
+
+                        <h3>Santhosh</h3>
+                        <p>@santhosh_sketch</p>
+
+                    </div>
+
+                    <span class="role">
+                        Member
+                    </span>
+
+                    <button onclick="viewProfile('Santhosh')">
+                        View Profile
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+            <div id="noResult">
+                No members found.
+            </div>
+
+        </div>
+
+
+        <aside class="sidebar">
+
+            <div class="side-card">
+
+                <h3>About Community</h3>
+
+                <p>
+                    A friendly space for art lovers to share
+                    ideas, artwork and creative inspiration.
+                </p>
+
+            </div>
+
+
+            <div class="side-card">
+
+                <h3>Community Rules</h3>
+
+                <ul>
+                    <li>Be respectful to everyone.</li>
+                    <li>Share your own creative work.</li>
+                    <li>Avoid inappropriate content.</li>
+                    <li>Support other members.</li>
+                </ul>
+
+            </div>
+
+
+            <div class="side-card">
+
+                <h3>Popular Hobbies</h3>
+
+                <div class="tags">
+
+                    <span>Drawing</span>
+                    <span>Painting</span>
+                    <span>Sketching</span>
+                    <span>Digital Art</span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<script src="members-script.js"></script>
+
+</body>
+</html>

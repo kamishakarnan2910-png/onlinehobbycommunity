@@ -17,9 +17,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(255,255,255,0.85);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(15px);
-    box-shadow: 0 4px 20px rgba(80,40,130,0.08);
+    box-shadow: 0 4px 20px rgba(80, 40, 130, 0.08);
 }
 
 .logo {
@@ -92,7 +92,7 @@ main {
     padding: 15px 22px;
     border-radius: 13px;
     font-weight: bold;
-    box-shadow: 0 10px 25px rgba(112,64,195,0.25);
+    box-shadow: 0 10px 25px rgba(112, 64, 195, 0.25);
 }
 
 .search-section input {
@@ -101,7 +101,7 @@ main {
     border: none;
     border-radius: 15px;
     background: white;
-    box-shadow: 0 8px 25px rgba(80,40,130,0.08);
+    box-shadow: 0 8px 25px rgba(80, 40, 130, 0.08);
     font-size: 15px;
     outline: none;
 }
@@ -136,15 +136,21 @@ main {
 }
 
 .community-card {
-    background: rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.9);
     padding: 25px;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(75,40,120,0.1);
+    box-shadow: 0 10px 30px rgba(75, 40, 120, 0.1);
     transition: 0.3s;
+
+    /* Fix for database-created cards */
+    text-decoration: none;
+    color: #33244d;
+    display: block;
 }
 
 .community-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(75, 40, 120, 0.15);
 }
 
 .community-icon {
@@ -162,6 +168,7 @@ main {
 .community-card h3 {
     font-size: 21px;
     margin-bottom: 10px;
+    color: #33244d;
 }
 
 .community-card p {
@@ -189,6 +196,10 @@ main {
     font-weight: bold;
 }
 
+.join-btn:hover {
+    background: #6336b5;
+}
+
 .join-btn.joined {
     background: #5e9b72;
 }
@@ -201,6 +212,7 @@ main {
 }
 
 @media (max-width: 900px) {
+
     .community-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -212,6 +224,7 @@ main {
 }
 
 @media (max-width: 600px) {
+
     .navbar {
         padding: 0 5%;
     }
