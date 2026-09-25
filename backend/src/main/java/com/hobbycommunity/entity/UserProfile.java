@@ -15,11 +15,23 @@ public class UserProfile {
 
     private String name;
 
+    private String username;
+
+    private String education;
+
     private String bio;
 
     private String location;
 
     private String profilePicture;
+
+    @Column(name = "public_profile")
+    private Boolean publicProfile = true;
+
+
+    public UserProfile() {
+    }
+
 
     public Integer getId() {
         return id;
@@ -29,6 +41,7 @@ public class UserProfile {
         this.id = id;
     }
 
+
     public Integer getUserId() {
         return userId;
     }
@@ -36,6 +49,7 @@ public class UserProfile {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
 
     public String getName() {
         return name;
@@ -45,6 +59,25 @@ public class UserProfile {
         this.name = name;
     }
 
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+
     public String getBio() {
         return bio;
     }
@@ -52,6 +85,7 @@ public class UserProfile {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
 
     public String getLocation() {
         return location;
@@ -61,11 +95,21 @@ public class UserProfile {
         this.location = location;
     }
 
+
     public String getProfilePicture() {
         return profilePicture;
     }
 
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+
+    public Boolean getPublicProfile() {
+        return publicProfile;
+    }
+
+    public void setPublicProfile(Boolean publicProfile) {
+        this.publicProfile = publicProfile;
     }
 }

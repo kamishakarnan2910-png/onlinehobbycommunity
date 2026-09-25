@@ -16,6 +16,7 @@ public class MessagesService {
     }
 
     public List<Messages> getUserMessages(Integer userId) {
+
         return messagesRepository
                 .findBySenderIdOrReceiverIdOrderByCreatedAtDesc(
                         userId,
@@ -24,29 +25,33 @@ public class MessagesService {
     }
 
     public List<Messages> getConversation(
-            Integer senderId,
-            Integer receiverId) {
+            Integer userId1,
+            Integer userId2) {
 
         return messagesRepository
-                .findBySenderIdAndReceiverIdOrderByCreatedAtAsc(
-                        senderId,
-                        receiverId
+                .findBySenderIdAndReceiverIdOrSenderIdAndReceiverIdOrderByCreatedAtAsc(
+                        userId1,
+                        userId2,
+                        userId2,
+                        userId1
                 );
     }
 
     public Messages sendMessage(Messages message) {
+
         return messagesRepository.save(message);
     }
 
     public Messages markAsRead(Integer messageId) {
 
-        Messages message = messagesRepository
-                .findById(messageId)
-                .orElseThrow(
-                        () -> new RuntimeException(
-                                "Message not found"
-                        )
-                );
+        Messages message =
+                messagesRepository
+                        .findById(messageId)
+                        .orElseThrow(
+                                () -> new RuntimeException(
+                                        "Message not found"
+                                )
+                        );
 
         message.setRead(true);
 

@@ -13,8 +13,10 @@ public interface MessagesRepository
             Integer receiverId
     );
 
-    List<Messages> findBySenderIdAndReceiverIdOrderByCreatedAtAsc(
-            Integer senderId,
-            Integer receiverId
+    List<Messages> findBySenderIdAndReceiverIdOrSenderIdAndReceiverIdOrderByCreatedAtAsc(
+            Integer senderId1,
+            Integer receiverId1,
+            Integer senderId2,
+            Integer receiverId2
     );
 }

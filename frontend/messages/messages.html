@@ -37,9 +37,13 @@
 
     <section class="page-heading">
 
-        <p class="small-title">CONNECT WITH PEOPLE</p>
+        <p class="small-title">
+            CONNECT WITH PEOPLE
+        </p>
 
-        <h1>Messages 💬</h1>
+        <h1>
+            Messages 💬
+        </h1>
 
         <p>
             Chat with people who share your hobbies and interests.
@@ -50,20 +54,31 @@
 
     <section class="chat-container">
 
+
         <!-- Conversations -->
 
         <div class="conversation-panel">
 
             <div class="conversation-heading">
-                <h2>Chats</h2>
 
-                <button onclick="newChat()">＋</button>
+                <h2>
+                    Chats
+                </h2>
+
+                <button
+                    type="button"
+                    onclick="newChat()">
+                    ＋
+                </button>
+
             </div>
 
 
             <div class="search-box">
 
-                <span>🔍</span>
+                <span>
+                    🔍
+                </span>
 
                 <input
                     type="text"
@@ -75,79 +90,21 @@
             </div>
 
 
-            <div class="chat-list">
+            <!-- Dynamic chat list -->
 
-                <div class="chat-item active-chat"
-                     onclick="openChat('Priya', '🎨', 'Online')">
+            <div
+                class="chat-list"
+                id="chatList">
 
-                    <div class="avatar purple">P</div>
+                <div class="empty-chats">
 
-                    <div class="chat-info">
-                        <h3>Priya</h3>
-                        <p>That's a beautiful drawing! 🎨</p>
-                    </div>
+                    <h3>
+                        Loading chats...
+                    </h3>
 
-                    <span class="chat-time">10:30</span>
-
-                </div>
-
-
-                <div class="chat-item"
-                     onclick="openChat('Rahul', '📸', 'Online')">
-
-                    <div class="avatar pink">R</div>
-
-                    <div class="chat-info">
-                        <h3>Rahul</h3>
-                        <p>Check out this photo 📸</p>
-                    </div>
-
-                    <span class="chat-time">09:45</span>
-
-                </div>
-
-
-                <div class="chat-item"
-                     onclick="openChat('Divya', '📚', 'Offline')">
-
-                    <div class="avatar blue">D</div>
-
-                    <div class="chat-info">
-                        <h3>Divya</h3>
-                        <p>Which book are you reading?</p>
-                    </div>
-
-                    <span class="chat-time">Yesterday</span>
-
-                </div>
-
-
-                <div class="chat-item"
-                     onclick="openChat('Arun', '💻', 'Online')">
-
-                    <div class="avatar green">A</div>
-
-                    <div class="chat-info">
-                        <h3>Arun</h3>
-                        <p>Let's discuss coding ideas.</p>
-                    </div>
-
-                    <span class="chat-time">Yesterday</span>
-
-                </div>
-
-
-                <div class="chat-item"
-                     onclick="openChat('Meena', '🎬', 'Offline')">
-
-                    <div class="avatar orange">M</div>
-
-                    <div class="chat-info">
-                        <h3>Meena</h3>
-                        <p>Did you watch the movie?</p>
-                    </div>
-
-                    <span class="chat-time">Mon</span>
+                    <p>
+                        Please wait.
+                    </p>
 
                 </div>
 
@@ -160,52 +117,46 @@
 
         <div class="message-panel">
 
+
             <div class="message-header">
 
-                <div class="avatar purple">P</div>
+                <div
+                    class="avatar purple"
+                    id="chatAvatar">
+                    ?
+                </div>
 
                 <div>
-                    <h2 id="chatName">Priya</h2>
+
+                    <h2 id="chatName">
+                        Select a chat
+                    </h2>
 
                     <p id="chatStatus">
-                        🟢 Online
+                        💬 No conversation selected
                     </p>
+
                 </div>
 
             </div>
 
 
-            <div class="messages" id="messages">
+            <!-- Dynamic messages -->
 
-                <div class="message received">
+            <div
+                class="messages"
+                id="messages">
+
+                <div class="empty-messages">
+
+                    <h3>
+                        No chat selected
+                    </h3>
+
                     <p>
-                        Hi! I saw your post in the Art Lovers community. 🎨
+                        Select a person to start messaging.
                     </p>
-                    <span>10:25</span>
-                </div>
 
-
-                <div class="message received">
-                    <p>
-                        Your artwork looks really creative!
-                    </p>
-                    <span>10:26</span>
-                </div>
-
-
-                <div class="message sent">
-                    <p>
-                        Thank you! 😊 I really enjoy drawing.
-                    </p>
-                    <span>10:28</span>
-                </div>
-
-
-                <div class="message received">
-                    <p>
-                        That's a beautiful drawing! 🎨
-                    </p>
-                    <span>10:30</span>
                 </div>
 
             </div>
@@ -218,10 +169,17 @@
                     id="messageInput"
                     placeholder="Type a message..."
                     onkeydown="handleEnter(event)"
+                    disabled
                 >
 
-                <button onclick="sendMessage()">
+                <button
+                    type="button"
+                    onclick="sendMessage()"
+                    disabled
+                    id="sendButton">
+
                     ➤
+
                 </button>
 
             </div>
@@ -236,4 +194,5 @@
 <script src="messages-script.js"></script>
 
 </body>
+
 </html>

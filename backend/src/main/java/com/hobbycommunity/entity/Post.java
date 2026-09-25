@@ -16,6 +16,11 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    private String category;
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
     private Integer userId;
 
     private Integer communityId;
@@ -52,6 +57,22 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Integer getUserId() {

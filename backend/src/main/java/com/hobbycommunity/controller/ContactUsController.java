@@ -34,4 +34,13 @@ public class ContactUsController {
                 contactUsService.getAllMessages()
         );
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMessage(
+            @PathVariable Integer id) {
+
+        contactUsService.deleteMessage(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

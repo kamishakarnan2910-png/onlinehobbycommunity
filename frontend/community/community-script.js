@@ -1,79 +1,213 @@
-const communityGrid = document.querySelector(".community-grid");
-const searchInput = document.getElementById("communitySearch");
-const categories = document.querySelectorAll(".category");
-const noResults = document.getElementById("noResults");
+const communityGrid =
+    document.querySelector(".community-grid");
+
+const searchInput =
+    document.getElementById("communitySearch");
+
+const categories =
+    document.querySelectorAll(".category");
+
+const noResults =
+    document.getElementById("noResults");
 
 let communities = [];
+
 let selectedCategory = "all";
 
-const currentUserId = 1;
+const API_BASE =
+    "http://localhost:8080/api";
 
 
-// Load communities from backend
+// =====================================================
+// COMMUNITY ICON
+// =====================================================
+
+function getCommunityIcon(category) {
+
+    const value =
+        (category || "").toLowerCase();
+
+    if (value.includes("creative")) {
+        return "🎨";
+    }
+
+    if (value.includes("reading")) {
+        return "📚";
+    }
+
+    if (value.includes("entertainment")) {
+        return "🎵";
+    }
+
+    if (value.includes("technology")) {
+        return "💻";
+    }
+
+    if (value.includes("food")) {
+        return "🍳";
+    }
+
+    if (value.includes("gardening")) {
+        return "🌱";
+    }
+
+    return "👥";
+}
+
+
+// =====================================================
+// LOAD COMMUNITIES
+// =====================================================
+
 async function loadCommunities() {
 
     try {
 
-        const response = await fetch(
-            "http://localhost:8080/api/communities"
-        );
+        const response =
+            await fetch(
+                `${API_BASE}/communities`
+            );
 
         if (!response.ok) {
-            throw new Error("Failed to load communities");
+
+            throw new Error(
+                "Failed to load communities"
+            );
         }
 
-        communities = await response.json();
+        communities =
+            await response.json();
 
-        displayCommunities();
+        await displayCommunities();
 
     } catch (error) {
 
-        console.error("Load error:", error);
+        console.error(
+            "Load communities error:",
+            error
+        );
 
         communityGrid.innerHTML = "";
 
-        noResults.style.display = "block";
+        noResults.style.display =
+            "block";
 
         noResults.innerHTML = `
-            <h3>Unable to load communities 🔍</h3>
-            <p>Please make sure the backend is running.</p>
+            <h3>
+                Unable to load communities 🔍
+            </h3>
+
+            <p>
+                Please make sure the backend is running.
+            </p>
         `;
     }
 }
 
 
-// Display communities
-function displayCommunities() {
+// =====================================================
+// DISPLAY COMMUNITIES
+// =====================================================
+
+async function displayCommunities() {
 
     const search =
-        searchInput.value.toLowerCase().trim();
+        searchInput
+            ? searchInput.value
+                .toLowerCase()
+                .trim()
+            : "";
 
 
     const filteredCommunities =
-        communities.filter(community => {
+        communities.filter(
+            community => {
 
-            const name =
-                (community.name || "").toLowerCase();
+                const name =
+                    (community.name || "")
+                        .toLowerCase();
 
-            const category =
-                (community.category || "").toLowerCase();
+                const category =
+                    (community.category || "")
+                        .toLowerCase();
 
-            const matchesSearch =
-                name.includes(search);
 
-            const matchesCategory =
-                selectedCategory === "all" ||
-                category ===
-                selectedCategory.toLowerCase();
+                const matchesSearch =
+                    name.includes(search);
 
-            return matchesSearch && matchesCategory;
-        });
+
+                let matchesCategory = true;
+
+
+                if (selectedCategory !== "all") {
+
+                    if (
+                        selectedCategory === "creative"
+                    ) {
+
+                        matchesCategory =
+                            category === "creative";
+
+                    } else if (
+                        selectedCategory === "reading"
+                    ) {
+
+                        matchesCategory =
+                            category === "reading";
+
+                    } else if (
+                        selectedCategory === "entertainment"
+                    ) {
+
+                        matchesCategory =
+                            category === "entertainment";
+
+                    } else if (
+                        selectedCategory === "technology"
+                    ) {
+
+                        matchesCategory =
+                            category === "technology";
+
+                    } else if (
+                        selectedCategory === "food"
+                    ) {
+
+                        matchesCategory =
+                            category === "food";
+
+                    }
+                }
+
+
+                return (
+                    matchesSearch &&
+                    matchesCategory
+                );
+            }
+        );
 
 
     communityGrid.innerHTML = "";
 
 
-    filteredCommunities.forEach(community => {
+    if (filteredCommunities.length === 0) {
+
+        noResults.style.display =
+            "block";
+
+        return;
+    }
+
+
+    noResults.style.display =
+        "none";
+
+
+    for (
+        const community
+        of filteredCommunities
+    ) {
 
         const card =
             document.createElement("a");
@@ -83,43 +217,49 @@ function displayCommunities() {
             "community-card";
 
 
-        // Send community ID to details page
         card.href =
-            `../community-details/community-details.html?id=${community.id}`;
+            `../community-details/community-details.html?id=${encodeURIComponent(community.id)}`;
 
 
         card.dataset.name =
-            community.name;
+            community.name || "";
 
 
         card.dataset.category =
             community.category || "";
 
 
+        const icon =
+            getCommunityIcon(
+                community.category
+            );
+
+
         card.innerHTML = `
+
             <div class="community-icon">
-                👥
+                ${icon}
             </div>
 
             <h3>
-                ${community.name}
+                ${escapeHtml(
+                    community.name ||
+                    "Community"
+                )}
             </h3>
 
             <p>
-                ${community.description || "No description available."}
+                ${escapeHtml(
+                    community.description ||
+                    "No description available."
+                )}
             </p>
 
             <div class="card-bottom">
 
-                <span>
-                    👥 0 members
+                <span class="member-count">
+                    👥 Loading members...
                 </span>
-
-                <button
-                    class="join-btn"
-                    type="button">
-                    Join
-                </button>
 
             </div>
         `;
@@ -128,135 +268,131 @@ function displayCommunities() {
         communityGrid.appendChild(card);
 
 
-        // Join button
-        const joinButton =
-            card.querySelector(".join-btn");
+        // =================================================
+        // LOAD REAL MEMBER COUNT
+        // =================================================
+
+        try {
+
+            const countResponse =
+                await fetch(
+                    `${API_BASE}/community-members/count/${encodeURIComponent(community.id)}`
+                );
 
 
-        joinButton.addEventListener(
-            "click",
-            async function(event) {
+            if (!countResponse.ok) {
 
-                event.preventDefault();
-                event.stopPropagation();
-
-
-                if (
-                    joinButton.classList.contains("joined")
-                ) {
-                    return;
-                }
-
-
-                joinButton.disabled = true;
-
-                joinButton.textContent =
-                    "Joining...";
-
-
-                try {
-
-                    const response =
-                        await fetch(
-                            `http://localhost:8080/api/community-members/join?communityId=${community.id}&userId=${currentUserId}`,
-                            {
-                                method: "POST"
-                            }
-                        );
-
-
-                    if (!response.ok) {
-
-                        const errorText =
-                            await response.text();
-
-                        throw new Error(errorText);
-                    }
-
-
-                    joinButton.textContent =
-                        "Joined ✓";
-
-
-                    joinButton.classList.add(
-                        "joined"
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Join error:",
-                        error
-                    );
-
-
-                    joinButton.disabled =
-                        false;
-
-                    joinButton.textContent =
-                        "Join";
-
-
-                    alert(
-                        "Unable to join community. Please try again."
-                    );
-                }
-
+                throw new Error(
+                    "Member count request failed"
+                );
             }
-        );
-
-    });
 
 
-    if (filteredCommunities.length === 0) {
+            const count =
+                await countResponse.json();
 
-        noResults.style.display =
-            "block";
 
-    } else {
+            const memberCount =
+                card.querySelector(
+                    ".member-count"
+                );
 
-        noResults.style.display =
-            "none";
+
+            memberCount.textContent =
+                `👥 ${count} members`;
+
+
+        } catch (error) {
+
+            console.error(
+                "Member count error:",
+                error
+            );
+
+
+            const memberCount =
+                card.querySelector(
+                    ".member-count"
+                );
+
+
+            memberCount.textContent =
+                "👥 Unable to load members";
+        }
     }
 }
 
 
-// Search
-searchInput.addEventListener(
-    "input",
-    displayCommunities
+// =====================================================
+// SEARCH
+// =====================================================
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        displayCommunities
+    );
+}
+
+
+// =====================================================
+// CATEGORY FILTER
+// =====================================================
+
+categories.forEach(
+    category => {
+
+        category.addEventListener(
+            "click",
+            function() {
+
+                categories.forEach(
+                    item => {
+
+                        item.classList.remove(
+                            "active"
+                        );
+                    }
+                );
+
+
+                this.classList.add(
+                    "active"
+                );
+
+
+                selectedCategory =
+                    this.dataset.category;
+
+
+                displayCommunities();
+            }
+        );
+    }
 );
 
 
-// Category filter
-categories.forEach(category => {
+// =====================================================
+// HTML SECURITY
+// =====================================================
 
-    category.addEventListener(
-        "click",
-        function() {
+function escapeHtml(value) {
 
-            categories.forEach(item => {
+    const div =
+        document.createElement("div");
 
-                item.classList.remove("active");
+    div.textContent =
+        value == null
+            ? ""
+            : String(value);
 
-            });
-
-
-            this.classList.add("active");
-
-
-            selectedCategory =
-                this.dataset.category;
+    return div.innerHTML;
+}
 
 
-            displayCommunities();
+// =====================================================
+// START
+// =====================================================
 
-        }
-    );
-
-});
-
-
-// Start
 loadCommunities();

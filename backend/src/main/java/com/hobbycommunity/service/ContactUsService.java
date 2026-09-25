@@ -22,4 +22,8 @@ public class ContactUsService {
     public List<ContactUs> getAllMessages() {
         return contactUsRepository.findAll();
     }
+
+    public void deleteMessage(Integer id) {
+        contactUsRepository.deleteById(id);
+    }
 }

@@ -1,67 +1,204 @@
-function toggleJoin() {
+const membersContainer =
+    document.getElementById("membersContainer");
 
-    const button =
-        document.getElementById("joinButton");
+const searchInput =
+    document.getElementById("searchInput");
 
-    if (button.textContent.includes("Joined")) {
+const searchButton =
+    document.getElementById("searchButton");
 
-        button.textContent = "Join Community";
+const noResult =
+    document.getElementById("noResult");
 
-        button.style.background =
-            "linear-gradient(135deg, #7540c8, #a76be5)";
+const message =
+    document.getElementById("message");
 
-        button.style.color = "white";
+let allUsers = [];
 
-    } else {
 
-        button.textContent = "✓ Joined";
+async function loadUsers() {
 
-        button.style.background = "#dff3e4";
+    try {
 
-        button.style.color = "#4d8b5a";
+        message.textContent = "Loading users...";
+
+        const response = await fetch(
+            "http://localhost:8080/api/users"
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                "Server error: " + response.status
+            );
+        }
+
+        allUsers = await response.json();
+
+        message.textContent = "";
+
+        displayUsers(allUsers);
+
+    } catch (error) {
+
+        console.error("Users loading error:", error);
+
+        message.textContent =
+            "Unable to load users from backend.";
+
+        membersContainer.innerHTML = "";
     }
+}
+
+
+function displayUsers(users) {
+
+    membersContainer.innerHTML = "";
+
+    if (users.length === 0) {
+
+        noResult.style.display = "block";
+
+        return;
+    }
+
+    noResult.style.display = "none";
+
+
+    users.forEach(function(user) {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "member-card";
+
+
+        card.innerHTML = `
+
+            <div class="member-info">
+
+                <div class="member-icon">
+                    ${(user.name || "U")
+                        .charAt(0)
+                        .toUpperCase()}
+                </div>
+
+                <div>
+
+                    <h3>
+                        ${user.name || "Unknown User"}
+                    </h3>
+
+                    <p>
+                        ${user.email || "-"}
+                    </p>
+
+                    <small>
+                        User ID: ${user.id || "-"}
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="view-button"
+                onclick="viewProfile(${user.id})">
+
+                View / Manage
+
+            </button>
+
+        `;
+
+
+        membersContainer.appendChild(card);
+
+    });
 }
 
 
 function searchMembers() {
 
     const searchText =
-        document.getElementById("searchInput")
-        .value
+        searchInput.value
         .toLowerCase()
         .trim();
 
-    const members =
-        document.querySelectorAll(".member-card");
 
-    let found = false;
+    const filteredUsers =
+        allUsers.filter(function(user) {
 
-    members.forEach(function(member) {
+            const name =
+                (user.name || "")
+                .toLowerCase();
 
-        const text =
-            member.textContent.toLowerCase();
+            const email =
+                (user.email || "")
+                .toLowerCase();
 
-        if (text.includes(searchText)) {
+            return (
+                name.includes(searchText) ||
+                email.includes(searchText)
+            );
 
-            member.style.display = "flex";
-            found = true;
-
-        } else {
-
-            member.style.display = "none";
-        }
-    });
+        });
 
 
-    document.getElementById("noResult").style.display =
-        found ? "none" : "block";
+    displayUsers(filteredUsers);
 }
 
 
-function viewProfile(name) {
+function viewProfile(userId) {
 
-    alert(
-        "Opening " + name + "'s profile.\n" +
-        "Profile details will be connected to the backend later."
+    sessionStorage.setItem(
+        "selectedUserId",
+        userId
     );
+
+
+    window.location.href =
+        "../profile/profile.html";
 }
+
+
+if (searchButton) {
+
+    searchButton.addEventListener(
+        "click",
+        searchMembers
+    );
+
+}
+
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        searchMembers
+    );
+
+}
+
+
+const backButton =
+    document.getElementById("backButton");
+
+
+if (backButton) {
+
+    backButton.addEventListener(
+        "click",
+        function() {
+
+            window.location.href =
+                "../admin-dashboard/index.html";
+
+        }
+    );
+
+}
+
+
+loadUsers();

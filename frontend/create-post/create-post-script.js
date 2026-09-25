@@ -1,31 +1,52 @@
 const form =
     document.getElementById("postForm");
 
+
 const titleInput =
     document.getElementById("title");
+
 
 const categoryInput =
     document.getElementById("category");
 
+
 const contentInput =
     document.getElementById("content");
+
 
 const communityIdInput =
     document.getElementById("communityId");
 
-const currentUserId = 1;
+
+const imageInput =
+    document.getElementById("image");
 
 
-// Get Community ID from URL
+// Get community ID from URL
 const urlParams =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
+
 
 const communityIdFromURL =
     urlParams.get("communityId");
 
 
-// Automatically put Community ID into the form
-if (communityIdInput && communityIdFromURL) {
+// Get actual logged-in user
+const currentUserId =
+    localStorage.getItem("userId");
+
+
+const currentUserName =
+    localStorage.getItem("userName");
+
+
+// Set community ID
+if (
+    communityIdInput &&
+    communityIdFromURL
+) {
 
     communityIdInput.value =
         communityIdFromURL;
@@ -33,16 +54,56 @@ if (communityIdInput && communityIdFromURL) {
 }
 
 
-// Preview
+// Check login
+if (!currentUserId) {
+
+    showMessage(
+        "Please login first.",
+        "#d14b5a"
+    );
+
+}
+
+
+// Set preview user
+const previewUserName =
+    document.getElementById(
+        "previewUserName"
+    );
+
+
+const previewAvatar =
+    document.getElementById(
+        "previewAvatar"
+    );
+
+
+if (currentUserName) {
+
+    previewUserName.textContent =
+        currentUserName;
+
+
+    previewAvatar.textContent =
+        currentUserName
+            .charAt(0)
+            .toUpperCase();
+
+}
+
+
+// Preview listeners
 titleInput.addEventListener(
     "input",
     updatePreview
 );
 
+
 categoryInput.addEventListener(
     "change",
     updatePreview
 );
+
 
 contentInput.addEventListener(
     "input",
@@ -50,8 +111,11 @@ contentInput.addEventListener(
 );
 
 
+// Topic listeners
 document
-    .querySelectorAll(".topic-list input")
+    .querySelectorAll(
+        ".topic-list input"
+    )
     .forEach(function(input) {
 
         input.addEventListener(
@@ -62,13 +126,128 @@ document
     });
 
 
+// Image preview
+imageInput.addEventListener(
+    "change",
+    function() {
+
+        const file =
+            imageInput.files[0];
+
+
+        const imagePreview =
+            document.getElementById(
+                "imagePreview"
+            );
+
+
+        const imagePreviewContainer =
+            document.getElementById(
+                "imagePreviewContainer"
+            );
+
+
+        const previewImage =
+            document.getElementById(
+                "previewImage"
+            );
+
+
+        if (!file) {
+
+            imagePreviewContainer.style.display =
+                "none";
+
+
+            previewImage.style.display =
+                "none";
+
+
+            return;
+        }
+
+
+        if (!file.type.startsWith("image/")) {
+
+            showMessage(
+                "Please select an image file.",
+                "#d14b5a"
+            );
+
+
+            imageInput.value =
+                "";
+
+
+            imagePreviewContainer.style.display =
+                "none";
+
+
+            previewImage.style.display =
+                "none";
+
+
+            return;
+        }
+
+
+        if (file.size > 5 * 1024 * 1024) {
+
+            showMessage(
+                "Image size must be less than 5 MB.",
+                "#d14b5a"
+            );
+
+
+            imageInput.value =
+                "";
+
+
+            imagePreviewContainer.style.display =
+                "none";
+
+
+            previewImage.style.display =
+                "none";
+
+
+            return;
+        }
+
+
+        const imageURL =
+            URL.createObjectURL(file);
+
+
+        imagePreview.src =
+            imageURL;
+
+
+        imagePreviewContainer.style.display =
+            "block";
+
+
+        previewImage.src =
+            imageURL;
+
+
+        previewImage.style.display =
+            "block";
+
+    }
+);
+
+
+// Update preview
 function updatePreview() {
 
     const title =
         titleInput.value.trim();
 
+
     const category =
         categoryInput.value;
+
 
     const content =
         contentInput.value.trim();
@@ -98,7 +277,9 @@ function updatePreview() {
             "previewTopics"
         );
 
-    previewTopics.innerHTML = "";
+
+    previewTopics.innerHTML =
+        "";
 
 
     document
@@ -108,14 +289,21 @@ function updatePreview() {
         .forEach(function(topic) {
 
             const span =
-                document.createElement("span");
+                document.createElement(
+                    "span"
+                );
+
 
             span.textContent =
                 "#" + topic.value;
 
-            previewTopics.appendChild(span);
+
+            previewTopics.appendChild(
+                span
+            );
 
         });
+
 }
 
 
@@ -130,8 +318,10 @@ form.addEventListener(
         const title =
             titleInput.value.trim();
 
+
         const category =
             categoryInput.value;
+
 
         const content =
             contentInput.value.trim();
@@ -144,10 +334,27 @@ form.addEventListener(
             );
 
 
+        const userId =
+            Number(
+                currentUserId
+            );
+
+
+        if (!currentUserId) {
+
+            showMessage(
+                "Please login first.",
+                "#d14b5a"
+            );
+
+            return;
+        }
+
+
         if (
-            title === "" ||
-            category === "" ||
-            content === ""
+            !title ||
+            !category ||
+            !content
         ) {
 
             showMessage(
@@ -170,17 +377,91 @@ form.addEventListener(
         }
 
 
-        const postData = {
+        if (!userId) {
 
-            title: title,
+            showMessage(
+                "Invalid user information. Please login again.",
+                "#d14b5a"
+            );
 
-            content: content,
+            return;
+        }
 
-            userId: currentUserId,
 
-            communityId: communityId
+        const imageFile =
+            imageInput.files[0];
 
-        };
+
+        if (
+            imageFile &&
+            imageFile.size > 5 * 1024 * 1024
+        ) {
+
+            showMessage(
+                "Image size must be less than 5 MB.",
+                "#d14b5a"
+            );
+
+            return;
+        }
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "title",
+            title
+        );
+
+
+        formData.append(
+            "content",
+            content
+        );
+
+
+        formData.append(
+            "category",
+            category
+        );
+
+
+        formData.append(
+            "userId",
+            userId
+        );
+
+
+        formData.append(
+            "communityId",
+            communityId
+        );
+
+
+        if (imageFile) {
+
+            formData.append(
+                "image",
+                imageFile
+            );
+
+        }
+
+
+        const publishButton =
+            document.querySelector(
+                ".publish-btn"
+            );
+
+
+        publishButton.disabled =
+            true;
+
+
+        publishButton.textContent =
+            "Publishing...";
 
 
         try {
@@ -190,16 +471,7 @@ form.addEventListener(
                     "http://localhost:8080/api/posts",
                     {
                         method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(
-                                postData
-                            )
+                        body: formData
                     }
                 );
 
@@ -209,14 +481,17 @@ form.addEventListener(
                 const errorText =
                     await response.text();
 
+
                 console.error(
                     "Backend error:",
                     errorText
                 );
 
+
                 throw new Error(
                     errorText
                 );
+
             }
 
 
@@ -236,12 +511,15 @@ form.addEventListener(
             );
 
 
-            setTimeout(function() {
+            setTimeout(
+                function() {
 
-                window.location.href =
-                    "../posts/posts.html";
+                    window.location.href =
+                        `../community-details/community-details.html?id=${encodeURIComponent(communityId)}`;
 
-            }, 1200);
+                },
+                1200
+            );
 
 
         } catch (error) {
@@ -252,16 +530,26 @@ form.addEventListener(
             );
 
 
+            publishButton.disabled =
+                false;
+
+
+            publishButton.textContent =
+                "Publish Post →";
+
+
             showMessage(
                 "Unable to publish post. Please try again.",
                 "#d14b5a"
             );
+
         }
 
     }
 );
 
 
+// Show message
 function showMessage(
     text,
     color
@@ -272,15 +560,31 @@ function showMessage(
             "message"
         );
 
+
     message.textContent =
         text;
+
 
     message.style.color =
         color;
 }
 
 
+// Cancel
 function cancelPost() {
+
+    const communityId =
+        communityIdFromURL;
+
+
+    if (communityId) {
+
+        window.location.href =
+            `../community-details/community-details.html?id=${encodeURIComponent(communityId)}`;
+
+        return;
+    }
+
 
     window.location.href =
         "../posts/posts.html";

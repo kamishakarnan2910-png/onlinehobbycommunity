@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,12 +52,16 @@
         <div class="profile-preview">
 
             <div class="avatar" id="avatar">
-                A
+                U
             </div>
 
-            <h2 id="previewName">Amisha</h2>
+            <h2 id="previewName">
+                Loading...
+            </h2>
 
-            <p id="previewUsername">@amisha</p>
+            <p id="previewUsername">
+                @username
+            </p>
 
             <div class="preview-line"></div>
 
@@ -73,13 +78,14 @@
 
                 <div class="input-group">
 
-                    <label for="name">Full Name</label>
+                    <label for="name">
+                        Full Name
+                    </label>
 
                     <input
                         type="text"
                         id="name"
                         placeholder="Enter your full name"
-                        value="Amisha"
                         required
                     >
 
@@ -88,13 +94,14 @@
 
                 <div class="input-group">
 
-                    <label for="username">Username</label>
+                    <label for="username">
+                        Username
+                    </label>
 
                     <input
                         type="text"
                         id="username"
                         placeholder="Enter username"
-                        value="amisha"
                         required
                     >
 
@@ -105,13 +112,14 @@
 
                     <div class="input-group">
 
-                        <label for="location">Location</label>
+                        <label for="location">
+                            Location
+                        </label>
 
                         <input
                             type="text"
                             id="location"
                             placeholder="Eg: Thanjavur"
-                            value="Thanjavur"
                         >
 
                     </div>
@@ -119,13 +127,14 @@
 
                     <div class="input-group">
 
-                        <label for="education">Education</label>
+                        <label for="education">
+                            Education
+                        </label>
 
                         <input
                             type="text"
                             id="education"
                             placeholder="Eg: CSE Student"
-                            value="Computer Science Student"
                         >
 
                     </div>
@@ -135,45 +144,64 @@
 
                 <div class="input-group">
 
-                    <label for="bio">About Me</label>
+                    <label for="bio">
+                        About Me
+                    </label>
 
                     <textarea
                         id="bio"
                         rows="5"
                         placeholder="Write something about yourself..."
-                    >Exploring hobbies, learning new skills and connecting with creative people ✨</textarea>
+                    ></textarea>
 
                 </div>
 
 
                 <div class="input-group">
 
-                    <label>My Hobbies</label>
+                    <label>
+                        My Hobbies
+                    </label>
 
                     <div class="hobby-options">
 
                         <label class="hobby-option">
-                            <input type="checkbox" value="Drawing">
+                            <input
+                                type="checkbox"
+                                value="Drawing"
+                            >
                             🎨 Drawing
                         </label>
 
                         <label class="hobby-option">
-                            <input type="checkbox" value="Photography">
+                            <input
+                                type="checkbox"
+                                value="Photography"
+                            >
                             📸 Photography
                         </label>
 
                         <label class="hobby-option">
-                            <input type="checkbox" value="Coding">
+                            <input
+                                type="checkbox"
+                                value="Coding"
+                            >
                             💻 Coding
                         </label>
 
                         <label class="hobby-option">
-                            <input type="checkbox" value="Reading">
+                            <input
+                                type="checkbox"
+                                value="Reading"
+                            >
                             📚 Reading
                         </label>
 
                         <label class="hobby-option">
-                            <input type="checkbox" value="Movies">
+                            <input
+                                type="checkbox"
+                                value="Movies"
+                            >
                             🎬 Movies
                         </label>
 
@@ -190,7 +218,7 @@
                     <button
                         type="button"
                         class="cancel-btn"
-                        onclick="cancelEdit()"
+                        id="cancelButton"
                     >
                         Cancel
                     </button>
@@ -216,4 +244,5 @@
 <script src="edit-profile-script.js"></script>
 
 </body>
+
 </html>

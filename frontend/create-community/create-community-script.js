@@ -1,62 +1,156 @@
-const communityForm = document.getElementById("communityForm");
+const communityForm =
+    document.getElementById("communityForm");
 
-communityForm.addEventListener("submit", async function (event) {
+communityForm.addEventListener(
+    "submit",
+    async function (event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const name =
-        document.getElementById("communityName").value.trim();
+        const name =
+            document.getElementById("communityName")
+                .value
+                .trim();
 
-    const description =
-        document.getElementById("description").value.trim();
+        const description =
+            document.getElementById("description")
+                .value
+                .trim();
 
-    const category =
-        document.getElementById("category").value;
+        const category =
+            document.getElementById("category")
+                .value;
 
-    const communityData = {
-        name: name,
-        description: description,
-        category: category,
-        createdBy: 1
-    };
+        const userId =
+            localStorage.getItem("userId");
 
-    try {
-
-        const response = await fetch(
-            "http://localhost:8080/api/communities",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(communityData)
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error("Failed to create community");
+        if (!userId) {
+            alert("Please login first.");
+            return;
         }
 
-        const createdCommunity =
-            await response.json();
+        const imageInput =
+            document.getElementById("communityImage");
 
-        alert("Community created successfully! ✨");
+        const imageFile =
+            imageInput
+                ? imageInput.files[0]
+                : null;
 
-        console.log(createdCommunity);
+        if (!imageFile) {
+            alert("Please select a community image.");
+            return;
+        }
 
-        window.location.href =
-            "../community/community.html";
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert(
-            "Unable to create community. Please make sure the backend is running."
+        console.log(
+            "Selected image:",
+            imageFile.name
         );
 
-    }
+        console.log(
+            "Image size:",
+            imageFile.size
+        );
 
-});
+        console.log(
+            "Image type:",
+            imageFile.type
+        );
+
+        if (!imageFile.type.startsWith("image/")) {
+            alert("Please select a valid image file.");
+            return;
+        }
+
+        if (imageFile.size > 5 * 1024 * 1024) {
+            alert("Image size must be less than 5 MB.");
+            return;
+        }
+
+        const formData =
+            new FormData();
+
+        formData.append(
+            "name",
+            name
+        );
+
+        formData.append(
+            "description",
+            description
+        );
+
+        formData.append(
+            "category",
+            category
+        );
+
+        formData.append(
+            "createdBy",
+            userId
+        );
+
+        formData.append(
+            "image",
+            imageFile
+        );
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost:8080/api/communities",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+            if (!response.ok) {
+
+                const errorText =
+                    await response.text();
+
+                console.error(
+                    "Backend error:",
+                    errorText
+                );
+
+                throw new Error(
+                    "Failed to create community"
+                );
+            }
+
+            const createdCommunity =
+                await response.json();
+
+            console.log(
+                "Created community:",
+                createdCommunity
+            );
+
+            console.log(
+                "Saved image URL:",
+                createdCommunity.imageUrl
+            );
+
+            alert(
+                "Community created successfully! ✨"
+            );
+
+            window.location.href =
+                "../community/community.html";
+
+        } catch (error) {
+
+            console.error(
+                "Create community error:",
+                error
+            );
+
+            alert(
+                "Unable to create community. Please make sure the backend is running."
+            );
+        }
+    }
+);

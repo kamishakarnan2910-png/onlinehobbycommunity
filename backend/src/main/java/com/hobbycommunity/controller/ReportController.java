@@ -49,7 +49,9 @@ public class ReportController {
             @PathVariable Integer reporterId) {
 
         return ResponseEntity.ok(
-                reportService.getReportsByReporterId(reporterId)
+                reportService.getReportsByReporterId(
+                        reporterId
+                )
         );
     }
 
@@ -58,7 +60,9 @@ public class ReportController {
             @PathVariable Integer postId) {
 
         return ResponseEntity.ok(
-                reportService.getReportsByPostId(postId)
+                reportService.getReportsByPostId(
+                        postId
+                )
         );
     }
 
@@ -73,5 +77,14 @@ public class ReportController {
                         status
                 )
         );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReport(
+            @PathVariable Integer id) {
+
+        reportService.deleteReport(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

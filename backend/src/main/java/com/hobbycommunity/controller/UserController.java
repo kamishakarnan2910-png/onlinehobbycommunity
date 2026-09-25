@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -58,6 +59,28 @@ public class UserController {
         return userService.getUserById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/chat-users/{userId}")
+    public ResponseEntity<List<Map<String, Object>>> getChatUsers(
+            @PathVariable Integer userId) {
+
+        List<Map<String, Object>> users =
+                userService.getChatUsers(userId)
+                        .stream()
+                        .map(user -> {
+
+                            Map<String, Object> data =
+                                    new java.util.HashMap<>();
+
+                            data.put("id", user.getId());
+                            data.put("name", user.getName());
+
+                            return data;
+                        })
+                        .toList();
+
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/email/{email}")

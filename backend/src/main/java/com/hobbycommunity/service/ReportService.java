@@ -66,4 +66,15 @@ public class ReportService {
 
         return reportRepository.save(report);
     }
+
+    public void deleteReport(Integer id) {
+
+        if (!reportRepository.existsById(id)) {
+            throw new RuntimeException(
+                    "Report not found."
+            );
+        }
+
+        reportRepository.deleteById(id);
+    }
 }

@@ -2,56 +2,103 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>HobbyHub | Create Post</title>
 
-    <link rel="stylesheet" href="create-post-style.css">
+    <link rel="stylesheet"
+          href="create-post-style.css">
+
 </head>
+
 
 <body>
 
+
 <header class="navbar">
 
-    <a href="../index/index.html" class="logo">
+    <a href="../index/index.html"
+       class="logo">
+
         ✦ Hobby<span>Hub</span>
+
     </a>
 
+
     <nav>
-        <a href="../home/home.html">Home</a>
-        <a href="../explore/explore.html">Explore</a>
-        <a href="../community/community.html">Community</a>
-        <a href="../create-community/create-community.html">Create</a>
-        <a href="../profile/profile.html">Profile</a>
-        <a href="../notifications/notifications.html">🔔</a>
-        <a href="../settings/settings.html">⚙️</a>
-        <a href="../help/help.html">Help</a>
+
+        <a href="../home/home.html">
+            Home
+        </a>
+
+        <a href="../explore/explore.html">
+            Explore
+        </a>
+
+        <a href="../community/community.html">
+            Community
+        </a>
+
+        <a href="../create-community/create-community.html">
+            Create
+        </a>
+
+        <a href="../profile/profile.html">
+            Profile
+        </a>
+
+        <a href="../notifications/notifications.html">
+            🔔
+        </a>
+
+        <a href="../settings/settings.html">
+            ⚙️
+        </a>
+
+        <a href="../help/help.html">
+            Help
+        </a>
+
     </nav>
 
 </header>
 
 
+
 <main>
 
+
     <div class="back">
+
         <a href="../posts/posts.html">
             ← Back to Community Feed
         </a>
+
     </div>
+
 
 
     <section class="heading">
 
-        <p>SHARE YOUR IDEA</p>
+        <p>
+            SHARE YOUR IDEA
+        </p>
 
-        <h1>Create a Post ✨</h1>
+        <h1>
+            Create a Post ✨
+        </h1>
 
         <span>
-            Share your creativity, ideas and experiences with the community.
+            Share your creativity, ideas and experiences
+            with the community.
         </span>
 
     </section>
+
 
 
     <section class="create-layout">
@@ -63,13 +110,17 @@
 
             <form id="postForm">
 
+
                 <!-- Community ID -->
+
                 <input
                     type="hidden"
                     id="communityId"
-                    value="1"
                 >
 
+
+
+                <!-- Post Title -->
 
                 <div class="input-group">
 
@@ -87,13 +138,19 @@
                 </div>
 
 
+
+                <!-- Category -->
+
                 <div class="input-group">
 
                     <label for="category">
                         Category
                     </label>
 
-                    <select id="category" required>
+                    <select
+                        id="category"
+                        required
+                    >
 
                         <option value="">
                             Select a category
@@ -124,6 +181,9 @@
                 </div>
 
 
+
+                <!-- Content -->
+
                 <div class="input-group">
 
                     <label for="content">
@@ -144,44 +204,109 @@
                 </div>
 
 
+
+                <!-- Photo Upload -->
+
+                <div class="input-group">
+
+                    <label for="image">
+                        Add Photo / Drawing
+                    </label>
+
+                    <input
+                        type="file"
+                        id="image"
+                        accept="image/*"
+                    >
+
+                    <small>
+                        Upload a photo or drawing.
+                        Maximum size: 5 MB.
+                    </small>
+
+                </div>
+
+
+
+                <!-- Image Preview -->
+
+                <div
+                    id="imagePreviewContainer"
+                    style="display: none;"
+                >
+
+                    <img
+                        id="imagePreview"
+                        alt="Selected image"
+                        style="
+                            width: 100%;
+                            max-height: 300px;
+                            object-fit: contain;
+                            border-radius: 12px;
+                            margin-top: 10px;
+                        "
+                    >
+
+                </div>
+
+
+
+                <!-- Topics -->
+
                 <div class="input-group">
 
                     <label>
                         Add a Topic
                     </label>
 
+
                     <div class="topic-list">
 
                         <label>
+
                             <input
                                 type="checkbox"
                                 value="Creative"
                             >
+
                             Creative
+
                         </label>
 
+
                         <label>
+
                             <input
                                 type="checkbox"
                                 value="Beginner"
                             >
+
                             Beginner
+
                         </label>
 
+
                         <label>
+
                             <input
                                 type="checkbox"
                                 value="Tips"
                             >
+
                             Tips
+
                         </label>
 
+
                         <label>
+
                             <input
                                 type="checkbox"
                                 value="Inspiration"
                             >
+
                             Inspiration
+
                         </label>
 
                     </div>
@@ -189,7 +314,9 @@
                 </div>
 
 
+
                 <p id="message"></p>
+
 
 
                 <div class="buttons">
@@ -202,6 +329,7 @@
                         Cancel
                     </button>
 
+
                     <button
                         type="submit"
                         class="publish-btn"
@@ -211,14 +339,17 @@
 
                 </div>
 
+
             </form>
 
         </div>
 
 
+
         <!-- Preview -->
 
         <aside>
+
 
             <div class="preview-card">
 
@@ -226,20 +357,31 @@
                     LIVE PREVIEW
                 </p>
 
+
                 <div class="preview-user">
 
-                    <div class="avatar">
-                        A
+                    <div
+                        class="avatar"
+                        id="previewAvatar"
+                    >
+                        U
                     </div>
 
+
                     <div>
-                        <h3>Amisha</h3>
+
+                        <h3 id="previewUserName">
+                            User
+                        </h3>
+
                         <span>
-                            @amisha • Just now
+                            Just now
                         </span>
+
                     </div>
 
                 </div>
+
 
 
                 <div class="preview-content">
@@ -248,6 +390,7 @@
                         Your post title
                     </h2>
 
+
                     <span
                         class="category"
                         id="previewCategory"
@@ -255,9 +398,25 @@
                         Category
                     </span>
 
+
                     <p id="previewContent">
                         Your post content will appear here.
                     </p>
+
+
+                    <img
+                        id="previewImage"
+                        style="
+                            display: none;
+                            width: 100%;
+                            max-height: 300px;
+                            object-fit: contain;
+                            border-radius: 12px;
+                            margin-top: 15px;
+                        "
+                        alt="Post image preview"
+                    >
+
 
                     <div
                         class="preview-topics"
@@ -270,15 +429,20 @@
             </div>
 
 
+
             <div class="tip-card">
 
                 <div class="tip-icon">
                     💡
                 </div>
 
+
                 <div>
 
-                    <h3>Post Tip</h3>
+                    <h3>
+                        Post Tip
+                    </h3>
+
 
                     <p>
                         Share clear and useful content.
@@ -291,12 +455,15 @@
 
         </aside>
 
+
     </section>
 
 </main>
 
 
+
 <script src="create-post-script.js"></script>
 
 </body>
+
 </html>

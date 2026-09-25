@@ -68,10 +68,12 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
+
         return userRepository.findAll();
     }
 
     public Optional<User> getUserById(Integer id) {
+
         return userRepository.findById(id);
     }
 
@@ -118,5 +120,16 @@ public class UserService {
                 password,
                 user.get().getPassword()
         );
+    }
+
+    public List<User> getChatUsers(
+            Integer currentUserId) {
+
+        return userRepository.findAll()
+                .stream()
+                .filter(user ->
+                        !user.getId().equals(currentUserId)
+                )
+                .toList();
     }
 }

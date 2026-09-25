@@ -2,51 +2,40 @@ const feed =
     document.getElementById("postsContainer");
 
 let allPosts = [];
-let allComments = [];
 
-
-// Load posts and comments
-async function loadData() {
+async function loadPosts() {
 
     try {
 
-        const postsResponse =
+        feed.innerHTML = `
+            <div class="empty-posts">
+                <h3>Loading posts...</h3>
+                <p>Please wait.</p>
+            </div>
+        `;
+
+        const response =
             await fetch(
                 "http://localhost:8080/api/posts"
             );
 
-        const commentsResponse =
-            await fetch(
-                "http://localhost:8080/api/comments"
-            );
-
-
-        if (!postsResponse.ok ||
-            !commentsResponse.ok) {
-
+        if (!response.ok) {
             throw new Error(
-                "Failed to load data"
+                "Failed to load posts"
             );
         }
 
-
         allPosts =
-            await postsResponse.json();
-
-        allComments =
-            await commentsResponse.json();
-
+            await response.json();
 
         displayPosts();
-
 
     } catch (error) {
 
         console.error(
-            "Data loading error:",
+            "Posts loading error:",
             error
         );
-
 
         feed.innerHTML = `
             <div class="empty-posts">
@@ -58,16 +47,18 @@ async function loadData() {
 }
 
 
-// Display posts
 function displayPosts() {
 
-    const sortValue =
-        document.getElementById("sortPosts").value;
+    const sortElement =
+        document.getElementById("sortPosts");
 
+    const sortValue =
+        sortElement
+            ? sortElement.value
+            : "latest";
 
     let posts =
         [...allPosts];
-
 
     if (sortValue === "popular") {
 
@@ -95,7 +86,7 @@ function displayPosts() {
         feed.innerHTML = `
             <div class="empty-posts">
                 <h3>No posts yet</h3>
-                <p>Be the first to create a post!</p>
+                <p>No posts are available.</p>
             </div>
         `;
 
@@ -108,60 +99,8 @@ function displayPosts() {
         const postElement =
             document.createElement("article");
 
-
         postElement.className =
             "post";
-
-
-        postElement.dataset.id =
-            post.id;
-
-
-        postElement.dataset.likes =
-            post.likesCount || 0;
-
-
-        const postComments =
-            allComments.filter(function(comment) {
-
-                return Number(comment.postId) ===
-                       Number(post.id);
-
-            });
-
-
-        let commentsHTML = "";
-
-
-        postComments.forEach(function(comment) {
-
-            commentsHTML += `
-                <div class="comment-item">
-
-                    <div class="comment-avatar">
-                        A
-                    </div>
-
-                    <div class="comment-content">
-
-                        <strong>
-                            Amisha
-                        </strong>
-
-                        <p>
-                            ${comment.content}
-                        </p>
-
-                        <small>
-                            ${comment.createdAt || ""}
-                        </small>
-
-                    </div>
-
-                </div>
-            `;
-
-        });
 
 
         postElement.innerHTML = `
@@ -169,14 +108,14 @@ function displayPosts() {
             <div class="post-user">
 
                 <div class="avatar purple">
-                    A
+                    U
                 </div>
 
                 <div>
-                    <h3>Amisha</h3>
+                    <h3>User ID: ${post.userId || "-"}</h3>
 
                     <span>
-                        @amisha
+                        Community ID: ${post.communityId || "-"}
                     </span>
                 </div>
 
@@ -186,25 +125,25 @@ function displayPosts() {
             <div class="post-title">
 
                 <h2>
-                    ${post.title}
+                    ${post.title || "Untitled Post"}
                 </h2>
 
             </div>
 
 
             <p class="post-text">
-                ${post.content}
+                ${post.content || ""}
             </p>
 
 
             <div class="post-stats">
 
-                <span class="like-count">
-                    ${post.likesCount || 0} likes
+                <span>
+                    Post ID: ${post.id}
                 </span>
 
-                <span class="comment-count">
-                    ${postComments.length} comments
+                <span>
+                    ${post.createdAt || "Date not available"}
                 </span>
 
             </div>
@@ -214,35 +153,18 @@ function displayPosts() {
 
                 <button
                     type="button"
-                    onclick="likePost(this)"
-                >
-                    ♡ Like
+                    onclick="viewPost(${post.id})">
+                    👁 View
                 </button>
-
 
                 <button
                     type="button"
-                    onclick="commentPost(this)"
-                >
-                    💬 Comment
-                </button>
-
-
-                <button
-                    type="button"
-                    onclick="sharePost()"
-                >
-                    ↗ Share
+                    onclick="deletePost(${post.id})">
+                    🗑 Delete
                 </button>
 
             </div>
 
-
-            <div class="comments-section">
-
-                ${commentsHTML}
-
-            </div>
         `;
 
 
@@ -253,166 +175,58 @@ function displayPosts() {
 }
 
 
-// Like post
-async function likePost(button) {
+function viewPost(postId) {
 
     const post =
-        button.closest(".post");
+        allPosts.find(function(item) {
+
+            return Number(item.id) ===
+                   Number(postId);
+
+        });
 
 
-    const postId =
-        post.dataset.id;
+    if (!post) {
 
-
-    const currentLikes =
-        parseInt(
-            post.dataset.likes || 0
-        );
-
-
-    const likeData = {
-
-        postId: Number(postId),
-
-        userId: 1
-    };
-
-
-    try {
-
-        const response =
-            await fetch(
-                "http://localhost:8080/api/likes",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify(
-                            likeData
-                        )
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Unable to save like"
-            );
-        }
-
-
-        const savedLike =
-            await response.json();
-
-
-        console.log(
-            "Like saved:",
-            savedLike
-        );
-
-
-        const newLikes =
-            currentLikes + 1;
-
-
-        post.dataset.likes =
-            newLikes;
-
-
-        post.querySelector(
-            ".like-count"
-        ).textContent =
-            newLikes + " likes";
-
-
-        button.textContent =
-            "♥ Liked";
-
-
-        button.style.color =
-            "#7540c8";
-
-
-        button.disabled =
-            true;
-
-
-    } catch (error) {
-
-        console.error(
-            "Like error:",
-            error
-        );
-
-
-        alert(
-            "Unable to like post. Please try again."
-        );
-    }
-}
-
-
-// Add comment
-async function commentPost(button) {
-
-    const post =
-        button.closest(".post");
-
-
-    const postId =
-        post.dataset.id;
-
-
-    const commentText =
-        prompt(
-            "Write your comment:"
-        );
-
-
-    if (
-        commentText === null ||
-        commentText.trim() === ""
-    ) {
+        alert("Post not found.");
 
         return;
     }
 
 
-    const commentData = {
+    alert(
+        "Post ID: " + post.id +
+        "\n\nTitle: " + post.title +
+        "\n\nContent: " + post.content +
+        "\n\nUser ID: " + post.userId +
+        "\nCommunity ID: " + post.communityId
+    );
+}
 
-        postId: Number(postId),
 
-        userId: 1,
+async function deletePost(postId) {
 
-        content:
-            commentText.trim()
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete Post #" +
+            postId +
+            "?"
+        );
 
-    };
+
+    if (!confirmed) {
+        return;
+    }
 
 
     try {
 
         const response =
             await fetch(
-                "http://localhost:8080/api/comments",
+                "http://localhost:8080/api/posts/" +
+                postId,
                 {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify(
-                            commentData
-                        )
+                    method: "DELETE"
                 }
             );
 
@@ -420,59 +234,43 @@ async function commentPost(button) {
         if (!response.ok) {
 
             throw new Error(
-                "Unable to save comment"
+                "Delete failed"
             );
         }
 
 
-        const savedComment =
-            await response.json();
+        allPosts =
+            allPosts.filter(function(post) {
 
+                return Number(post.id) !==
+                       Number(postId);
 
-        console.log(
-            "Comment saved:",
-            savedComment
-        );
-
-
-        allComments.push(
-            savedComment
-        );
+            });
 
 
         displayPosts();
 
 
         alert(
-            "Comment added successfully! ✓"
+            "Post deleted successfully! ✓"
         );
 
 
     } catch (error) {
 
         console.error(
-            "Comment error:",
+            "Delete post error:",
             error
         );
 
 
         alert(
-            "Unable to add comment. Please try again."
+            "Unable to delete post."
         );
     }
 }
 
 
-// Share
-function sharePost() {
-
-    alert(
-        "Post sharing option will be connected later."
-    );
-}
-
-
-// Sort
 function sortPosts() {
 
     displayPosts();
@@ -480,5 +278,4 @@ function sortPosts() {
 }
 
 
-// Start
-loadData();
+loadPosts();

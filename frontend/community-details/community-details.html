@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Community Details - HobbyHub</title>
 
-    <link rel="stylesheet" href="community-details-style.css">
+    <link rel="stylesheet"
+          href="community-details-style.css">
 </head>
 
 <body>
@@ -18,20 +20,40 @@
     </div>
 
     <div class="nav-links">
-        <a href="../home/home.html">Home</a>
-        <a href="../explore/explore.html">Explore</a>
-        <a class="active" href="../community/community.html">Communities</a>
-        <a href="../notifications/notifications.html">🔔</a>
-        <a href="../profile/profile.html">👤</a>
+
+        <a href="../home/home.html">
+            Home
+        </a>
+
+        <a href="../explore/explore.html">
+            Explore
+        </a>
+
+        <a class="active"
+           href="../community/community.html">
+            Communities
+        </a>
+
+        <a href="../notifications/notifications.html">
+            🔔
+        </a>
+
+        <a href="../profile/profile.html">
+            👤
+        </a>
+
     </div>
 
 </nav>
 
+
 <main>
 
+    <!-- Community Header -->
     <section class="community-header">
 
-        <div class="community-icon" id="communityIcon">
+        <div class="community-icon"
+             id="communityIcon">
             🎨
         </div>
 
@@ -66,6 +88,7 @@
     </section>
 
 
+    <!-- Action Buttons -->
     <section class="actions">
 
         <a href="../posts/posts.html"
@@ -73,23 +96,42 @@
             📋 View Posts
         </a>
 
-        <a href="../create-post/create-post.html?communityId=1"
-           class="action-btn primary">
+
+        <!-- Create Post -->
+        <a href="#"
+           class="action-btn primary"
+           id="createPostButton">
             ✏️ Create Post
         </a>
 
+
+        <!-- Join Community -->
         <button
             class="action-btn join-btn"
-            id="joinButton">
+            id="joinButton"
+            type="button">
             Join Community
+        </button>
+
+
+        <!-- Delete Community -->
+        <button
+            class="action-btn delete-btn"
+            id="deleteCommunityButton"
+            type="button"
+            style="display: none;">
+            🗑️ Delete Community
         </button>
 
     </section>
 
 
+    <!-- About Community -->
     <section class="content-card">
 
-        <h2>About This Community</h2>
+        <h2>
+            About This Community
+        </h2>
 
         <p id="aboutCommunity">
             Loading...
@@ -98,30 +140,48 @@
     </section>
 
 
+    <!-- Community Rules -->
     <section class="content-card">
 
-        <h2>Community Rules</h2>
+        <h2>
+            Community Rules
+        </h2>
 
         <div class="rules">
 
             <div class="rule">
                 <span>1</span>
-                <p>Be respectful and friendly to all members.</p>
+
+                <p>
+                    Be respectful and friendly to all members.
+                </p>
             </div>
+
 
             <div class="rule">
                 <span>2</span>
-                <p>Share original and meaningful content.</p>
+
+                <p>
+                    Share original and meaningful content.
+                </p>
             </div>
+
 
             <div class="rule">
                 <span>3</span>
-                <p>Give helpful feedback to other members.</p>
+
+                <p>
+                    Give helpful feedback to other members.
+                </p>
             </div>
+
 
             <div class="rule">
                 <span>4</span>
-                <p>Keep discussions positive and hobby-focused.</p>
+
+                <p>
+                    Keep discussions positive and hobby-focused.
+                </p>
             </div>
 
         </div>
@@ -129,11 +189,14 @@
     </section>
 
 
+    <!-- Recent Posts -->
     <section class="content-card">
 
         <div class="section-title">
 
-            <h2>Recent Posts</h2>
+            <h2>
+                Recent Posts
+            </h2>
 
             <a href="../posts/posts.html">
                 View All →
@@ -142,54 +205,18 @@
         </div>
 
 
-        <div class="post-preview">
+        <div id="recentPostsContainer">
 
-            <div class="post-icon">
-                🎨
-            </div>
-
-            <div>
-
-                <h3>My New Artwork</h3>
-
-                <p>
-                    Community posts will appear here.
-                </p>
-
-                <small>
-                    Recent post • 💬 Comments
-                </small>
-
-            </div>
-
-        </div>
-
-
-        <div class="post-preview">
-
-            <div class="post-icon">
-                🖌️
-            </div>
-
-            <div>
-
-                <h3>Creative Ideas</h3>
-
-                <p>
-                    Share your ideas with the community.
-                </p>
-
-                <small>
-                    Recent post • 💬 Comments
-                </small>
-
-            </div>
+            <p class="empty-post-message">
+                Loading posts...
+            </p>
 
         </div>
 
     </section>
 
 
+    <!-- Back Button -->
     <a href="../community/community.html"
        class="back-btn">
         ← Back to Communities
@@ -201,4 +228,5 @@
 <script src="community-details-script.js"></script>
 
 </body>
+
 </html>
