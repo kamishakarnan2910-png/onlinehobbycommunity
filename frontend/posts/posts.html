@@ -2,186 +2,244 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>HobbyHub | Community Feed</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="posts-style.css">
+    <title>Posts - HobbyHub</title>
+
+    <link
+        rel="stylesheet"
+        href="posts-style.css">
+
 </head>
+
 
 <body>
 
-<header class="navbar">
 
-    <a href="../index/index.html" class="logo">
-        ✦ Hobby<span>Hub</span>
-    </a>
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-    <nav>
-        <a href="../home/home.html">Home</a>
-        <a href="../explore/explore.html">Explore</a>
-        <a href="../community/community.html">Community</a>
-        <a href="../create-community/create-community.html">Create</a>
-        <a href="../profile/profile.html">Profile</a>
-        <a href="../notifications/notifications.html">🔔</a>
-        <a href="../settings/settings.html">⚙️</a>
-        <a href="../help/help.html">Help</a>
-    </nav>
+<nav class="navbar">
 
-</header>
-
-
-<main>
-
-    <div class="back">
-        <a href="../community-details/community-details.html?id=1">
-            ← Back to Community
-        </a>
+    <div class="logo">
+        Hobby<span>Hub</span>
     </div>
 
 
-    <section class="community-header">
+    <div class="nav-links">
 
-        <div class="community-icon">
-            🎨
-        </div>
-
-        <div>
-            <p>ART & CREATIVITY</p>
-
-            <h1>Creative Artists</h1>
-
-            <span>
-                Share • Learn • Create Together
-            </span>
-        </div>
-
-        <a
-            href="../create-post/create-post.html"
-            class="create-btn"
-        >
-            + Create Post
+        <a href="../home/home.html">
+            Home
         </a>
 
-    </section>
+        <a href="../explore/explore.html">
+            Explore
+        </a>
+
+        <a
+            href="../community/community.html"
+            class="active">
+            Communities
+        </a>
+
+        <a href="../notifications/notifications.html">
+            🔔
+        </a>
+
+        <a href="../profile/profile.html">
+            👤
+        </a>
+
+    </div>
+
+</nav>
 
 
-    <section class="layout">
 
-        <div class="feed">
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
 
-            <div class="feed-title">
-
-                <div>
-                    <p class="small-title">
-                        COMMUNITY FEED
-                    </p>
-
-                    <h2>
-                        Latest Posts ✨
-                    </h2>
-                </div>
-
-                <select
-                    id="sortPosts"
-                    onchange="sortPosts()"
-                >
-                    <option value="latest">
-                        Latest
-                    </option>
-
-                    <option value="popular">
-                        Popular
-                    </option>
-                </select>
-
-            </div>
+<main class="posts-page">
 
 
-            <!-- Database posts will appear here -->
+    <!-- COMMUNITY HEADER -->
 
-            <div id="postsContainer">
+    <section class="posts-header">
 
-                <div class="empty-posts">
-                    <h3>
-                        Loading posts...
-                    </h3>
+        <div>
 
-                    <p>
-                        Please wait.
-                    </p>
-                </div>
+            <span class="badge">
+                HOBBY COMMUNITY
+            </span>
 
-            </div>
+
+            <h1 id="communityName">
+                Community Posts
+            </h1>
+
+
+            <p id="communityDescription">
+                Explore posts shared by community members.
+            </p>
 
         </div>
 
-
-        <aside>
-
-            <div class="side-card">
-
-                <h3>
-                    Creative Artists 👥
-                </h3>
-
-                <p>
-                    A creative community for people who enjoy
-                    drawing, painting, sketching and digital art.
-                </p>
-
-                <div class="side-info">
-
-                    <span>
-                        👥 Community Members
-                    </span>
-
-                    <span>
-                        🌎 Public Community
-                    </span>
-
-                </div>
-
-                <a
-                    href="../community-details/community-details.html?id=1"
-                >
-                    View Community →
-                </a>
-
-            </div>
+    </section>
 
 
-            <div class="side-card">
 
-                <h3>
-                    Popular Topics
-                </h3>
+    <!-- POSTS -->
 
-                <div class="tags">
+    <section class="posts-section">
 
-                    <span>#Drawing</span>
+        <div
+            id="postsContainer"
+            class="posts-container">
 
-                    <span>#Painting</span>
+            <p>
+                Loading posts...
+            </p>
 
-                    <span>#Sketching</span>
-
-                    <span>#DigitalArt</span>
-
-                    <span>#ArtTips</span>
-
-                </div>
-
-            </div>
-
-        </aside>
+        </div>
 
     </section>
+
+
+
+    <!-- BACK BUTTON -->
+
+    <a
+        href="../community/community.html"
+        class="back-btn">
+
+        ← Back to Communities
+
+    </a>
+
 
 </main>
 
 
+
+<!-- =====================================================
+     VIEW POST MODAL
+===================================================== -->
+
+<div
+    id="postModal"
+    class="post-modal">
+
+
+    <div
+        class="post-modal-box">
+
+
+        <!-- CLOSE BUTTON -->
+
+        <button
+            type="button"
+            id="closePostModal"
+            class="close-modal">
+
+            ×
+
+        </button>
+
+
+
+        <!-- MODAL CONTENT -->
+
+        <div
+            id="postModalContent"
+            class="post-modal-content">
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SCRIPT
+===================================================== -->
+
 <script src="posts-script.js"></script>
 
+
+<!-- =====================================================
+     MODAL CLOSE
+===================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const modal =
+            document.getElementById(
+                "postModal"
+            );
+
+
+        const closeButton =
+            document.getElementById(
+                "closePostModal"
+            );
+
+
+        if (closeButton) {
+
+            closeButton.addEventListener(
+                "click",
+                function () {
+
+                    modal.style.display =
+                        "none";
+
+                }
+            );
+
+        }
+
+
+        if (modal) {
+
+            modal.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target ===
+                        modal
+                    ) {
+
+                        modal.style.display =
+                            "none";
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+
 </body>
+
 </html>

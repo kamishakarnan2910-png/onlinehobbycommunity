@@ -9,3 +9,5 @@ backend/target/
 
 *.log
 .env
+backend/uploads/
+backend/startup-error.txt

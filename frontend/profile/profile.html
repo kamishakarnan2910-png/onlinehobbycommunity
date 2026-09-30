@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>HobbyConnect - Profile</title>
 
-    <link rel="stylesheet" href="profile-style.css">
+    <link
+        rel="stylesheet"
+        href="profile-style.css">
+
 </head>
 
 <body>
@@ -18,11 +26,29 @@
     </div>
 
     <nav>
-        <a href="../home/home.html">Home</a>
-        <a href="../explore/explore.html">Explore</a>
-        <a href="../community/community.html">Community</a>
-        <a href="../create-community/create-community.html">Create</a>
-        <a href="profile.html" class="active">Profile</a>
+
+        <a href="../home/home.html">
+            Home
+        </a>
+
+        <a href="../explore/explore.html">
+            Explore
+        </a>
+
+        <a href="../community/community.html">
+            Community
+        </a>
+
+        <a href="../create-community/create-community.html">
+            Create
+        </a>
+
+        <a
+            href="profile.html"
+            class="active">
+            Profile
+        </a>
+
     </nav>
 
 </header>
@@ -30,26 +56,51 @@
 
 <main>
 
-    <!-- Profile Section -->
+    <!-- =========================================
+         PROFILE
+    ========================================== -->
+
     <section class="profile-container">
 
         <div class="profile-cover"></div>
 
+
         <div class="profile-content">
 
-            <div class="profile-image" id="profileImage">
+            <!-- PROFILE IMAGE -->
+
+            <div
+                class="profile-image"
+                id="profileImage">
+
                 U
+
             </div>
+
+
+            <!-- PROFILE INFORMATION -->
 
             <div class="profile-info">
 
-                <h1 id="profileName">Loading...</h1>
+                <h1 id="profileName">
+                    Loading...
+                </h1>
 
-                <p class="username" id="profileUsername"></p>
 
-                <p class="bio" id="profileBio">
-                    Loading profile...
+                <p
+                    class="username"
+                    id="profileUsername">
                 </p>
+
+
+                <p
+                    class="bio"
+                    id="profileBio">
+
+                    Loading profile...
+
+                </p>
+
 
                 <div class="profile-details">
 
@@ -61,30 +112,91 @@
 
             </div>
 
-            <!-- Edit Profile -->
-            <a href="../edit-profile/edit-profile.html" class="edit-btn">
-                ✏️ Edit Profile
-            </a>
+
+            <!-- PROFILE ACTIONS -->
+
+            <div class="profile-actions">
+
+                <!-- OWNER ONLY -->
+
+                <a
+                    href="../edit-profile/edit-profile.html"
+                    class="edit-btn"
+                    id="editProfileBtn">
+
+                    ✏️ Edit Profile
+
+                </a>
+
+
+                <!-- OTHER USERS ONLY -->
+
+                <button
+                    type="button"
+                    class="follow-btn"
+                    id="followBtn"
+                    style="display: none;">
+
+                    Follow
+
+                </button>
+
+            </div>
 
         </div>
 
 
-        <!-- Profile Stats -->
+        <!-- =====================================
+             PROFILE STATS
+        ====================================== -->
+
         <div class="stats">
 
-            <div>
-                <h2 id="communityCount">0</h2>
-                <p>Communities</p>
-            </div>
+
+            <!-- COMMUNITIES -->
 
             <div>
-                <h2 id="postCount">0</h2>
-                <p>Posts</p>
+
+                <h2 id="communityCount">
+                    0
+                </h2>
+
+                <p>
+                    Communities
+                </p>
+
             </div>
 
+
+            <!-- POSTS -->
+
             <div>
-                <h2 id="followerCount">0</h2>
-                <p>Followers</p>
+
+                <h2 id="postCount">
+                    0
+                </h2>
+
+                <p>
+                    Posts
+                </p>
+
+            </div>
+
+
+            <!-- FOLLOWERS -->
+
+            <div
+                id="followersStat"
+                class="stat-clickable">
+
+                <h2 id="followerCount">
+                    0
+                </h2>
+
+                <p>
+                    Followers
+                </p>
+
             </div>
 
         </div>
@@ -92,26 +204,43 @@
     </section>
 
 
-    <!-- My Hobbies -->
+    <!-- =========================================
+         MY HOBBIES
+    ========================================== -->
+
     <section class="section">
 
-        <h2>My Hobbies 🎨</h2>
+        <h2>
+            My Hobbies 🎨
+        </h2>
 
-        <div class="hobby-list" id="hobbyList">
 
-            <p>Loading hobbies...</p>
+        <div
+            class="hobby-list"
+            id="hobbyList">
+
+            <p>
+                Loading hobbies...
+            </p>
 
         </div>
 
     </section>
 
 
-    <!-- My Communities -->
+    <!-- =========================================
+         MY COMMUNITIES
+    ========================================== -->
+
     <section class="section">
+
 
         <div class="section-title">
 
-            <h2>My Communities 👥</h2>
+            <h2>
+                My Communities 👥
+            </h2>
+
 
             <a href="../community/community.html">
                 View All
@@ -119,9 +248,14 @@
 
         </div>
 
-        <div class="community-list" id="communityList">
 
-            <p>Loading communities...</p>
+        <div
+            class="community-list"
+            id="communityList">
+
+            <p>
+                Loading communities...
+            </p>
 
         </div>
 
@@ -133,4 +267,5 @@
 <script src="profile-script.js"></script>
 
 </body>
+
 </html>

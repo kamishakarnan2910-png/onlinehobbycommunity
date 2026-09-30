@@ -15,9 +15,15 @@ public interface CommunityMemberRepository
             Integer userId
     );
 
-    long countByCommunityId(Integer communityId);
+    long countByCommunityId(
+            Integer communityId
+    );
 
     List<CommunityMember> findByUserId(
             Integer userId
+    );
+
+    List<CommunityMember> findByCommunityId(
+            Integer communityId
     );
 }

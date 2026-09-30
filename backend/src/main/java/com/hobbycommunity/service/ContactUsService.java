@@ -10,20 +10,36 @@ import java.util.List;
 public class ContactUsService {
 
     private final ContactUsRepository contactUsRepository;
+    private final NotificationService notificationService;
 
-    public ContactUsService(ContactUsRepository contactUsRepository) {
+    public ContactUsService(
+            ContactUsRepository contactUsRepository,
+            NotificationService notificationService) {
+
         this.contactUsRepository = contactUsRepository;
+        this.notificationService = notificationService;
     }
 
     public ContactUs saveMessage(ContactUs contactUs) {
-        return contactUsRepository.save(contactUs);
+
+        ContactUs savedMessage =
+                contactUsRepository.save(contactUs);
+
+        notificationService.notifyAdminsAboutContactMessage(
+                savedMessage.getUserId(),
+                savedMessage.getName()
+        );
+
+        return savedMessage;
     }
 
     public List<ContactUs> getAllMessages() {
+
         return contactUsRepository.findAll();
     }
 
     public void deleteMessage(Integer id) {
+
         contactUsRepository.deleteById(id);
     }
 }

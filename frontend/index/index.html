@@ -1,26 +1,48 @@
-<!DOCTYPE html>
+c<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>HobbyHub | Find Your Community</title>
+
     <link rel="stylesheet" href="index-style.css">
 </head>
 
 <body>
 
 <nav class="navbar">
+
     <div class="logo">
         <span>✦</span> HobbyHub
     </div>
 
     <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="#hobbies">Explore</a>
-        <a href="#about">About</a>
-        <a href="../login/login.html">Login</a>
-        <a href="../register/register.html" class="join-btn">Join Community</a>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="#hobbies">
+            Explore
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
+        <a href="../login/login.html">
+            Login
+        </a>
+
+        <a href="../register/register.html"
+           class="join-btn">
+            Join Community
+        </a>
+
     </div>
+
 </nav>
 
 
@@ -44,30 +66,56 @@
         </p>
 
         <div class="hero-buttons">
-            <a href="../register/register.html" class="primary-btn">
+
+            <a href="../register/register.html"
+               class="primary-btn">
                 Start Exploring <span>→</span>
             </a>
 
-            <a href="#hobbies" class="explore-btn">
+            <a href="#hobbies"
+               class="explore-btn">
                 Explore Hobbies
             </a>
+
         </div>
 
+
+        <!-- Dynamic Stats -->
+
         <div class="stats">
-            <div>
-                <strong>50+</strong>
-                <small>Hobbies</small>
-            </div>
 
             <div>
-                <strong>100+</strong>
-                <small>Communities</small>
+                <strong id="hobbyCount">
+                    0
+                </strong>
+
+                <small>
+                    Hobbies
+                </small>
             </div>
 
+
             <div>
-                <strong>1K+</strong>
-                <small>Members</small>
+                <strong id="communityCount">
+                    0
+                </strong>
+
+                <small>
+                    Communities
+                </small>
             </div>
+
+
+            <div>
+                <strong id="memberCount">
+                    0
+                </strong>
+
+                <small>
+                    Members
+                </small>
+            </div>
+
         </div>
 
     </div>
@@ -77,41 +125,68 @@
 
         <div class="glow"></div>
 
+
+        <!-- Dynamic Popular Hobby -->
+
         <div class="main-card">
 
             <div class="card-top">
-                <span>Popular Hobby</span>
-                <span class="heart">♡</span>
+
+                <span>
+                    Popular Hobby
+                </span>
+
+                <span class="heart">
+                    ♡
+                </span>
+
             </div>
 
-            <div class="art-box">
+
+            <div class="art-box"
+                 id="popularHobbyIcon">
                 🎨
             </div>
 
-            <h3>Art & Creativity</h3>
 
-            <p>
-                Connect with creative minds and
-                share your ideas.
+            <h3 id="popularHobbyName">
+                Loading...
+            </h3>
+
+
+            <p id="popularHobbyDescription">
+                Loading hobby information...
             </p>
+
 
             <div class="members">
                 <span>👩</span>
                 <span>👨</span>
                 <span>👩‍🎨</span>
-                <span class="more">+24</span>
+                <span class="more">
+                    +
+                </span>
             </div>
 
-            <button>Join Community</button>
+
+            <a href="#hobbies">
+                <button type="button">
+                    Explore Hobby
+                </button>
+            </a>
 
         </div>
 
-        <div class="floating-card card-one">
-            📷 <span>Photography</span>
+
+        <div class="floating-card card-one"
+             id="floatingHobbyOne">
+            🎯 <span>Loading...</span>
         </div>
 
-        <div class="floating-card card-two">
-            📚 <span>Reading Club</span>
+
+        <div class="floating-card card-two"
+             id="floatingHobbyTwo">
+            🎯 <span>Loading...</span>
         </div>
 
     </div>
@@ -119,74 +194,51 @@
 </section>
 
 
-<section class="hobbies" id="hobbies">
+
+<section class="hobbies"
+         id="hobbies">
 
     <div class="section-heading">
-        <div class="badge">EXPLORE</div>
 
-        <h2>Find What You <span>Love</span></h2>
+        <div class="badge">
+            EXPLORE
+        </div>
+
+        <h2>
+            Find What You <span>Love</span>
+        </h2>
 
         <p>
             There is always something new to discover.
             Explore hobbies and find your community.
         </p>
+
     </div>
 
 
-    <div class="hobby-grid">
+    <!-- Dynamic Hobby Cards -->
 
-        <div class="hobby-card">
-            <div class="icon purple">🎨</div>
-            <h3>Art & Design</h3>
-            <p>Draw, paint and create.</p>
-            <span>Explore →</span>
-        </div>
+    <div class="hobby-grid"
+         id="hobbyGrid">
 
-        <div class="hobby-card">
-            <div class="icon pink">📷</div>
-            <h3>Photography</h3>
-            <p>Capture beautiful moments.</p>
-            <span>Explore →</span>
-        </div>
-
-        <div class="hobby-card">
-            <div class="icon blue">🎵</div>
-            <h3>Music</h3>
-            <p>Share your musical passion.</p>
-            <span>Explore →</span>
-        </div>
-
-        <div class="hobby-card">
-            <div class="icon yellow">📚</div>
-            <h3>Reading</h3>
-            <p>Discover amazing stories.</p>
-            <span>Explore →</span>
-        </div>
-
-        <div class="hobby-card">
-            <div class="icon green">🌱</div>
-            <h3>Gardening</h3>
-            <p>Grow something beautiful.</p>
-            <span>Explore →</span>
-        </div>
-
-        <div class="hobby-card">
-            <div class="icon orange">💻</div>
-            <h3>Technology</h3>
-            <p>Learn and build together.</p>
-            <span>Explore →</span>
-        </div>
+        <p>
+            Loading hobbies...
+        </p>
 
     </div>
 
 </section>
 
 
-<section class="about" id="about">
+
+<section class="about"
+         id="about">
 
     <div class="about-content">
 
-        <div class="badge">WHY HOBBYHUB?</div>
+        <div class="badge">
+            WHY HOBBYHUB?
+        </div>
 
         <h2>
             More Than A Hobby.<br>
@@ -199,7 +251,8 @@
             and make meaningful connections.
         </p>
 
-        <a href="../register/register.html" class="primary-btn">
+        <a href="../register/register.html"
+           class="primary-btn">
             Create Your Account →
         </a>
 
@@ -209,26 +262,53 @@
     <div class="about-cards">
 
         <div class="mini-card">
+
             <div>🤝</div>
-            <h3>Meet People</h3>
-            <p>Connect with people who share your interests.</p>
+
+            <h3>
+                Meet People
+            </h3>
+
+            <p>
+                Connect with people who share your interests.
+            </p>
+
         </div>
 
+
         <div class="mini-card">
+
             <div>🌟</div>
-            <h3>Build Communities</h3>
-            <p>Create or join communities around hobbies.</p>
+
+            <h3>
+                Build Communities
+            </h3>
+
+            <p>
+                Create or join communities around hobbies.
+            </p>
+
         </div>
 
+
         <div class="mini-card">
+
             <div>🚀</div>
-            <h3>Grow Together</h3>
-            <p>Learn, share and improve together.</p>
+
+            <h3>
+                Grow Together
+            </h3>
+
+            <p>
+                Learn, share and improve together.
+            </p>
+
         </div>
 
     </div>
 
 </section>
+
 
 
 <section class="cta">
@@ -237,7 +317,9 @@
 
     <div class="cta-content">
 
-        <div class="badge light">READY TO CONNECT?</div>
+        <div class="badge light">
+            READY TO CONNECT?
+        </div>
 
         <h2>
             Find Your People.<br>
@@ -258,22 +340,29 @@
 </section>
 
 
+
 <footer>
 
     <div class="footer-logo">
         ✦ HobbyHub
     </div>
 
-    <p>Connect through hobbies. Grow together.</p>
+    <p>
+        Connect through hobbies. Grow together.
+    </p>
 
     <div class="footer-line"></div>
 
-    <small>© 2026 HobbyHub. All Rights Reserved.</small>
+    <small>
+        © 2026 HobbyHub. All Rights Reserved.
+    </small>
 
 </footer>
+
 
 
 <script src="index-script.js"></script>
 
 </body>
+
 </html>

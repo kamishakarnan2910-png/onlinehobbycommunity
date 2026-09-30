@@ -1,7 +1,9 @@
 package com.hobbycommunity.controller;
 
+import com.hobbycommunity.dto.PostResponse;
 import com.hobbycommunity.entity.Post;
 import com.hobbycommunity.service.PostService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,20 +17,30 @@ public class PostController {
 
     private final PostService postService;
 
-    public PostController(PostService postService) {
+    public PostController(
+            PostService postService) {
+
         this.postService = postService;
     }
 
 
+    // ========================================
+    // GET ALL POSTS
+    // ========================================
+
     @GetMapping
-    public List<Post> getAllPosts() {
+    public List<PostResponse> getAllPosts() {
 
         return postService.getAllPosts();
     }
 
 
+    // ========================================
+    // GET POSTS BY COMMUNITY
+    // ========================================
+
     @GetMapping("/community/{communityId}")
-    public List<Post> getPostsByCommunityId(
+    public List<PostResponse> getPostsByCommunityId(
             @PathVariable Integer communityId) {
 
         return postService.getPostsByCommunityId(
@@ -37,7 +49,13 @@ public class PostController {
     }
 
 
-    @PostMapping(consumes = "multipart/form-data")
+    // ========================================
+    // CREATE POST - MULTIPLE IMAGES
+    // ========================================
+
+    @PostMapping(
+            consumes = "multipart/form-data"
+    )
     public ResponseEntity<Post> createPost(
 
             @RequestParam String title,
@@ -51,11 +69,10 @@ public class PostController {
             @RequestParam Integer communityId,
 
             @RequestPart(
-                    value = "image",
+                    value = "images",
                     required = false
             )
-            MultipartFile image
-
+            List<MultipartFile> images
     ) {
 
         Post post = new Post();
@@ -74,7 +91,7 @@ public class PostController {
         Post savedPost =
                 postService.createPost(
                         post,
-                        image
+                        images
                 );
 
 
@@ -84,10 +101,26 @@ public class PostController {
     }
 
 
-    @DeleteMapping("/{id}")
-    public void deletePost(
-            @PathVariable Integer id) {
+    // ========================================
+    // DELETE POST - OWNER ONLY
+    // ========================================
 
-        postService.deletePost(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePost(
+
+            @PathVariable Integer id,
+
+            @RequestParam Integer userId
+    ) {
+
+        postService.deletePost(
+                id,
+                userId
+        );
+
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 }

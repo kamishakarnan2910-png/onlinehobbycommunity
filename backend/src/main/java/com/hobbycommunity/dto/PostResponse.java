@@ -1,51 +1,34 @@
-package com.hobbycommunity.entity;
+package com.hobbycommunity.dto;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
-@Table(name = "posts")
-public class Post {
+public class PostResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String title;
 
-    @Column(columnDefinition = "TEXT")
     private String content;
 
     private String category;
 
-    // First / main image
-    @Column(name = "image_url")
+    // Existing single image
     private String imageUrl;
 
-    // All post images stored as JSON text
-    @Column(
-            name = "image_urls",
-            columnDefinition = "TEXT"
-    )
-    private String imageUrls;
+    // Multiple images
+    private List<String> imageUrls;
 
     private Integer userId;
+
+    private String userName;
 
     private Integer communityId;
 
     private LocalDateTime createdAt;
 
 
-    public Post() {
-    }
-
-
-    @PrePersist
-    protected void onCreate() {
-
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
+    public PostResponse() {
     }
 
 
@@ -102,7 +85,7 @@ public class Post {
 
 
     // ========================================
-    // MAIN IMAGE
+    // SINGLE IMAGE
     // ========================================
 
     public String getImageUrl() {
@@ -118,11 +101,13 @@ public class Post {
     // MULTIPLE IMAGES
     // ========================================
 
-    public String getImageUrls() {
+    public List<String> getImageUrls() {
         return imageUrls;
     }
 
-    public void setImageUrls(String imageUrls) {
+    public void setImageUrls(
+            List<String> imageUrls
+    ) {
         this.imageUrls = imageUrls;
     }
 
@@ -137,6 +122,19 @@ public class Post {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+
+    // ========================================
+    // USER NAME
+    // ========================================
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 

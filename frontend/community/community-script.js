@@ -136,47 +136,18 @@ async function displayCommunities() {
                     name.includes(search);
 
 
-                let matchesCategory = true;
+                let matchesCategory =
+                    true;
 
 
-                if (selectedCategory !== "all") {
+                if (
+                    selectedCategory !==
+                    "all"
+                ) {
 
-                    if (
-                        selectedCategory === "creative"
-                    ) {
-
-                        matchesCategory =
-                            category === "creative";
-
-                    } else if (
-                        selectedCategory === "reading"
-                    ) {
-
-                        matchesCategory =
-                            category === "reading";
-
-                    } else if (
-                        selectedCategory === "entertainment"
-                    ) {
-
-                        matchesCategory =
-                            category === "entertainment";
-
-                    } else if (
-                        selectedCategory === "technology"
-                    ) {
-
-                        matchesCategory =
-                            category === "technology";
-
-                    } else if (
-                        selectedCategory === "food"
-                    ) {
-
-                        matchesCategory =
-                            category === "food";
-
-                    }
+                    matchesCategory =
+                        category ===
+                        selectedCategory;
                 }
 
 
@@ -191,7 +162,10 @@ async function displayCommunities() {
     communityGrid.innerHTML = "";
 
 
-    if (filteredCommunities.length === 0) {
+    if (
+        filteredCommunities.length ===
+        0
+    ) {
 
         noResults.style.display =
             "block";
@@ -218,7 +192,9 @@ async function displayCommunities() {
 
 
         card.href =
-            `../community-details/community-details.html?id=${encodeURIComponent(community.id)}`;
+            `../community-details/community-details.html?id=${encodeURIComponent(
+                community.id
+            )}`;
 
 
         card.dataset.name =
@@ -265,7 +241,9 @@ async function displayCommunities() {
         `;
 
 
-        communityGrid.appendChild(card);
+        communityGrid.appendChild(
+            card
+        );
 
 
         // =================================================
@@ -276,7 +254,9 @@ async function displayCommunities() {
 
             const countResponse =
                 await fetch(
-                    `${API_BASE}/community-members/count/${encodeURIComponent(community.id)}`
+                    `${API_BASE}/communities/${encodeURIComponent(
+                        community.id
+                    )}/members/count`
                 );
 
 
@@ -363,7 +343,10 @@ categories.forEach(
 
 
                 selectedCategory =
-                    this.dataset.category;
+                    (
+                        this.dataset.category ||
+                        "all"
+                    ).toLowerCase();
 
 
                 displayCommunities();
@@ -382,10 +365,12 @@ function escapeHtml(value) {
     const div =
         document.createElement("div");
 
+
     div.textContent =
         value == null
             ? ""
             : String(value);
+
 
     return div.innerHTML;
 }

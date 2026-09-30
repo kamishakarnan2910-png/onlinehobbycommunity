@@ -1,22 +1,8 @@
-const searchInput =
-    document.getElementById("searchInput");
+const API_BASE = "http://localhost:8080/api";
 
-const categories =
-    document.querySelectorAll(".category");
-
-const hobbyGrid =
-    document.getElementById("hobbyGrid");
-
-const noResults =
-    document.getElementById("noResults");
-
-const resultCount =
-    document.getElementById("resultCount");
-
-let hobbies = [];
-let communities = [];
-let selectedCategory = "all";
-
+// =====================================================
+// LOAD DATA
+// =====================================================
 
 async function loadHobbies() {
 
@@ -29,38 +15,165 @@ async function loadHobbies() {
             </div>
         `;
 
+        resultCount.textContent =
+            "Loading hobbies...";
+
+
+        // =================================================
+        // LOAD HOBBIES
+        // =================================================
 
         const hobbyResponse =
             await fetch(
-                "http://localhost:8080/api/hobbies"
+                `${API_BASE}/hobbies`
             );
 
+
         if (!hobbyResponse.ok) {
+
             throw new Error(
-                "Failed to load hobbies"
+                "Failed to load hobbies: " +
+                hobbyResponse.status
             );
         }
 
-        hobbies =
+
+        const hobbyData =
             await hobbyResponse.json();
 
 
-        const communityResponse =
-            await fetch(
-                "http://localhost:8080/api/communities"
-            );
+        if (!Array.isArray(hobbyData)) {
 
-        if (!communityResponse.ok) {
             throw new Error(
-                "Failed to load communities"
+                "Invalid hobbies response"
             );
         }
 
-        communities =
-            await communityResponse.json();
 
+        hobbies =
+            hobbyData;
+
+
+        console.log(
+            "Hobbies loaded:",
+            hobbies
+        );
+
+
+        // =================================================
+        // LOAD COMMUNITIES
+        // =================================================
+
+        try {
+
+            const communityResponse =
+                await fetch(
+                    `${API_BASE}/communities`
+                );
+
+
+            if (communityResponse.ok) {
+
+                const communityData =
+                    await communityResponse.json();
+
+
+                communities =
+                    Array.isArray(
+                        communityData
+                    )
+                        ? communityData
+                        : [];
+
+
+            } else {
+
+                communities = [];
+
+                console.warn(
+                    "Communities API failed:",
+                    communityResponse.status
+                );
+            }
+
+
+        } catch (error) {
+
+            communities = [];
+
+            console.warn(
+                "Community loading error:",
+                error
+            );
+        }
+
+
+        // =================================================
+        // LOAD USERS
+        // =================================================
+
+        try {
+
+            const userResponse =
+                await fetch(
+                    `${API_BASE}/users`
+                );
+
+
+            if (userResponse.ok) {
+
+                const userData =
+                    await userResponse.json();
+
+
+                users =
+                    Array.isArray(
+                        userData
+                    )
+                        ? userData
+                        : [];
+
+
+            } else {
+
+                users = [];
+
+                console.warn(
+                    "Users API failed:",
+                    userResponse.status
+                );
+            }
+
+
+        } catch (error) {
+
+            users = [];
+
+            console.warn(
+                "User loading error:",
+                error
+            );
+        }
+
+
+        console.log(
+            "Communities loaded:",
+            communities
+        );
+
+
+        console.log(
+            "Users loaded:",
+            users
+        );
+
+
+        // =================================================
+        // DISPLAY HOBBIES
+        // =================================================
 
         displayHobbies();
+
 
     } catch (error) {
 
@@ -69,12 +182,16 @@ async function loadHobbies() {
             error
         );
 
+
         hobbyGrid.innerHTML = `
             <div class="empty-posts">
                 <h3>Unable to load hobbies</h3>
-                <p>Please make sure the backend is running.</p>
+                <p>
+                    Please make sure the backend is running.
+                </p>
             </div>
         `;
+
 
         resultCount.textContent =
             "0 hobbies";
@@ -82,35 +199,493 @@ async function loadHobbies() {
 }
 
 
-function findCommunityForHobby(hobby) {
+// =====================================================
+// FIND COMMUNITY FOR HOBBY
+// =====================================================
+
+function findCommunityForHobby(
+    hobby
+) {
+
+    if (!hobby) {
+
+        return null;
+    }
+
 
     const hobbyName =
-        (hobby.name || "")
-            .trim()
-            .toLowerCase();
+        normalize(
+            hobby.name
+        );
 
 
-    return communities.find(
-        function(community) {
-
-            const communityName =
-                (community.name || "")
-                    .trim()
-                    .toLowerCase();
+    const hobbyCategory =
+        normalize(
+            hobby.category
+        );
 
 
-            return communityName === hobbyName;
+    // =================================================
+    // 1. EXACT NAME
+    // =================================================
+
+    let community =
+        communities.find(
+            function(item) {
+
+                return (
+                    isAdminCommunity(item) &&
+                    normalize(item.name) ===
+                    hobbyName
+                );
+
+            }
+        );
+
+
+    if (community) {
+
+        return community;
+    }
+
+
+    // =================================================
+    // 2. NAME + COMMUNITY
+    // =================================================
+
+    community =
+        communities.find(
+            function(item) {
+
+                if (
+                    !isAdminCommunity(item)
+                ) {
+
+                    return false;
+                }
+
+
+                const communityName =
+                    normalize(
+                        item.name
+                    );
+
+
+                return (
+                    communityName ===
+                    hobbyName +
+                    " community"
+                );
+
+            }
+        );
+
+
+    if (community) {
+
+        return community;
+    }
+
+
+    // =================================================
+    // 3. COMMUNITY NAME CONTAINS HOBBY NAME
+    // =================================================
+
+    community =
+        communities.find(
+            function(item) {
+
+                if (
+                    !isAdminCommunity(item)
+                ) {
+
+                    return false;
+                }
+
+
+                const communityName =
+                    normalize(
+                        item.name
+                    );
+
+
+                return (
+                    communityName.includes(
+                        hobbyName
+                    ) ||
+                    hobbyName.includes(
+                        communityName
+                    )
+                );
+
+            }
+        );
+
+
+    if (community) {
+
+        return community;
+    }
+
+
+    // =================================================
+    // 4. CATEGORY MATCH
+    // =================================================
+
+    if (hobbyCategory) {
+
+        community =
+            communities.find(
+                function(item) {
+
+                    if (
+                        !isAdminCommunity(item)
+                    ) {
+
+                        return false;
+                    }
+
+
+                    return (
+                        normalize(
+                            item.category
+                        ) ===
+                        hobbyCategory
+                    );
+
+                }
+            );
+
+
+        if (community) {
+
+            return community;
+        }
+    }
+
+
+    // =================================================
+    // NO MATCH
+    // =================================================
+
+    console.warn(
+        "No ADMIN community found for hobby:",
+        hobby.name
+    );
+
+
+    return null;
+}
+// =====================================================
+// DISPLAY HOBBIES
+// =====================================================
+
+function displayHobbies(
+    hobbyList = hobbies
+) {
+
+    if (!hobbyGrid) {
+
+        console.error(
+            "Hobby grid element not found."
+        );
+
+        return;
+    }
+
+
+    // =================================================
+    // CLEAR GRID
+    // =================================================
+
+    hobbyGrid.innerHTML = "";
+
+
+    // =================================================
+    // NO HOBBIES
+    // =================================================
+
+    if (
+        !Array.isArray(hobbyList) ||
+        hobbyList.length === 0
+    ) {
+
+        hobbyGrid.innerHTML = `
+            <div class="empty-posts">
+                <h3>No hobbies found</h3>
+                <p>Try another search or category.</p>
+            </div>
+        `;
+
+
+        if (resultCount) {
+
+            resultCount.textContent =
+                "0 hobbies";
+        }
+
+
+        return;
+    }
+
+
+    // =================================================
+    // RESULT COUNT
+    // =================================================
+
+    if (resultCount) {
+
+        resultCount.textContent =
+            `${hobbyList.length} ${
+                hobbyList.length === 1
+                    ? "hobby"
+                    : "hobbies"
+            }`;
+    }
+
+
+    // =================================================
+    // CREATE HOBBY CARDS
+    // =================================================
+
+    hobbyList.forEach(
+        function(hobby) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "hobby-card";
+
+
+            // =================================================
+            // HOBBY DATA
+            // =================================================
+
+            const hobbyName =
+                hobby.name ||
+                "Hobby";
+
+
+            const description =
+                hobby.description ||
+                "Explore this hobby and connect with others.";
+
+
+            const category =
+                hobby.category ||
+                "General";
+
+
+            const imageUrl =
+                hobby.imageUrl ||
+                "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80";
+
+
+            // =================================================
+            // CARD HTML
+            // =================================================
+
+            card.innerHTML = `
+                <div class="hobby-image-wrapper">
+
+                    <img
+                        src="${imageUrl}"
+                        alt="${hobbyName}"
+                        class="hobby-image"
+                    >
+
+                </div>
+
+                <div class="hobby-content">
+
+                    <h3>
+                        ${hobbyName}
+                    </h3>
+
+                    <p>
+                        ${description}
+                    </p>
+
+                    <span class="hobby-category">
+                        ${category}
+                    </span>
+
+                </div>
+            `;
+
+
+            // =================================================
+            // CARD CLICK
+            // =================================================
+
+            card.addEventListener(
+                "click",
+                function() {
+
+                    console.log(
+                        "Hobby clicked:",
+                        hobby
+                    );
+
+
+                    const matchingCommunity =
+                        findCommunityForHobby(
+                            hobby
+                        );
+
+
+                    // =============================================
+                    // COMMUNITY NOT FOUND
+                    // =============================================
+
+                    if (!matchingCommunity) {
+
+                        console.warn(
+                            "Admin community not found:",
+                            hobby.name
+                        );
+
+
+                        alert(
+                            `${hobby.name} Community is not available yet.`
+                        );
+
+
+                        return;
+                    }
+
+
+                    // =============================================
+                    // COMMUNITY ID
+                    // =============================================
+
+                    const communityId =
+                        matchingCommunity.id;
+
+
+                    if (
+                        communityId === null ||
+                        communityId === undefined ||
+                        String(
+                            communityId
+                        ).trim() === ""
+                    ) {
+
+                        console.error(
+                            "Community ID missing:",
+                            matchingCommunity
+                        );
+
+
+                        alert(
+                            "Community information is incomplete."
+                        );
+
+
+                        return;
+                    }
+
+
+                    // =============================================
+                    // ADMIN CHECK
+                    // =============================================
+
+                    if (
+                        !isAdminCommunity(
+                            matchingCommunity
+                        )
+                    ) {
+
+                        console.error(
+                            "Community is not owned by ADMIN:",
+                            matchingCommunity
+                        );
+
+
+                        alert(
+                            "This community is not an admin community."
+                        );
+
+
+                        return;
+                    }
+
+
+                    // =============================================
+                    // OPEN COMMUNITY DETAILS
+                    // =============================================
+
+                    console.log(
+                        "Opening community:",
+                        matchingCommunity.name
+                    );
+
+
+                    console.log(
+                        "Community ID:",
+                        communityId
+                    );
+
+
+                    window.location.href =
+                        `../community-details/community-details.html?id=${encodeURIComponent(
+                            communityId
+                        )}`;
+                }
+            );
+
+
+            // =================================================
+            // ADD CARD TO GRID
+            // =================================================
+
+            hobbyGrid.appendChild(
+                card
+            );
+
         }
     );
 }
+// =====================================================
+// SEARCH HOBBIES
+// =====================================================
+
+function searchHobbies() {
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
 
 
-function displayHobbies() {
+    if (!searchInput) {
 
-    const search =
-        searchInput.value
-            .toLowerCase()
-            .trim();
+        displayHobbies(
+            hobbies
+        );
+
+        return;
+    }
+
+
+    const searchText =
+        normalize(
+            searchInput.value
+        );
+
+
+    if (!searchText) {
+
+        displayHobbies(
+            hobbies
+        );
+
+        return;
+    }
 
 
     const filteredHobbies =
@@ -118,185 +693,138 @@ function displayHobbies() {
             function(hobby) {
 
                 const name =
-                    (hobby.name || "")
-                        .toLowerCase();
+                    normalize(
+                        hobby.name
+                    );
 
 
                 const description =
-                    (hobby.description || "")
-                        .toLowerCase();
+                    normalize(
+                        hobby.description
+                    );
 
 
                 const category =
-                    (hobby.category || "")
-                        .toLowerCase();
-
-
-                const matchesSearch =
-                    name.includes(search) ||
-                    description.includes(search);
-
-
-                const matchesCategory =
-                    selectedCategory === "all" ||
-                    category ===
-                    selectedCategory.toLowerCase();
+                    normalize(
+                        hobby.category
+                    );
 
 
                 return (
-                    matchesSearch &&
-                    matchesCategory
+                    name.includes(
+                        searchText
+                    ) ||
+                    description.includes(
+                        searchText
+                    ) ||
+                    category.includes(
+                        searchText
+                    )
                 );
             }
         );
 
 
-    hobbyGrid.innerHTML = "";
-
-
-    filteredHobbies.forEach(
-        function(hobby) {
-
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "hobby-card";
-
-
-            const image =
-                document.createElement("div");
-
-            image.className =
-                "hobby-image";
-
-
-            if (hobby.imageUrl) {
-
-                image.style.backgroundImage =
-                    `url("${hobby.imageUrl}")`;
-
-                image.style.backgroundSize =
-                    "cover";
-
-                image.style.backgroundPosition =
-                    "center";
-
-            } else {
-
-                image.textContent =
-                    "🎨";
-            }
-
-
-            const title =
-                document.createElement("h3");
-
-            title.textContent =
-                hobby.name ||
-                "Untitled Hobby";
-
-
-            const description =
-                document.createElement("p");
-
-            description.textContent =
-                hobby.description ||
-                "No description available.";
-
-
-            const info =
-                document.createElement("div");
-
-            info.className =
-                "info";
-
-
-            const categoryText =
-                document.createElement("span");
-
-            categoryText.textContent =
-                hobby.category ||
-                "General";
-
-
-            info.appendChild(
-                categoryText
-            );
-
-
-            card.appendChild(image);
-
-            card.appendChild(title);
-
-            card.appendChild(description);
-
-            card.appendChild(info);
-
-
-            hobbyGrid.appendChild(card);
-
-
-            const matchingCommunity =
-                findCommunityForHobby(hobby);
-
-
-            card.addEventListener(
-                "click",
-                function() {
-
-                    if (!matchingCommunity) {
-
-                        alert(
-                            "Community for this hobby is not available yet."
-                        );
-
-                        return;
-                    }
-
-
-                    window.location.href =
-                        `../community-details/community-details.html?id=${encodeURIComponent(matchingCommunity.id)}`;
-
-                }
-            );
-
-        }
+    displayHobbies(
+        filteredHobbies
     );
-
-
-    resultCount.textContent =
-        filteredHobbies.length +
-        " hobbies";
-
-
-    if (filteredHobbies.length === 0) {
-
-        noResults.style.display =
-            "block";
-
-    } else {
-
-        noResults.style.display =
-            "none";
-    }
 }
 
 
-searchInput.addEventListener(
-    "input",
-    displayHobbies
-);
+// =====================================================
+// CATEGORY FILTER
+// =====================================================
+
+function filterByCategory(
+    category
+) {
+
+    if (
+        !category ||
+        normalize(category) === "all"
+    ) {
+
+        displayHobbies(
+            hobbies
+        );
+
+        return;
+    }
 
 
-categories.forEach(
-    function(category) {
+    const selectedCategory =
+        normalize(
+            category
+        );
 
-        category.addEventListener(
+
+    const filteredHobbies =
+        hobbies.filter(
+            function(hobby) {
+
+                return (
+                    normalize(
+                        hobby.category
+                    ) ===
+                    selectedCategory
+                );
+            }
+        );
+
+
+    displayHobbies(
+        filteredHobbies
+    );
+}
+
+
+// =====================================================
+// SEARCH INPUT
+// =====================================================
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        function() {
+
+            searchHobbies();
+
+        }
+    );
+}
+
+
+// =====================================================
+// CATEGORY BUTTONS
+// =====================================================
+
+const categoryButtons =
+    document.querySelectorAll(
+        "[data-category]"
+    );
+
+
+categoryButtons.forEach(
+    function(button) {
+
+        button.addEventListener(
             "click",
             function() {
 
-                categories.forEach(
+                const category =
+                    button.getAttribute(
+                        "data-category"
+                    );
+
+
+                categoryButtons.forEach(
                     function(item) {
 
                         item.classList.remove(
@@ -307,17 +835,14 @@ categories.forEach(
                 );
 
 
-                this.classList.add(
+                button.classList.add(
                     "active"
                 );
 
 
-                selectedCategory =
-                    this.dataset.category;
-
-
-                displayHobbies();
-
+                filterByCategory(
+                    category
+                );
             }
         );
 
@@ -325,4 +850,35 @@ categories.forEach(
 );
 
 
-loadHobbies();
+// =====================================================
+// NORMALIZE TEXT
+// =====================================================
+
+function normalize(
+    value
+) {
+
+    return String(
+        value || ""
+    )
+        .trim()
+        .toLowerCase()
+        .replace(
+            /\s+/g,
+            " "
+        );
+}
+
+
+// =====================================================
+// PAGE INITIALIZATION
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadHobbies();
+
+    }
+);

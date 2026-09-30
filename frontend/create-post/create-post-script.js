@@ -1,81 +1,38 @@
-const form =
-    document.getElementById("postForm");
+const form = document.getElementById("postForm");
+
+const titleInput = document.getElementById("title");
+const categoryInput = document.getElementById("category");
+const contentInput = document.getElementById("content");
+const communityIdInput = document.getElementById("communityId");
+const imageInput = document.getElementById("image");
+
+const urlParams = new URLSearchParams(window.location.search);
+
+const communityIdFromURL = urlParams.get("communityId");
+const currentUserId = localStorage.getItem("userId");
+const currentUserName = localStorage.getItem("userName");
+
+let selectedFiles = [];
 
 
-const titleInput =
-    document.getElementById("title");
-
-
-const categoryInput =
-    document.getElementById("category");
-
-
-const contentInput =
-    document.getElementById("content");
-
-
-const communityIdInput =
-    document.getElementById("communityId");
-
-
-const imageInput =
-    document.getElementById("image");
-
-
-// Get community ID from URL
-const urlParams =
-    new URLSearchParams(
-        window.location.search
-    );
-
-
-const communityIdFromURL =
-    urlParams.get("communityId");
-
-
-// Get actual logged-in user
-const currentUserId =
-    localStorage.getItem("userId");
-
-
-const currentUserName =
-    localStorage.getItem("userName");
-
-
-// Set community ID
-if (
-    communityIdInput &&
-    communityIdFromURL
-) {
-
-    communityIdInput.value =
-        communityIdFromURL;
-
+if (communityIdInput && communityIdFromURL) {
+    communityIdInput.value = communityIdFromURL;
 }
 
 
-// Check login
 if (!currentUserId) {
-
     showMessage(
         "Please login first.",
         "#d14b5a"
     );
-
 }
 
 
-// Set preview user
 const previewUserName =
-    document.getElementById(
-        "previewUserName"
-    );
-
+    document.getElementById("previewUserName");
 
 const previewAvatar =
-    document.getElementById(
-        "previewAvatar"
-    );
+    document.getElementById("previewAvatar");
 
 
 if (currentUserName) {
@@ -83,27 +40,22 @@ if (currentUserName) {
     previewUserName.textContent =
         currentUserName;
 
-
     previewAvatar.textContent =
         currentUserName
             .charAt(0)
             .toUpperCase();
-
 }
 
 
-// Preview listeners
 titleInput.addEventListener(
     "input",
     updatePreview
 );
 
-
 categoryInput.addEventListener(
     "change",
     updatePreview
 );
-
 
 contentInput.addEventListener(
     "input",
@@ -111,12 +63,9 @@ contentInput.addEventListener(
 );
 
 
-// Topic listeners
 document
-    .querySelectorAll(
-        ".topic-list input"
-    )
-    .forEach(function(input) {
+    .querySelectorAll(".topic-list input")
+    .forEach(function (input) {
 
         input.addEventListener(
             "change",
@@ -126,128 +75,272 @@ document
     });
 
 
-// Image preview
+// ======================================================
+// IMAGE SELECTION
+// ======================================================
+
 imageInput.addEventListener(
     "change",
-    function() {
+    function () {
 
-        const file =
-            imageInput.files[0];
-
-
-        const imagePreview =
-            document.getElementById(
-                "imagePreview"
-            );
+        const newFiles =
+            Array.from(imageInput.files);
 
 
-        const imagePreviewContainer =
-            document.getElementById(
-                "imagePreviewContainer"
-            );
+        for (const file of newFiles) {
+
+            if (
+                !file.type.startsWith("image/")
+            ) {
+
+                showMessage(
+                    "Please select only image files.",
+                    "#d14b5a"
+                );
+
+                continue;
+            }
 
 
-        const previewImage =
-            document.getElementById(
-                "previewImage"
-            );
+            if (
+                file.size > 5 * 1024 * 1024
+            ) {
+
+                showMessage(
+                    `Image "${file.name}" must be less than 5 MB.`,
+                    "#d14b5a"
+                );
+
+                continue;
+            }
 
 
-        if (!file) {
+            const alreadyExists =
+                selectedFiles.some(
+                    function (oldFile) {
 
-            imagePreviewContainer.style.display =
-                "none";
+                        return (
+                            oldFile.name === file.name &&
+                            oldFile.size === file.size &&
+                            oldFile.lastModified ===
+                                file.lastModified
+                        );
+
+                    }
+                );
 
 
-            previewImage.style.display =
-                "none";
+            if (!alreadyExists) {
 
+                selectedFiles.push(file);
 
-            return;
+            }
+
         }
 
 
-        if (!file.type.startsWith("image/")) {
+        imageInput.value = "";
 
-            showMessage(
-                "Please select an image file.",
-                "#d14b5a"
-            );
-
-
-            imageInput.value =
-                "";
-
-
-            imagePreviewContainer.style.display =
-                "none";
-
-
-            previewImage.style.display =
-                "none";
-
-
-            return;
-        }
-
-
-        if (file.size > 5 * 1024 * 1024) {
-
-            showMessage(
-                "Image size must be less than 5 MB.",
-                "#d14b5a"
-            );
-
-
-            imageInput.value =
-                "";
-
-
-            imagePreviewContainer.style.display =
-                "none";
-
-
-            previewImage.style.display =
-                "none";
-
-
-            return;
-        }
-
-
-        const imageURL =
-            URL.createObjectURL(file);
-
-
-        imagePreview.src =
-            imageURL;
-
-
-        imagePreviewContainer.style.display =
-            "block";
-
-
-        previewImage.src =
-            imageURL;
-
-
-        previewImage.style.display =
-            "block";
+        updateImagePreviews();
 
     }
 );
 
 
-// Update preview
+// ======================================================
+// IMAGE PREVIEWS
+// ======================================================
+
+function updateImagePreviews() {
+
+    const imagePreviewContainer =
+        document.getElementById(
+            "imagePreviewContainer"
+        );
+
+    const imagePreviewList =
+        document.getElementById(
+            "imagePreviewList"
+        );
+
+    const previewImageContainer =
+        document.getElementById(
+            "previewImageContainer"
+        );
+
+    const previewImageList =
+        document.getElementById(
+            "previewImageList"
+        );
+
+
+    imagePreviewList.innerHTML = "";
+
+    previewImageList.innerHTML = "";
+
+
+    if (selectedFiles.length === 0) {
+
+        imagePreviewContainer.style.display =
+            "none";
+
+        previewImageContainer.style.display =
+            "none";
+
+        return;
+    }
+
+
+    selectedFiles.forEach(
+        function (file, index) {
+
+            const imageURL =
+                URL.createObjectURL(file);
+
+
+            const wrapper =
+                document.createElement("div");
+
+
+            wrapper.style.position =
+                "relative";
+
+
+            const image =
+                document.createElement("img");
+
+
+            image.src =
+                imageURL;
+
+            image.alt =
+                file.name;
+
+
+            image.style.cssText = `
+                width:100%;
+                height:120px;
+                object-fit:cover;
+                border-radius:12px;
+                border:1px solid #ddd;
+            `;
+
+
+            const removeButton =
+                document.createElement("button");
+
+
+            removeButton.type =
+                "button";
+
+
+            removeButton.textContent =
+                "×";
+
+
+            removeButton.style.cssText = `
+                position:absolute;
+                top:5px;
+                right:5px;
+                width:28px;
+                height:28px;
+                border:none;
+                border-radius:50%;
+                background:#d14b5a;
+                color:white;
+                font-size:18px;
+                cursor:pointer;
+            `;
+
+
+            removeButton.onclick =
+                function () {
+
+                    selectedFiles.splice(
+                        index,
+                        1
+                    );
+
+                    updateImagePreviews();
+
+                };
+
+
+            wrapper.appendChild(image);
+
+            wrapper.appendChild(
+                removeButton
+            );
+
+            imagePreviewList.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+
+    imagePreviewContainer.style.display =
+        "block";
+
+
+    selectedFiles.forEach(
+        function (file) {
+
+            const imageURL =
+                URL.createObjectURL(file);
+
+
+            const image =
+                document.createElement("img");
+
+
+            image.src =
+                imageURL;
+
+            image.alt =
+                file.name;
+
+
+            image.style.cssText = `
+                width:180px;
+                height:150px;
+                flex-shrink:0;
+                object-fit:cover;
+                border-radius:12px;
+            `;
+
+
+            previewImageList.appendChild(
+                image
+            );
+
+        }
+    );
+
+
+    previewImageContainer.style.display =
+        "block";
+
+
+    console.log(
+        "Total selected photos:",
+        selectedFiles.length
+    );
+}
+
+
+// ======================================================
+// TEXT PREVIEW
+// ======================================================
+
 function updatePreview() {
 
     const title =
         titleInput.value.trim();
 
-
     const category =
         categoryInput.value;
-
 
     const content =
         contentInput.value.trim();
@@ -256,13 +349,15 @@ function updatePreview() {
     document.getElementById(
         "previewTitle"
     ).textContent =
-        title || "Your post title";
+        title ||
+        "Your post title";
 
 
     document.getElementById(
         "previewCategory"
     ).textContent =
-        category || "Category";
+        category ||
+        "Category";
 
 
     document.getElementById(
@@ -278,39 +373,42 @@ function updatePreview() {
         );
 
 
-    previewTopics.innerHTML =
-        "";
+    previewTopics.innerHTML = "";
 
 
     document
         .querySelectorAll(
             ".topic-list input:checked"
         )
-        .forEach(function(topic) {
+        .forEach(
+            function (topic) {
 
-            const span =
-                document.createElement(
-                    "span"
+                const span =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                span.textContent =
+                    "#" + topic.value;
+
+
+                previewTopics.appendChild(
+                    span
                 );
 
-
-            span.textContent =
-                "#" + topic.value;
-
-
-            previewTopics.appendChild(
-                span
-            );
-
-        });
-
+            }
+        );
 }
 
 
-// Publish post
+// ======================================================
+// PUBLISH POST
+// ======================================================
+
 form.addEventListener(
     "submit",
-    async function(event) {
+    async function (event) {
 
         event.preventDefault();
 
@@ -318,10 +416,8 @@ form.addEventListener(
         const title =
             titleInput.value.trim();
 
-
         const category =
             categoryInput.value;
-
 
         const content =
             contentInput.value.trim();
@@ -388,17 +484,22 @@ form.addEventListener(
         }
 
 
-        const imageFile =
-            imageInput.files[0];
+        // USE SELECTED FILES
+
+        const imageFiles =
+            selectedFiles;
 
 
-        if (
-            imageFile &&
-            imageFile.size > 5 * 1024 * 1024
-        ) {
+        console.log(
+            "Uploading image count:",
+            imageFiles.length
+        );
+
+
+        if (imageFiles.length === 0) {
 
             showMessage(
-                "Image size must be less than 5 MB.",
+                "Please select at least one image.",
                 "#d14b5a"
             );
 
@@ -440,14 +541,23 @@ form.addEventListener(
         );
 
 
-        if (imageFile) {
+        imageFiles.forEach(
+            function (file) {
 
-            formData.append(
-                "image",
-                imageFile
-            );
+                formData.append(
+                    "images",
+                    file,
+                    file.name
+                );
 
-        }
+            }
+        );
+
+
+        console.log(
+            "FormData image count:",
+            imageFiles.length
+        );
 
 
         const publishButton =
@@ -491,7 +601,6 @@ form.addEventListener(
                 throw new Error(
                     errorText
                 );
-
             }
 
 
@@ -500,8 +609,14 @@ form.addEventListener(
 
 
             console.log(
-                "Post saved successfully:",
+                "Post saved:",
                 savedPost
+            );
+
+
+            console.log(
+                "Saved image URLs:",
+                savedPost.imageUrls
             );
 
 
@@ -512,10 +627,12 @@ form.addEventListener(
 
 
             setTimeout(
-                function() {
+                function () {
 
                     window.location.href =
-                        `../community-details/community-details.html?id=${encodeURIComponent(communityId)}`;
+                        `../community-details/community-details.html?id=${encodeURIComponent(
+                            communityId
+                        )}`;
 
                 },
                 1200
@@ -549,7 +666,10 @@ form.addEventListener(
 );
 
 
-// Show message
+// ======================================================
+// MESSAGE
+// ======================================================
+
 function showMessage(
     text,
     color
@@ -561,16 +681,23 @@ function showMessage(
         );
 
 
+    if (!message) {
+        return;
+    }
+
+
     message.textContent =
         text;
-
 
     message.style.color =
         color;
 }
 
 
-// Cancel
+// ======================================================
+// CANCEL
+// ======================================================
+
 function cancelPost() {
 
     const communityId =
@@ -580,7 +707,9 @@ function cancelPost() {
     if (communityId) {
 
         window.location.href =
-            `../community-details/community-details.html?id=${encodeURIComponent(communityId)}`;
+            `../community-details/community-details.html?id=${encodeURIComponent(
+                communityId
+            )}`;
 
         return;
     }

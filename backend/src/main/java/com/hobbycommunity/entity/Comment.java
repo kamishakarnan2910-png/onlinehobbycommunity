@@ -11,22 +11,31 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "post_id", nullable = false)
     private Integer postId;
 
+    @Column(name = "user_id", nullable = false)
     private Integer userId;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
 
     public Comment() {
     }
 
+
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
     }
+
 
     public Integer getId() {
         return id;
@@ -36,6 +45,7 @@ public class Comment {
         this.id = id;
     }
 
+
     public Integer getPostId() {
         return postId;
     }
@@ -43,6 +53,7 @@ public class Comment {
     public void setPostId(Integer postId) {
         this.postId = postId;
     }
+
 
     public Integer getUserId() {
         return userId;
@@ -52,6 +63,7 @@ public class Comment {
         this.userId = userId;
     }
 
+
     public String getContent() {
         return content;
     }
@@ -59,6 +71,7 @@ public class Comment {
     public void setContent(String content) {
         this.content = content;
     }
+
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

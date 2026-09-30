@@ -29,6 +29,9 @@ public class Community {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @Transient
+    private String createdByRole;
+
     public Community() {
     }
 
@@ -86,5 +89,13 @@ public class Community {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getCreatedByRole() {
+        return createdByRole;
+    }
+
+    public void setCreatedByRole(String createdByRole) {
+        this.createdByRole = createdByRole;
     }
 }

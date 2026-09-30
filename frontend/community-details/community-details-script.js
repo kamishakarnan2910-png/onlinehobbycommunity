@@ -2,7 +2,9 @@ const API_BASE_URL =
     "http://localhost:8080";
 
 const urlParams =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
 
 const communityId =
     urlParams.get("id");
@@ -13,10 +15,6 @@ const currentUserId =
 const currentUserRole =
     localStorage.getItem("userRole");
 
-
-// ===============================
-// PAGE LOAD
-// ===============================
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -33,51 +31,21 @@ document.addEventListener(
         }
 
         loadCommunity();
-
         loadMemberCount();
-
         checkMembership();
-
         loadRecentPosts();
 
         setupDeleteButton();
-
         setupCreatePostButton();
+        setupViewPostsButton();
+        setupViewAllPostsButton();
     }
 );
 
 
-// ===============================
-// CREATE POST BUTTON
-// ===============================
-
-function setupCreatePostButton() {
-
-    const createPostButton =
-        document.getElementById(
-            "createPostButton"
-        );
-
-    if (!createPostButton) {
-        return;
-    }
-
-    createPostButton.addEventListener(
-        "click",
-        function (event) {
-
-            event.preventDefault();
-
-            window.location.href =
-                `../create-post/create-post.html?communityId=${encodeURIComponent(communityId)}`;
-        }
-    );
-}
-
-
-// ===============================
+// ======================================================
 // LOAD COMMUNITY
-// ===============================
+// ======================================================
 
 async function loadCommunity() {
 
@@ -85,11 +53,10 @@ async function loadCommunity() {
 
         const response =
             await fetch(
-                `${API_BASE_URL}/api/communities/${communityId}`
+                `${API_BASE_URL}/api/communities/${encodeURIComponent(communityId)}`
             );
 
         if (!response.ok) {
-
             throw new Error(
                 "Unable to load community"
             );
@@ -98,108 +65,56 @@ async function loadCommunity() {
         const community =
             await response.json();
 
-        const nameElement =
+        const communityName =
             document.getElementById(
                 "communityName"
             );
 
-        const descriptionElement =
-            document.getElementById(
-                "communityDescription"
-            );
-
-        const categoryElement =
-            document.getElementById(
-                "communityCategory"
-            );
-
-        const aboutElement =
-            document.getElementById(
-                "aboutCommunity"
-            );
-
-        const iconElement =
-            document.getElementById(
-                "communityIcon"
-            );
-
-
-        if (nameElement) {
-
-            nameElement.textContent =
+        if (communityName) {
+            communityName.textContent =
                 community.name ||
                 "Community";
         }
 
+        const communityDescription =
+            document.getElementById(
+                "communityDescription"
+            );
 
-        if (descriptionElement) {
-
-            descriptionElement.textContent =
+        if (communityDescription) {
+            communityDescription.textContent =
                 community.description ||
-                "No description available.";
+                "Welcome to this community.";
         }
 
+        const aboutCommunity =
+            document.getElementById(
+                "aboutCommunity"
+            );
 
-        if (categoryElement) {
-
-            categoryElement.textContent =
-                `🎨 ${community.category || "General"}`;
-        }
-
-
-        if (aboutElement) {
-
-            aboutElement.textContent =
+        if (aboutCommunity) {
+            aboutCommunity.textContent =
                 community.description ||
-                "No information available.";
+                "Welcome to this community.";
         }
 
+        const communityCategory =
+            document.getElementById(
+                "communityCategory"
+            );
 
-        if (
-            iconElement &&
-            community.imageUrl
-        ) {
-
-            iconElement.innerHTML =
-                `
-                <img
-                    src="${API_BASE_URL}${community.imageUrl}"
-                    alt="Community Image">
-                `;
+        if (communityCategory) {
+            communityCategory.textContent =
+                "🎨 " +
+                (
+                    community.category ||
+                    "General"
+                );
         }
 
-
-        if (currentUserId) {
-
-            const creatorId =
-                community.createdBy;
-
-            const isCreator =
-                Number(creatorId) ===
-                Number(currentUserId);
-
-            const isAdmin =
-                currentUserRole &&
-                currentUserRole.toUpperCase() ===
-                "ADMIN";
-
-            if (
-                isCreator ||
-                isAdmin
-            ) {
-
-                const deleteButton =
-                    document.getElementById(
-                        "deleteCommunityButton"
-                    );
-
-                if (deleteButton) {
-
-                    deleteButton.style.display =
-                        "inline-block";
-                }
-            }
-        }
+        setupCommunityImage(
+            community
+        );
 
     } catch (error) {
 
@@ -208,23 +123,75 @@ async function loadCommunity() {
             error
         );
 
-        const nameElement =
+        const communityName =
             document.getElementById(
                 "communityName"
             );
 
-        if (nameElement) {
-
-            nameElement.textContent =
+        if (communityName) {
+            communityName.textContent =
                 "Unable to load community";
         }
     }
 }
 
 
-// ===============================
+// ======================================================
+// COMMUNITY IMAGE
+// ======================================================
+
+function setupCommunityImage(
+    community
+) {
+
+    const icon =
+        document.getElementById(
+            "communityIcon"
+        );
+
+    if (!icon) {
+        return;
+    }
+
+    if (
+        community.imageUrl &&
+        community.imageUrl.trim() !== ""
+    ) {
+
+        let imageUrl =
+            community.imageUrl;
+
+        if (imageUrl.startsWith("/")) {
+            imageUrl =
+                API_BASE_URL +
+                imageUrl;
+        }
+
+        icon.innerHTML = `
+            <img
+                src="${imageUrl}"
+                alt="Community"
+                style="
+                    width:100%;
+                    height:100%;
+                    object-fit:cover;
+                    border-radius:inherit;
+                    display:block;
+                "
+            >
+        `;
+
+    } else {
+
+        icon.textContent =
+            "🎨";
+    }
+}
+
+
+// ======================================================
 // MEMBER COUNT
-// ===============================
+// ======================================================
 
 async function loadMemberCount() {
 
@@ -232,7 +199,7 @@ async function loadMemberCount() {
 
         const response =
             await fetch(
-                `${API_BASE_URL}/api/communities/${communityId}/members/count`
+                `${API_BASE_URL}/api/communities/${encodeURIComponent(communityId)}/members/count`
             );
 
         if (!response.ok) {
@@ -244,14 +211,14 @@ async function loadMemberCount() {
         const count =
             await response.json();
 
-        const memberElement =
+        const memberCount =
             document.getElementById(
                 "memberCount"
             );
 
-        if (memberElement) {
+        if (memberCount) {
 
-            memberElement.textContent =
+            memberCount.textContent =
                 `👥 ${count} Members`;
         }
 
@@ -265,13 +232,36 @@ async function loadMemberCount() {
 }
 
 
-// ===============================
+// ======================================================
 // CHECK MEMBERSHIP
-// ===============================
+// ======================================================
 
 async function checkMembership() {
 
+    const joinButton =
+        document.getElementById(
+            "joinButton"
+        );
+
+    if (!joinButton) {
+        return;
+    }
+
     if (!currentUserId) {
+
+        joinButton.textContent =
+            "Login to Join";
+
+        joinButton.disabled =
+            false;
+
+        joinButton.onclick =
+            function () {
+
+                window.location.href =
+                    "../login/login.html";
+            };
+
         return;
     }
 
@@ -279,32 +269,34 @@ async function checkMembership() {
 
         const response =
             await fetch(
-                `${API_BASE_URL}/api/community-members/check?communityId=${communityId}&userId=${currentUserId}`
+                `${API_BASE_URL}/api/community-members/check?communityId=${encodeURIComponent(communityId)}&userId=${encodeURIComponent(currentUserId)}`
             );
 
         if (!response.ok) {
+
+            console.error(
+                "Membership check failed:",
+                response.status
+            );
+
+            setupJoinButton();
+
             return;
         }
 
         const isMember =
             await response.json();
 
-        const joinButton =
-            document.getElementById(
-                "joinButton"
-            );
-
-        if (!joinButton) {
-            return;
-        }
-
-        if (isMember === true) {
+        if (isMember) {
 
             joinButton.textContent =
-                "Joined ✓";
+                "✓ Joined";
 
             joinButton.disabled =
                 true;
+
+            joinButton.onclick =
+                null;
 
         } else {
 
@@ -313,6 +305,8 @@ async function checkMembership() {
 
             joinButton.disabled =
                 false;
+
+            setupJoinButton();
         }
 
     } catch (error) {
@@ -321,210 +315,226 @@ async function checkMembership() {
             "Membership check error:",
             error
         );
+
+        setupJoinButton();
     }
 }
 
 
-// ===============================
+// ======================================================
 // JOIN COMMUNITY
-// ===============================
+// ======================================================
 
-const joinButton =
-    document.getElementById(
-        "joinButton"
-    );
+function setupJoinButton() {
 
-if (joinButton) {
-
-    joinButton.addEventListener(
-        "click",
-        joinCommunity
-    );
-}
-
-
-async function joinCommunity() {
-
-    if (!currentUserId) {
-
-        alert(
-            "Please login first."
-        );
-
-        return;
-    }
-
-    try {
-
-        const joinData = {
-
-            communityId:
-                Number(communityId),
-
-            userId:
-                Number(currentUserId)
-        };
-
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/community-members`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify(
-                            joinData
-                        )
-                }
-            );
-
-
-        if (!response.ok) {
-
-            const errorText =
-                await response.text();
-
-            console.error(
-                "Join error:",
-                errorText
-            );
-
-            throw new Error(
-                "Unable to join community"
-            );
-        }
-
-
-        alert(
-            "Joined community successfully! 🎉"
-        );
-
-
-        await loadMemberCount();
-
-        await checkMembership();
-
-    } catch (error) {
-
-        console.error(
-            "Join community error:",
-            error
-        );
-
-        alert(
-            "Unable to join community."
-        );
-    }
-}
-
-
-// ===============================
-// DELETE COMMUNITY
-// ===============================
-
-function setupDeleteButton() {
-
-    const deleteButton =
+    const joinButton =
         document.getElementById(
-            "deleteCommunityButton"
+            "joinButton"
         );
 
-    if (!deleteButton) {
+    if (!joinButton) {
         return;
     }
 
-    deleteButton.addEventListener(
+    joinButton.disabled =
+        false;
+
+    joinButton.onclick =
+        async function () {
+
+            if (!currentUserId) {
+
+                alert(
+                    "Please login first."
+                );
+
+                return;
+            }
+
+            if (!communityId) {
+
+                alert(
+                    "Community not found."
+                );
+
+                return;
+            }
+
+            joinButton.disabled =
+                true;
+
+            joinButton.textContent =
+                "Joining...";
+
+            try {
+
+                const joinUrl =
+                    `${API_BASE_URL}/api/community-members/join?communityId=${encodeURIComponent(communityId)}&userId=${encodeURIComponent(currentUserId)}`;
+
+                console.log(
+                    "Joining community:",
+                    joinUrl
+                );
+
+                const response =
+                    await fetch(
+                        joinUrl,
+                        {
+                            method: "POST"
+                        }
+                    );
+
+                const responseText =
+                    await response.text();
+
+                console.log(
+                    "Join response status:",
+                    response.status
+                );
+
+                console.log(
+                    "Join response:",
+                    responseText
+                );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        responseText ||
+                        `Unable to join community. Status: ${response.status}`
+                    );
+                }
+
+                joinButton.textContent =
+                    "✓ Joined";
+
+                joinButton.disabled =
+                    true;
+
+                alert(
+                    "Joined community successfully! 🎉"
+                );
+
+                await loadMemberCount();
+
+            } catch (error) {
+
+                console.error(
+                    "Join community error:",
+                    error
+                );
+
+                joinButton.textContent =
+                    "Join Community";
+
+                joinButton.disabled =
+                    false;
+
+                alert(
+                    error.message ||
+                    "Unable to join community."
+                );
+            }
+        };
+}
+
+
+// ======================================================
+// CREATE POST BUTTON
+// ======================================================
+
+function setupCreatePostButton() {
+
+    const button =
+        document.getElementById(
+            "createPostButton"
+        );
+
+    if (!button) {
+        return;
+    }
+
+    button.addEventListener(
         "click",
-        deleteCommunity
+        function (event) {
+
+            event.preventDefault();
+
+            if (!currentUserId) {
+
+                alert(
+                    "Please login first."
+                );
+
+                return;
+            }
+
+            window.location.href =
+                `../create-post/create-post.html?communityId=${encodeURIComponent(communityId)}`;
+        }
     );
 }
 
 
-async function deleteCommunity() {
+// ======================================================
+// VIEW POSTS BUTTON
+// ======================================================
 
-    if (!currentUserId) {
+function setupViewPostsButton() {
 
-        alert(
-            "Please login first."
+    const button =
+        document.getElementById(
+            "viewPostsButton"
         );
 
+    if (!button) {
         return;
     }
 
+    button.addEventListener(
+        "click",
+        function (event) {
 
-    const confirmDelete =
-        confirm(
-            "Are you sure you want to delete this community?"
-        );
+            event.preventDefault();
 
-
-    if (!confirmDelete) {
-        return;
-    }
-
-
-    try {
-
-        const deleteUrl =
-            `${API_BASE_URL}/api/communities/${communityId}?userId=${encodeURIComponent(currentUserId)}&role=${encodeURIComponent(currentUserRole || "")}`;
-
-
-        const response =
-            await fetch(
-                deleteUrl,
-                {
-                    method: "DELETE"
-                }
-            );
-
-
-        if (!response.ok) {
-
-            const errorText =
-                await response.text();
-
-            console.error(
-                "Delete backend error:",
-                errorText
-            );
-
-            throw new Error(
-                "Delete failed"
-            );
+            window.location.href =
+                `../posts/posts.html?communityId=${encodeURIComponent(communityId)}`;
         }
-
-
-        alert(
-            "Community deleted successfully! 🗑️"
-        );
-
-
-        window.location.href =
-            "../community/community.html";
-
-    } catch (error) {
-
-        console.error(
-            "Delete community error:",
-            error
-        );
-
-        alert(
-            "Unable to delete community."
-        );
-    }
+    );
 }
 
 
-// ===============================
+// ======================================================
+// VIEW ALL POSTS BUTTON
+// ======================================================
+
+function setupViewAllPostsButton() {
+
+    const button =
+        document.getElementById(
+            "viewAllPostsButton"
+        );
+
+    if (!button) {
+        return;
+    }
+
+    button.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            window.location.href =
+                `../posts/posts.html?communityId=${encodeURIComponent(communityId)}`;
+        }
+    );
+}
+
+
+// ======================================================
 // LOAD RECENT POSTS
-// ===============================
+// ======================================================
 
 async function loadRecentPosts() {
 
@@ -533,217 +543,274 @@ async function loadRecentPosts() {
             "recentPostsContainer"
         );
 
-
     if (!container) {
         return;
     }
-
-
-    container.innerHTML =
-        `
-        <p class="empty-post-message">
-            Loading posts...
-        </p>
-        `;
-
 
     try {
 
         const response =
             await fetch(
-                `${API_BASE_URL}/api/posts/community/${communityId}`
+                `${API_BASE_URL}/api/posts/community/${encodeURIComponent(communityId)}`
             );
 
-
         if (!response.ok) {
-
             throw new Error(
                 "Unable to load posts"
             );
         }
 
-
         const posts =
             await response.json();
 
-
         container.innerHTML =
             "";
-
 
         if (
             !posts ||
             posts.length === 0
         ) {
 
-            container.innerHTML =
-                `
+            container.innerHTML = `
                 <p class="empty-post-message">
-                    No posts available yet.
+                    No posts yet. Be the first to create a post!
                 </p>
-                `;
+            `;
 
             return;
         }
 
+        posts
+            .slice(0, 5)
+            .forEach(
+                function (post) {
 
-        posts.forEach(
-            function (post) {
-
-                const card =
-                    createPostCard(post);
-
-                container.appendChild(
-                    card
-                );
-            }
-        );
+                    createPostCard(
+                        post,
+                        container
+                    );
+                }
+            );
 
     } catch (error) {
 
         console.error(
-            "Post loading error:",
+            "Posts loading error:",
             error
         );
 
-
-        container.innerHTML =
-            `
+        container.innerHTML = `
             <p class="empty-post-message">
                 Unable to load posts.
             </p>
-            `;
+        `;
     }
 }
 
 
-// ===============================
+// ======================================================
 // CREATE POST CARD
-// ===============================
+// ======================================================
 
-function createPostCard(post) {
+function createPostCard(
+    post,
+    container
+) {
 
     const card =
         document.createElement(
             "div"
         );
 
-
     card.className =
         "post-card";
 
+    const authorName =
+        post.userName ||
+        "User";
 
-    const title =
-        post.title ||
-        "Untitled Post";
-
-
-    const content =
-        post.content ||
+    let imageHtml =
         "";
 
+    if (
+        post.imageUrl &&
+        post.imageUrl.trim() !== ""
+    ) {
 
-    card.innerHTML =
-        `
-        <div class="post-header">
+        let imageUrl =
+            post.imageUrl;
 
-            <h3>
-                ${escapeHtml(title)}
-            </h3>
+        if (imageUrl.startsWith("/")) {
+            imageUrl =
+                API_BASE_URL +
+                imageUrl;
+        }
+
+        imageHtml = `
+            <div
+                class="post-image-wrapper"
+                style="
+                    width:100%;
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                    background:#f5f5f5;
+                    border-radius:12px;
+                    overflow:hidden;
+                "
+            >
+                <img
+                    src="${imageUrl}"
+                    alt="Post image"
+                    style="
+                        width:100%;
+                        max-height:400px;
+                        object-fit:contain;
+                        display:block;
+                    "
+                >
+            </div>
+        `;
+    }
+
+    card.innerHTML = `
+            <div class="post-header">
+
+            <div
+                class="post-author"
+                onclick="openUserProfile(${Number(post.userId)})"
+                style="cursor:pointer;"
+            >
+                👤 ${escapeHtml(authorName)}
+            </div>
+
+            <div class="post-category">
+                ${escapeHtml(
+                    post.category ||
+                    "General"
+                )}
+            </div>
 
         </div>
 
+        <div class="post-content">
 
-        <p class="post-content">
-            ${escapeHtml(content)}
-        </p>
+            <h3>
+                ${escapeHtml(
+                    post.title ||
+                    "Untitled Post"
+                )}
+            </h3>
 
+            <p>
+                ${escapeHtml(
+                    post.content ||
+                    ""
+                )}
+            </p>
+
+            ${imageHtml}
+
+        </div>
 
         <div class="post-actions">
 
             <button
-                type="button"
                 class="like-btn"
-                data-post-id="${post.id}">
-
+                data-post-id="${post.id}"
+                type="button"
+            >
                 ❤️ Like
-
             </button>
-
-
-            <button
-                type="button"
-                class="comment-btn"
-                data-post-id="${post.id}">
-
-                💬 Comment
-
-            </button>
-
-
-            <button
-                type="button"
-                class="share-btn"
-                data-post-id="${post.id}">
-
-                🔗 Share
-
-            </button>
-
-        </div>
-
-
-        <div
-            class="post-counts"
-            style="margin-top: 10px;">
 
             <span
                 class="like-count"
-                data-post-id="${post.id}">
-
-                ❤️ 0
-
+                id="like-count-${post.id}"
+            >
+                0
             </span>
 
-
-            <span
-                class="comment-count"
+            <button
+                class="comment-btn"
                 data-post-id="${post.id}"
-                style="margin-left: 15px;">
+                type="button"
+            >
+                💬 Comment
+            </button>
 
-                💬 0
+            <button
+                class="share-btn"
+                data-post-id="${post.id}"
+                type="button"
+            >
+                🔗 Share
+            </button>
 
-            </span>
+            <button
+                class="report-btn"
+                data-post-id="${post.id}"
+                type="button"
+            >
+                🚩 Report
+            </button>
+
+            <button
+                class="view-post-btn"
+                data-post-id="${post.id}"
+                type="button"
+            >
+                👁 View Post
+            </button>
 
         </div>
-
 
         <div
-            class="comments-container"
-            data-post-id="${post.id}"
-            style="margin-top: 10px;">
+            class="comments-section"
+            id="comments-${post.id}"
+            style="display:none;"
+        >
+
+            <div
+                class="comments-list"
+                id="comments-list-${post.id}"
+            ></div>
+
+            <div class="comment-input-area">
+
+                <input
+                    type="text"
+                    id="comment-input-${post.id}"
+                    placeholder="Write a comment..."
+                >
+
+                <button
+                    type="button"
+                    onclick="addComment(${post.id})"
+                >
+                    Send
+                </button>
+
+            </div>
 
         </div>
-        `;
+    `;
 
+    container.appendChild(
+        card
+    );
+
+    loadLikeCount(
+        post.id
+    );
+
+    loadUserLikeStatus(
+        post.id
+    );
 
     const likeButton =
         card.querySelector(
             ".like-btn"
         );
-
-
-    const commentButton =
-        card.querySelector(
-            ".comment-btn"
-        );
-
-
-    const shareButton =
-        card.querySelector(
-            ".share-btn"
-        );
-
 
     if (likeButton) {
 
@@ -751,13 +818,18 @@ function createPostCard(post) {
             "click",
             function () {
 
-                likePost(
-                    post.id
+                toggleLike(
+                    post.id,
+                    likeButton
                 );
             }
         );
     }
 
+    const commentButton =
+        card.querySelector(
+            ".comment-btn"
+        );
 
     if (commentButton) {
 
@@ -765,13 +837,17 @@ function createPostCard(post) {
             "click",
             function () {
 
-                commentPost(
+                toggleComments(
                     post.id
                 );
             }
         );
     }
 
+    const shareButton =
+        card.querySelector(
+            ".share-btn"
+        );
 
     if (shareButton) {
 
@@ -780,126 +856,53 @@ function createPostCard(post) {
             function () {
 
                 sharePost(
+                    post.id
+                );
+            }
+        );
+    }
+
+    const reportButton =
+        card.querySelector(
+            ".report-btn"
+        );
+
+    if (reportButton) {
+
+        reportButton.addEventListener(
+            "click",
+            function () {
+
+                openReportForm(
                     post
                 );
             }
         );
     }
 
-
-    loadLikeCount(
-        post.id
-    );
-
-
-    loadCommentCount(
-        post.id
-    );
-
-
-    return card;
-}
-
-
-// ===============================
-// LIKE POST
-// ===============================
-
-async function likePost(postId) {
-
-    if (!currentUserId) {
-
-        alert(
-            "Please login first."
+    const viewButton =
+        card.querySelector(
+            ".view-post-btn"
         );
 
-        return;
-    }
+    if (viewButton) {
 
+        viewButton.addEventListener(
+            "click",
+            function () {
 
-    try {
-
-        const likeData = {
-
-            postId:
-                Number(postId),
-
-            userId:
-                Number(currentUserId)
-        };
-
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/likes`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify(
-                            likeData
-                        )
-                }
-            );
-
-
-        if (!response.ok) {
-
-            const errorText =
-                await response.text();
-
-            console.error(
-                "Like backend error:",
-                errorText
-            );
-
-            throw new Error(
-                "Like failed"
-            );
-        }
-
-
-        await loadLikeCount(
-            postId
-        );
-
-
-        const likeButton =
-            document.querySelector(
-                `.like-btn[data-post-id="${postId}"]`
-            );
-
-
-        if (likeButton) {
-
-            likeButton.textContent =
-                "❤️ Liked";
-        }
-
-
-    } catch (error) {
-
-        console.error(
-            "Like error:",
-            error
-        );
-
-
-        alert(
-            "Unable to like post."
+                viewPost(
+                    post.id
+                );
+            }
         );
     }
 }
 
 
-// ===============================
-// LOAD LIKE COUNT
-// ===============================
+// ======================================================
+// LIKE COUNT
+// ======================================================
 
 async function loadLikeCount(
     postId
@@ -912,26 +915,21 @@ async function loadLikeCount(
                 `${API_BASE_URL}/api/likes/post/${postId}/count`
             );
 
-
         if (!response.ok) {
             return;
         }
 
-
         const count =
             await response.json();
 
-
-        const countElement =
-            document.querySelector(
-                `.like-count[data-post-id="${postId}"]`
+        const element =
+            document.getElementById(
+                `like-count-${postId}`
             );
 
-
-        if (countElement) {
-
-            countElement.textContent =
-                `❤️ ${count}`;
+        if (element) {
+            element.textContent =
+                count;
         }
 
     } catch (error) {
@@ -944,65 +942,429 @@ async function loadLikeCount(
 }
 
 
-// ===============================
-// COMMENT POST
-// ===============================
+// ======================================================
+// USER LIKE STATUS
+// ======================================================
 
-async function commentPost(
+async function loadUserLikeStatus(
+    postId
+) {
+
+    const button =
+        document.querySelector(
+            `.like-btn[data-post-id="${postId}"]`
+        );
+
+    if (!button) {
+        return;
+    }
+
+    if (!currentUserId) {
+
+        button.textContent =
+            "❤️ Like";
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/likes`
+            );
+
+        if (!response.ok) {
+            return;
+        }
+
+        const likes =
+            await response.json();
+
+        const liked =
+            likes.some(
+                function (like) {
+
+                    return (
+                        Number(like.postId) ===
+                            Number(postId) &&
+                        Number(like.userId) ===
+                            Number(currentUserId)
+                    );
+                }
+            );
+
+        if (liked) {
+
+            button.textContent =
+                "❤️ Liked";
+
+            button.classList.add(
+                "liked"
+            );
+
+        } else {
+
+            button.textContent =
+                "❤️ Like";
+
+            button.classList.remove(
+                "liked"
+            );
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Like status error:",
+            error
+        );
+    }
+}
+
+
+// ======================================================
+// LIKE / UNLIKE
+// ======================================================
+
+async function toggleLike(
+    postId,
+    button
+) {
+
+    if (!currentUserId) {
+
+        alert(
+            "Please login to like posts."
+        );
+
+        return;
+    }
+
+    button.disabled =
+        true;
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/likes`
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                "Unable to check likes"
+            );
+        }
+
+        const likes =
+            await response.json();
+
+        const userLikes =
+            likes.filter(
+                function (like) {
+
+                    return (
+                        Number(like.postId) ===
+                            Number(postId) &&
+                        Number(like.userId) ===
+                            Number(currentUserId)
+                    );
+                }
+            );
+
+        if (userLikes.length > 0) {
+
+            for (
+                const like
+                of userLikes
+            ) {
+
+                await fetch(
+                    `${API_BASE_URL}/api/likes/${like.id}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+            }
+
+        } else {
+
+            const likeData = {
+
+                postId:
+                    Number(postId),
+
+                userId:
+                    Number(currentUserId)
+            };
+
+            const likeResponse =
+                await fetch(
+                    `${API_BASE_URL}/api/likes`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(
+                                likeData
+                            )
+                    }
+                );
+
+            if (!likeResponse.ok) {
+
+                throw new Error(
+                    "Unable to like post"
+                );
+            }
+        }
+
+        await loadLikeCount(
+            postId
+        );
+
+        await loadUserLikeStatus(
+            postId
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Like error:",
+            error
+        );
+
+        alert(
+            "Unable to update like."
+        );
+
+    } finally {
+
+        button.disabled =
+            false;
+    }
+}
+
+
+// ======================================================
+// COMMENTS
+// ======================================================
+
+async function toggleComments(
+    postId
+) {
+
+    const section =
+        document.getElementById(
+            `comments-${postId}`
+        );
+
+    if (!section) {
+        return;
+    }
+
+    if (
+        section.style.display ===
+        "none"
+    ) {
+
+        section.style.display =
+            "block";
+
+        await loadComments(
+            postId
+        );
+
+    } else {
+
+        section.style.display =
+            "none";
+    }
+}
+
+
+// ======================================================
+// LOAD COMMENTS
+// ======================================================
+
+async function loadComments(
+    postId
+) {
+
+    const list =
+        document.getElementById(
+            `comments-list-${postId}`
+        );
+
+    if (!list) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/comments/post/${postId}`
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load comments"
+            );
+        }
+
+        const comments =
+            await response.json();
+
+        list.innerHTML =
+            "";
+
+        if (
+            !comments ||
+            comments.length === 0
+        ) {
+
+            list.innerHTML = `
+                <p>
+                    No comments yet.
+                </p>
+            `;
+
+            return;
+        }
+
+        for (const comment of comments) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "comment-item";
+
+            let commenterName =
+                "User";
+
+            try {
+
+                const userResponse =
+                    await fetch(
+                        `${API_BASE_URL}/api/users/${encodeURIComponent(comment.userId)}`
+                    );
+
+                if (userResponse.ok) {
+
+                    const commenter =
+                        await userResponse.json();
+
+                    commenterName =
+                        commenter.name ||
+                        "User";
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Commenter loading error:",
+                    error
+                );
+            }
+
+            div.innerHTML = `
+                <strong
+                    onclick="openUserProfile(${Number(comment.userId)})"
+                    style="cursor:pointer;"
+                >
+                    ${escapeHtml(commenterName)}
+                </strong>
+
+                <p>
+                    ${escapeHtml(
+                        comment.content ||
+                        ""
+                    )}
+                </p>
+            `;
+
+            list.appendChild(
+                div
+            );
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Comments error:",
+            error
+        );
+
+        list.innerHTML = `
+            <p>
+                Unable to load comments.
+            </p>
+        `;
+    }
+}
+
+
+// ======================================================
+// ADD COMMENT
+// ======================================================
+
+async function addComment(
     postId
 ) {
 
     if (!currentUserId) {
 
         alert(
-            "Please login first."
+            "Please login to comment."
         );
 
         return;
     }
 
-
-    const commentText =
-        prompt(
-            "Enter your comment:"
+    const input =
+        document.getElementById(
+            `comment-input-${postId}`
         );
 
-
-    if (
-        commentText === null
-    ) {
+    if (!input) {
         return;
     }
-
 
     const content =
-        commentText.trim();
-
+        input.value.trim();
 
     if (!content) {
 
         alert(
-            "Please enter a comment."
+            "Please write a comment."
         );
-
-        return;
+                return;
     }
 
+    const commentData = {
+
+        postId:
+            Number(postId),
+
+        userId:
+            Number(currentUserId),
+
+        content:
+            content
+    };
 
     try {
-
-        const commentData = {
-
-            postId:
-                Number(postId),
-
-            userId:
-                Number(currentUserId),
-
-            content:
-                content
-        };
-
 
         const response =
             await fetch(
@@ -1022,32 +1384,15 @@ async function commentPost(
                 }
             );
 
-
         if (!response.ok) {
 
-            const errorText =
-                await response.text();
-
-            console.error(
-                "Comment backend error:",
-                errorText
-            );
-
             throw new Error(
-                "Comment failed"
+                "Unable to add comment"
             );
         }
 
-
-        alert(
-            "Comment added successfully! 💬"
-        );
-
-
-        await loadCommentCount(
-            postId
-        );
-
+        input.value =
+            "";
 
         await loadComments(
             postId
@@ -1060,7 +1405,6 @@ async function commentPost(
             error
         );
 
-
         alert(
             "Unable to add comment."
         );
@@ -1068,159 +1412,41 @@ async function commentPost(
 }
 
 
-// ===============================
-// LOAD COMMENT COUNT
-// ===============================
+// ======================================================
+// VIEW POST
+// ======================================================
 
-async function loadCommentCount(
+function viewPost(
     postId
 ) {
 
-    try {
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/comments/post/${postId}`
-            );
-
-
-        if (!response.ok) {
-            return;
-        }
-
-
-        const comments =
-            await response.json();
-
-
-        const countElement =
-            document.querySelector(
-                `.comment-count[data-post-id="${postId}"]`
-            );
-
-
-        if (countElement) {
-
-            countElement.textContent =
-                `💬 ${comments.length}`;
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Comment count error:",
-            error
-        );
-    }
+    window.location.href =
+        `../posts/posts.html?communityId=${encodeURIComponent(communityId)}&postId=${encodeURIComponent(postId)}`;
 }
 
 
-// ===============================
-// LOAD COMMENTS
-// ===============================
-
-async function loadComments(
-    postId
-) {
-
-    try {
-
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/comments/post/${postId}`
-            );
-
-
-        if (!response.ok) {
-            return;
-        }
-
-
-        const comments =
-            await response.json();
-
-
-        const container =
-            document.querySelector(
-                `.comments-container[data-post-id="${postId}"]`
-            );
-
-
-        if (!container) {
-            return;
-        }
-
-
-        container.innerHTML =
-            "";
-
-
-        comments.forEach(
-            function (comment) {
-
-                const commentElement =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                commentElement.className =
-                    "comment-item";
-
-
-                commentElement.innerHTML =
-                    `
-                    <p>
-                        ${escapeHtml(
-                            comment.content || ""
-                        )}
-                    </p>
-                    `;
-
-
-                container.appendChild(
-                    commentElement
-                );
-            }
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Load comments error:",
-            error
-        );
-    }
-}
-
-
-// ===============================
+// ======================================================
 // SHARE POST
-// ===============================
+// ======================================================
 
 async function sharePost(
-    post
+    postId
 ) {
 
     const shareUrl =
-        `${window.location.origin}${window.location.pathname}?id=${communityId}`;
-
+        `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(communityId)}&postId=${encodeURIComponent(postId)}`;
 
     try {
 
-        if (
-            navigator.share
-        ) {
+        if (navigator.share) {
 
             await navigator.share({
 
                 title:
-                    post.title ||
                     "HobbyHub Post",
 
                 text:
-                    post.content ||
-                    "Check out this post!",
+                    "Check out this post on HobbyHub!",
 
                 url:
                     shareUrl
@@ -1232,9 +1458,8 @@ async function sharePost(
                 shareUrl
             );
 
-
             alert(
-                "Community link copied! 🔗"
+                "Post link copied!"
             );
         }
 
@@ -1248,21 +1473,556 @@ async function sharePost(
 }
 
 
-// ===============================
+// ======================================================
+// DELETE BUTTON
+// ======================================================
+
+function setupDeleteButton() {
+
+    const button =
+        document.getElementById(
+            "deleteCommunityButton"
+        );
+
+    if (!button) {
+        return;
+    }
+
+    checkCommunityOwner();
+}
+
+
+// ======================================================
+// CHECK COMMUNITY OWNER
+// ======================================================
+
+async function checkCommunityOwner() {
+
+    const button =
+        document.getElementById(
+            "deleteCommunityButton"
+        );
+
+    if (!button) {
+        return;
+    }
+
+    if (!currentUserId) {
+
+        button.style.display =
+            "none";
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/communities/${encodeURIComponent(communityId)}`
+            );
+
+        if (!response.ok) {
+            return;
+        }
+
+        const community =
+            await response.json();
+
+        const isAdmin =
+            currentUserRole &&
+            currentUserRole.toUpperCase() ===
+                "ADMIN";
+
+        const isCreator =
+            community.createdBy &&
+            Number(community.createdBy) ===
+                Number(currentUserId);
+
+        if (
+            isAdmin ||
+            isCreator
+        ) {
+
+            button.style.display =
+                "inline-block";
+
+            button.onclick =
+                deleteCommunity;
+
+        } else {
+
+            button.style.display =
+                "none";
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Delete permission error:",
+            error
+        );
+    }
+}
+
+
+// ======================================================
+// DELETE COMMUNITY
+// ======================================================
+
+async function deleteCommunity() {
+
+    if (!currentUserId) {
+
+        alert(
+            "Please login first."
+        );
+
+        return;
+    }
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this community?"
+        );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    const deleteUrl =
+        `${API_BASE_URL}/api/communities/${encodeURIComponent(communityId)}?userId=${encodeURIComponent(currentUserId)}&role=${encodeURIComponent(currentUserRole || "")}`;
+
+    try {
+
+        const response =
+            await fetch(
+                deleteUrl,
+                {
+                    method: "DELETE"
+                }
+            );
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            console.error(
+                "Delete error:",
+                errorText
+            );
+
+            alert(
+                "Unable to delete community."
+            );
+
+            return;
+        }
+
+        alert(
+            "Community deleted successfully."
+        );
+
+        window.location.href =
+            "../community/community.html";
+
+    } catch (error) {
+
+        console.error(
+            "Delete community error:",
+            error
+        );
+
+        alert(
+            "Unable to delete community."
+        );
+    }
+}
+
+
+// ======================================================
+// REPORT FORM
+// ======================================================
+
+function openReportForm(
+    post
+) {
+
+    if (!currentUserId) {
+
+        alert(
+            "Please login to report a post."
+        );
+
+        return;
+    }
+
+    const existingModal =
+        document.getElementById(
+            "reportModal"
+        );
+
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    const modal =
+        document.createElement(
+            "div"
+        );
+
+    modal.id =
+        "reportModal";
+
+    modal.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.55);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        z-index:9999;
+        padding:20px;
+        box-sizing:border-box;
+    `;
+
+    modal.innerHTML = `
+
+        <div
+            style="
+                width:100%;
+                max-width:500px;
+                background:white;
+                border-radius:18px;
+                padding:25px;
+                box-shadow:0 20px 50px rgba(0,0,0,0.25);
+                box-sizing:border-box;
+            "
+        >
+
+            <h2
+                style="
+                    margin-top:0;
+                    color:#4b2aad;
+                "
+            >
+                Report Post
+            </h2>
+
+            <p
+                style="
+                    color:#666;
+                    margin-bottom:20px;
+                "
+            >
+                Why are you reporting this post?
+            </p>
+
+            <select
+                id="reportReason"
+                style="
+                    width:100%;
+                    padding:12px;
+                    border:1px solid #ddd;
+                    border-radius:10px;
+                    margin-bottom:15px;
+                    box-sizing:border-box;
+                "
+            >
+
+                <option value="">
+                    Select a reason
+                </option>
+
+                <option value="Spam">
+                    Spam
+                </option>
+
+                <option value="Harassment">
+                    Harassment
+                </option>
+
+                <option value="Inappropriate Content">
+                    Inappropriate Content
+                </option>
+
+                <option value="Hate Speech">
+                    Hate Speech
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+            <textarea
+                id="reportDescription"
+                placeholder="Describe the problem..."
+                rows="4"
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:12px;
+                    border:1px solid #ddd;
+                    border-radius:10px;
+                    resize:vertical;
+                    margin-bottom:18px;
+                "
+            ></textarea>
+
+            <div
+                style="
+                    display:flex;
+                    gap:10px;
+                    justify-content:flex-end;
+                "
+            >
+
+                <button
+                    type="button"
+                    id="cancelReportButton"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    id="submitReportButton"
+                >
+                    Submit Report
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(
+        modal
+    );
+
+    document.getElementById(
+        "cancelReportButton"
+    ).onclick =
+        function () {
+            modal.remove();
+        };
+
+    document.getElementById(
+        "submitReportButton"
+    ).onclick =
+        function () {
+
+            submitReport(
+                post.id,
+                modal
+            );
+        };
+}
+
+
+// ======================================================
+// SUBMIT REPORT
+// ======================================================
+
+async function submitReport(
+    postId,
+    modal
+) {
+
+    const reasonElement =
+        document.getElementById(
+            "reportReason"
+        );
+
+    const descriptionElement =
+        document.getElementById(
+            "reportDescription"
+        );
+
+    const submitButton =
+        document.getElementById(
+            "submitReportButton"
+        );
+
+    if (
+        !reasonElement ||
+        !descriptionElement ||
+        !submitButton
+    ) {
+        return;
+    }
+
+    const reason =
+        reasonElement.value;
+
+    const description =
+        descriptionElement.value.trim();
+
+    if (!reason) {
+
+        alert(
+            "Please select a reason."
+        );
+
+        return;
+    }
+
+    if (!description) {
+
+        alert(
+            "Please describe the problem."
+        );
+
+        return;
+    }
+
+    submitButton.disabled =
+        true;
+
+    submitButton.textContent =
+        "Submitting...";
+
+    const reportData = {
+
+        reporterId:
+            Number(currentUserId),
+
+        postId:
+            Number(postId),
+
+        reason:
+            reason,
+
+        description:
+            description,
+
+        status:
+            "PENDING"
+    };
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/reports`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            reportData
+                        )
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to submit report."
+            );
+        }
+
+        modal.remove();
+
+        alert(
+            "Report submitted successfully. Admin will review it."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Report submission error:",
+            error
+        );
+
+        submitButton.disabled =
+            false;
+
+        submitButton.textContent =
+            "Submit Report";
+
+        alert(
+            "Unable to submit report. Please try again."
+        );
+    }
+}
+
+
+// ======================================================
 // ESCAPE HTML
-// ===============================
+// ======================================================
 
 function escapeHtml(
     value
 ) {
 
-    const div =
-        document.createElement(
-            "div"
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+    }
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+// ======================================================
+// OPEN USER PROFILE
+// ======================================================
+
+function openUserProfile(userId) {
+
+    if (!userId) {
+
+        console.error(
+            "User ID is missing."
         );
 
-    div.textContent =
-        value;
+        return;
+    }
 
-    return div.innerHTML;
+    const targetUserId =
+        String(userId).trim();
+
+    if (!targetUserId) {
+        return;
+    }
+
+    sessionStorage.setItem(
+        "selectedUserId",
+        targetUserId
+    );
+
+    window.location.href =
+        `../profile/profile.html?userId=${encodeURIComponent(targetUserId)}`;
 }

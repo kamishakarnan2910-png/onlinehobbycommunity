@@ -1,8 +1,10 @@
 package com.hobbycommunity.service;
 
 import com.hobbycommunity.entity.Community;
+import com.hobbycommunity.entity.User;
 import com.hobbycommunity.repository.CommunityRepository;
 import com.hobbycommunity.repository.CommunityMemberRepository;
+import com.hobbycommunity.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,49 +21,81 @@ public class CommunityService {
 
     private final CommunityRepository communityRepository;
     private final CommunityMemberRepository communityMemberRepository;
+    private final UserRepository userRepository;
 
     private final Path uploadDirectory =
             Paths.get("uploads");
 
-
     public CommunityService(
             CommunityRepository communityRepository,
-            CommunityMemberRepository communityMemberRepository) {
+            CommunityMemberRepository communityMemberRepository,
+            UserRepository userRepository) {
 
         this.communityRepository =
                 communityRepository;
 
         this.communityMemberRepository =
                 communityMemberRepository;
+
+        this.userRepository =
+                userRepository;
     }
-
-
-    /* =========================
-       GET ALL COMMUNITIES
-    ========================= */
 
     public List<Community> getAllCommunities() {
 
-        return communityRepository.findAll();
+        List<Community> communities =
+                communityRepository.findAll();
+
+        for (Community community : communities) {
+            setCreatorRole(community);
+        }
+
+        return communities;
     }
 
+    public Community getCommunityById(Integer id) {
 
-    /* =========================
-       GET COMMUNITY BY ID
-    ========================= */
+        Community community =
+                communityRepository
+                        .findById(id)
+                        .orElse(null);
 
-    public Community getCommunityById(
-            Integer id) {
+        if (community != null) {
+            setCreatorRole(community);
+        }
 
-        return communityRepository
-                .findById(id)
-                .orElse(null);
+        return community;
     }
 
+    private void setCreatorRole(
+            Community community) {
 
-    /* =========================
-       CREATE COMMUNITY
-    ========================= */
+        if (community == null ||
+                community.getCreatedBy() == null) {
+
+            return;
+        }
+
+        User user =
+                userRepository
+                        .findById(
+                                community.getCreatedBy()
+                        )
+                        .orElse(null);
+
+        if (user != null) {
+
+            community.setCreatedByRole(
+                    user.getRole()
+            );
+
+        } else {
+
+            community.setCreatedByRole(
+                    null
+            );
+        }
+    }
 
     public Community createCommunity(
             Community community,
@@ -70,27 +104,21 @@ public class CommunityService {
         try {
 
             if (!Files.exists(uploadDirectory)) {
-
                 Files.createDirectories(
                         uploadDirectory
                 );
             }
 
-
-            if (
-                    image != null &&
-                    !image.isEmpty()
-            ) {
+            if (image != null &&
+                    !image.isEmpty()) {
 
                 String originalName =
                         image.getOriginalFilename();
 
                 String extension = "";
 
-                if (
-                        originalName != null &&
-                        originalName.contains(".")
-                ) {
+                if (originalName != null &&
+                        originalName.contains(".")) {
 
                     extension =
                             originalName.substring(
@@ -98,17 +126,14 @@ public class CommunityService {
                             );
                 }
 
-
                 String fileName =
                         UUID.randomUUID()
                                 .toString()
                         + extension;
 
-
                 Path filePath =
                         uploadDirectory
                                 .resolve(fileName);
-
 
                 Files.copy(
                         image.getInputStream(),
@@ -116,16 +141,19 @@ public class CommunityService {
                         StandardCopyOption.REPLACE_EXISTING
                 );
 
-
                 community.setImageUrl(
                         "/uploads/" + fileName
                 );
             }
 
+            Community savedCommunity =
+                    communityRepository.save(
+                            community
+                    );
 
-            return communityRepository.save(
-                    community
-            );
+            setCreatorRole(savedCommunity);
+
+            return savedCommunity;
 
         } catch (IOException e) {
 
@@ -136,17 +164,10 @@ public class CommunityService {
         }
     }
 
-
-    /* =========================
-       DELETE COMMUNITY
-       CREATOR OR ADMIN ONLY
-    ========================= */
-
     public void deleteCommunity(
             Integer communityId,
             Integer userId,
             String role) {
-
 
         Community community =
                 communityRepository
@@ -157,18 +178,15 @@ public class CommunityService {
                                 )
                         );
 
-
         boolean isAdmin =
                 role != null &&
                 role.equalsIgnoreCase("ADMIN");
-
 
         boolean isCreator =
                 userId != null &&
                 community.getCreatedBy() != null &&
                 community.getCreatedBy()
                         .equals(userId);
-
 
         if (!isAdmin && !isCreator) {
 
@@ -177,18 +195,11 @@ public class CommunityService {
             );
         }
 
-
-        /*
-         * Delete uploaded community image
-         */
-
         String imageUrl =
                 community.getImageUrl();
 
-        if (
-                imageUrl != null &&
-                imageUrl.startsWith("/uploads/")
-        ) {
+        if (imageUrl != null &&
+                imageUrl.startsWith("/uploads/")) {
 
             try {
 
@@ -215,20 +226,10 @@ public class CommunityService {
             }
         }
 
-
-        /*
-         * Delete community
-         */
-
         communityRepository.delete(
                 community
         );
     }
-
-
-    /* =========================
-       MEMBER COUNT
-    ========================= */
 
     public long getMemberCount(
             Integer communityId) {

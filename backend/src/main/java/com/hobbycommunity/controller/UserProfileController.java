@@ -22,38 +22,69 @@ public class UserProfileController {
             UserProfileService userProfileService,
             UserService userService) {
 
-        this.userProfileService = userProfileService;
-        this.userService = userService;
+        this.userProfileService =
+                userProfileService;
+
+        this.userService =
+                userService;
     }
+
+
+    // =====================================================
+    // GET PROFILE
+    // =====================================================
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserProfile> getProfile(
             @PathVariable Integer userId,
-            @RequestParam(required = false) Integer viewerId) {
+            @RequestParam(required = false)
+            Integer viewerId) {
 
         Optional<UserProfile> profile =
-                userProfileService.getProfile(userId);
+                userProfileService.getProfile(
+                        userId
+                );
 
         if (profile.isEmpty()) {
-            return ResponseEntity.notFound().build();
+
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
-        UserProfile userProfile = profile.get();
+
+        UserProfile userProfile =
+                profile.get();
+
 
         if (userProfile.getPublicProfile() == null) {
+
             userProfile.setPublicProfile(true);
         }
+
+
+        // ---------------------------------------------
+        // Owner
+        // ---------------------------------------------
 
         boolean isOwnProfile =
                 viewerId != null &&
                 viewerId.equals(userId);
 
+
+        // ---------------------------------------------
+        // Admin
+        // ---------------------------------------------
+
         boolean isAdmin = false;
+
 
         if (viewerId != null) {
 
             Optional<User> viewer =
-                    userService.getUserById(viewerId);
+                    userService.getUserById(
+                            viewerId
+                    );
 
             if (viewer.isPresent()) {
 
@@ -64,24 +95,53 @@ public class UserProfileController {
             }
         }
 
-        if (!userProfile.getPublicProfile()
-                && !isOwnProfile
-                && !isAdmin) {
+
+        // ---------------------------------------------
+        // Accepted follower
+        // ---------------------------------------------
+
+        boolean isAcceptedFollower =
+                userProfileService.canViewProfile(
+                        userId,
+                        viewerId
+                );
+
+
+        // ---------------------------------------------
+        // Private profile
+        // ---------------------------------------------
+
+        if (!userProfile.getPublicProfile() &&
+                !isOwnProfile &&
+                !isAdmin &&
+                !isAcceptedFollower) {
 
             return ResponseEntity
-                    .status(HttpStatus.FORBIDDEN)
+                    .status(
+                            HttpStatus.FORBIDDEN
+                    )
                     .build();
         }
 
-        return ResponseEntity.ok(userProfile);
+
+        return ResponseEntity.ok(
+                userProfile
+        );
     }
+
+
+    // =====================================================
+    // SAVE / UPDATE PROFILE
+    // =====================================================
 
     @PostMapping
     public ResponseEntity<UserProfile> saveProfile(
             @RequestBody UserProfile profile) {
 
         return ResponseEntity.ok(
-                userProfileService.saveProfile(profile)
+                userProfileService.saveProfile(
+                        profile
+                )
         );
     }
 }

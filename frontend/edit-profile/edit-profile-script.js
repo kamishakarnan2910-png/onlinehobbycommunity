@@ -1,6 +1,9 @@
+const loggedInUserId =
+    localStorage.getItem("userId");
+
 const selectedUserId =
     sessionStorage.getItem("selectedUserId") ||
-    localStorage.getItem("userId");
+    loggedInUserId;
 
 const API_BASE =
     "http://localhost:8080/api";
@@ -14,26 +17,39 @@ const message =
 
 
 // =====================================================
+// OWNER CHECK
+// =====================================================
+
+if (
+    !loggedInUserId ||
+    String(selectedUserId) !==
+    String(loggedInUserId)
+) {
+
+    alert(
+        "You can edit only your own profile."
+    );
+
+    window.location.href =
+        "../profile/profile.html";
+
+    throw new Error(
+        "Unauthorized profile edit attempt."
+    );
+}
+
+
+// =====================================================
 // LOAD PROFILE
 // =====================================================
 
 async function loadProfile() {
 
-    if (!selectedUserId) {
-
-        alert("Please login first.");
-
-        window.location.href =
-            "../login/login.html";
-
-        return;
-    }
-
     try {
 
         const userResponse =
             await fetch(
-                `${API_BASE}/users/${selectedUserId}`
+                `${API_BASE}/users/${loggedInUserId}`
             );
 
         if (!userResponse.ok) {
@@ -46,10 +62,12 @@ async function loadProfile() {
 
         let profile = null;
 
+
         const profileResponse =
             await fetch(
-                `${API_BASE}/profiles/${selectedUserId}`
+                `${API_BASE}/profiles/${loggedInUserId}`
             );
+
 
         if (profileResponse.ok) {
 
@@ -63,17 +81,21 @@ async function loadProfile() {
             user.name ||
             "";
 
+
         const username =
             profile?.username ||
             "";
+
 
         const location =
             profile?.location ||
             "";
 
+
         const education =
             profile?.education ||
             "";
+
 
         const bio =
             profile?.bio ||
@@ -82,27 +104,32 @@ async function loadProfile() {
 
         document.getElementById(
             "name"
-        ).value = name;
+        ).value =
+            name;
 
 
         document.getElementById(
             "username"
-        ).value = username;
+        ).value =
+            username;
 
 
         document.getElementById(
             "location"
-        ).value = location;
+        ).value =
+            location;
 
 
         document.getElementById(
             "education"
-        ).value = education;
+        ).value =
+            education;
 
 
         document.getElementById(
             "bio"
-        ).value = bio;
+        ).value =
+            bio;
 
 
         updatePreview();
@@ -114,6 +141,7 @@ async function loadProfile() {
             "Profile loading error:",
             error
         );
+
 
         message.textContent =
             "Unable to load profile.";
@@ -174,10 +202,10 @@ profileForm.addEventListener(
         event.preventDefault();
 
 
-        if (!selectedUserId) {
+        if (!loggedInUserId) {
 
             message.textContent =
-                "User not found.";
+                "Please login first.";
 
             return;
         }
@@ -224,18 +252,23 @@ profileForm.addEventListener(
 
         const profileData = {
 
-            userId: Number(selectedUserId),
+            userId:
+                Number(loggedInUserId),
 
-            name: name,
+            name:
+                name,
 
-            username: username,
+            username:
+                username,
 
-            location: location,
+            location:
+                location,
 
-            education: education,
+            education:
+                education,
 
-            bio: bio
-
+            bio:
+                bio
         };
 
 
@@ -266,7 +299,11 @@ profileForm.addEventListener(
 
             if (!response.ok) {
 
+                const errorText =
+                    await response.text();
+
                 throw new Error(
+                    errorText ||
                     "Profile save failed"
                 );
             }
@@ -306,6 +343,7 @@ profileForm.addEventListener(
                 "Profile save error:",
                 error
             );
+
 
             message.textContent =
                 "Unable to save profile. Please try again.";

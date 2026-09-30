@@ -16,151 +16,302 @@ const message =
 let allUsers = [];
 
 
+// =====================================================
+// LOAD USERS
+// =====================================================
+
 async function loadUsers() {
 
     try {
 
-        message.textContent = "Loading users...";
+        message.textContent =
+            "Loading users...";
 
-        const response = await fetch(
-            "http://localhost:8080/api/users"
-        );
+
+        const response =
+            await fetch(
+                "http://localhost:8080/api/users"
+            );
+
 
         if (!response.ok) {
+
             throw new Error(
-                "Server error: " + response.status
+                "Server error: " +
+                response.status
             );
         }
 
-        allUsers = await response.json();
 
-        message.textContent = "";
+        allUsers =
+            await response.json();
 
-        displayUsers(allUsers);
+
+        message.textContent =
+            "";
+
+
+        displayUsers(
+            allUsers
+        );
+
 
     } catch (error) {
 
-        console.error("Users loading error:", error);
+        console.error(
+            "Users loading error:",
+            error
+        );
+
 
         message.textContent =
             "Unable to load users from backend.";
 
-        membersContainer.innerHTML = "";
+
+        membersContainer.innerHTML =
+            "";
     }
 }
 
 
+// =====================================================
+// DISPLAY USERS
+// =====================================================
+
 function displayUsers(users) {
 
-    membersContainer.innerHTML = "";
+    membersContainer.innerHTML =
+        "";
 
-    if (users.length === 0) {
 
-        noResult.style.display = "block";
+    if (
+        users.length ===
+        0
+    ) {
+
+        noResult.style.display =
+            "block";
 
         return;
     }
 
-    noResult.style.display = "none";
+
+    noResult.style.display =
+        "none";
 
 
-    users.forEach(function(user) {
+    users.forEach(
+        function(user) {
 
-        const card =
-            document.createElement("div");
+            const card =
+                document.createElement(
+                    "div"
+                );
 
-        card.className = "member-card";
+
+            card.className =
+                "member-card";
 
 
-        card.innerHTML = `
+            const userName =
+                user.name ||
+                "Unknown User";
 
-            <div class="member-info">
 
-                <div class="member-icon">
-                    ${(user.name || "U")
-                        .charAt(0)
-                        .toUpperCase()}
+            const firstLetter =
+                userName
+                    .charAt(0)
+                    .toUpperCase();
+
+
+            card.innerHTML = `
+
+                <div class="member-info">
+
+                    <div class="member-icon">
+                        ${escapeHtml(
+                            firstLetter
+                        )}
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            ${escapeHtml(
+                                userName
+                            )}
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(
+                                user.email ||
+                                "-"
+                            )}
+                        </p>
+
+                        <small>
+                            User ID:
+                            ${escapeHtml(
+                                user.id ||
+                                "-"
+                            )}
+                        </small>
+
+                    </div>
+
                 </div>
 
-                <div>
 
-                    <h3>
-                        ${user.name || "Unknown User"}
-                    </h3>
+                <button
+                    class="view-button"
+                    type="button">
 
-                    <p>
-                        ${user.email || "-"}
-                    </p>
+                    View Profile
 
-                    <small>
-                        User ID: ${user.id || "-"}
-                    </small>
+                </button>
 
-                </div>
-
-            </div>
+            `;
 
 
-            <button
-                class="view-button"
-                onclick="viewProfile(${user.id})">
-
-                View / Manage
-
-            </button>
-
-        `;
+            const viewButton =
+                card.querySelector(
+                    ".view-button"
+                );
 
 
-        membersContainer.appendChild(card);
+            viewButton.addEventListener(
+                "click",
+                function() {
 
-    });
+                    viewProfile(
+                        user.id
+                    );
+                }
+            );
+
+
+            membersContainer.appendChild(
+                card
+            );
+        }
+    );
 }
 
+
+// =====================================================
+// SEARCH MEMBERS
+// =====================================================
 
 function searchMembers() {
 
     const searchText =
-        searchInput.value
-        .toLowerCase()
-        .trim();
+        searchInput
+            ? searchInput.value
+                .toLowerCase()
+                .trim()
+            : "";
 
 
     const filteredUsers =
-        allUsers.filter(function(user) {
+        allUsers.filter(
+            function(user) {
 
-            const name =
-                (user.name || "")
-                .toLowerCase();
-
-            const email =
-                (user.email || "")
-                .toLowerCase();
-
-            return (
-                name.includes(searchText) ||
-                email.includes(searchText)
-            );
-
-        });
+                const name =
+                    (
+                        user.name ||
+                        ""
+                    )
+                    .toLowerCase();
 
 
-    displayUsers(filteredUsers);
+                const email =
+                    (
+                        user.email ||
+                        ""
+                    )
+                    .toLowerCase();
+
+
+                return (
+                    name.includes(
+                        searchText
+                    ) ||
+                    email.includes(
+                        searchText
+                    )
+                );
+            }
+        );
+
+
+    displayUsers(
+        filteredUsers
+    );
 }
 
 
+// =====================================================
+// VIEW OTHER USER PROFILE
+// =====================================================
+
 function viewProfile(userId) {
+
+    if (
+        userId === null ||
+        userId === undefined ||
+        String(userId).trim() === ""
+    ) {
+
+        console.error(
+            "User ID is missing."
+        );
+
+        return;
+    }
+
+
+    const targetUserId =
+        String(userId).trim();
+
 
     sessionStorage.setItem(
         "selectedUserId",
-        userId
+        targetUserId
     );
 
 
     window.location.href =
-        "../profile/profile.html";
+        `../profile/profile.html?userId=${encodeURIComponent(
+            targetUserId
+        )}`;
 }
 
+
+// =====================================================
+// HTML SECURITY
+// =====================================================
+
+function escapeHtml(value) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        value == null
+            ? ""
+            : String(value);
+
+
+    return div.innerHTML;
+}
+
+
+// =====================================================
+// SEARCH BUTTON
+// =====================================================
 
 if (searchButton) {
 
@@ -168,9 +319,12 @@ if (searchButton) {
         "click",
         searchMembers
     );
-
 }
 
+
+// =====================================================
+// SEARCH INPUT
+// =====================================================
 
 if (searchInput) {
 
@@ -178,12 +332,17 @@ if (searchInput) {
         "input",
         searchMembers
     );
-
 }
 
 
+// =====================================================
+// BACK BUTTON
+// =====================================================
+
 const backButton =
-    document.getElementById("backButton");
+    document.getElementById(
+        "backButton"
+    );
 
 
 if (backButton) {
@@ -197,8 +356,11 @@ if (backButton) {
 
         }
     );
-
 }
 
+
+// =====================================================
+// START
+// =====================================================
 
 loadUsers();

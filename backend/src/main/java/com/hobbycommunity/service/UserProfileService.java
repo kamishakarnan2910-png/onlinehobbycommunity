@@ -2,6 +2,7 @@ package com.hobbycommunity.service;
 
 import com.hobbycommunity.entity.User;
 import com.hobbycommunity.entity.UserProfile;
+import com.hobbycommunity.repository.FollowRepository;
 import com.hobbycommunity.repository.UserProfileRepository;
 import com.hobbycommunity.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -13,21 +14,56 @@ public class UserProfileService {
 
     private final UserProfileRepository userProfileRepository;
     private final UserRepository userRepository;
+    private final FollowRepository followRepository;
 
     public UserProfileService(
             UserProfileRepository userProfileRepository,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            FollowRepository followRepository) {
 
-        this.userProfileRepository = userProfileRepository;
-        this.userRepository = userRepository;
+        this.userProfileRepository =
+                userProfileRepository;
+
+        this.userRepository =
+                userRepository;
+
+        this.followRepository =
+                followRepository;
     }
 
-    public Optional<UserProfile> getProfile(Integer userId) {
+    public Optional<UserProfile> getProfile(
+            Integer userId) {
 
-        return userProfileRepository.findByUserId(userId);
+        return userProfileRepository
+                .findByUserId(userId);
     }
 
-    public UserProfile saveProfile(UserProfile profile) {
+    public boolean canViewProfile(
+            Integer profileOwnerId,
+            Integer viewerId) {
+
+        if (profileOwnerId == null ||
+                viewerId == null) {
+
+            return false;
+        }
+
+        // Owner can always view own profile
+        if (profileOwnerId.equals(viewerId)) {
+            return true;
+        }
+
+        // Check whether viewer is an accepted follower
+        return followRepository
+                .existsByFollowerIdAndFollowingIdAndStatus(
+                        viewerId,
+                        profileOwnerId,
+                        "ACCEPTED"
+                );
+    }
+
+    public UserProfile saveProfile(
+            UserProfile profile) {
 
         Optional<UserProfile> existing =
                 userProfileRepository.findByUserId(
@@ -38,36 +74,60 @@ public class UserProfileService {
 
         if (existing.isPresent()) {
 
-            UserProfile oldProfile = existing.get();
+            UserProfile oldProfile =
+                    existing.get();
 
-            oldProfile.setName(profile.getName());
-            oldProfile.setUsername(profile.getUsername());
-            oldProfile.setEducation(profile.getEducation());
-            oldProfile.setBio(profile.getBio());
-            oldProfile.setLocation(profile.getLocation());
+            oldProfile.setName(
+                    profile.getName()
+            );
+
+            oldProfile.setUsername(
+                    profile.getUsername()
+            );
+
+            oldProfile.setEducation(
+                    profile.getEducation()
+            );
+
+            oldProfile.setBio(
+                    profile.getBio()
+            );
+
+            oldProfile.setLocation(
+                    profile.getLocation()
+            );
+
             oldProfile.setProfilePicture(
                     profile.getProfilePicture()
             );
 
             if (profile.getPublicProfile() != null) {
+
                 oldProfile.setPublicProfile(
                         profile.getPublicProfile()
                 );
             }
 
             savedProfile =
-                    userProfileRepository.save(oldProfile);
+                    userProfileRepository.save(
+                            oldProfile
+                    );
 
         } else {
 
             if (profile.getPublicProfile() == null) {
+
                 profile.setPublicProfile(true);
             }
 
             savedProfile =
-                    userProfileRepository.save(profile);
+                    userProfileRepository.save(
+                            profile
+                    );
         }
 
+
+        // Keep users table name synchronized
         if (profile.getName() != null &&
                 !profile.getName().isBlank()) {
 
@@ -78,13 +138,16 @@ public class UserProfileService {
 
             if (user.isPresent()) {
 
-                User existingUser = user.get();
+                User existingUser =
+                        user.get();
 
                 existingUser.setName(
                         profile.getName()
                 );
 
-                userRepository.save(existingUser);
+                userRepository.save(
+                        existingUser
+                );
             }
         }
 
