@@ -1,3 +1,4 @@
+```js
 const communityForm =
     document.getElementById("communityForm");
 
@@ -99,7 +100,7 @@ communityForm.addEventListener(
 
             const response =
                 await fetch(
-                    "https://onlinehobbycommunity-1.onrender.com/communities",
+                    "https://onlinehobbycommunity-1.onrender.com/api/communities",
                     {
                         method: "POST",
                         body: formData
@@ -154,3 +155,4 @@ communityForm.addEventListener(
         }
     }
 );
+```

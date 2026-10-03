@@ -69,7 +69,7 @@ async function loadSettings() {
 
         const profileResponse =
             await fetch(
-                `${API_BASE}/profiles/${userId}?viewerId=${userId}`
+                `${API_BASE}/api/profiles/${userId}?viewerId=${userId}`
             );
 
         const publicProfileCheckbox =
@@ -149,7 +149,7 @@ async function saveSettings() {
 
         const profileResponse =
             await fetch(
-                `${API_BASE}/profiles/${userId}?viewerId=${userId}`
+                `${API_BASE}/api/profiles/${userId}?viewerId=${userId}`
             );
 
 

@@ -45,7 +45,7 @@ form.addEventListener("submit", async function (event) {
     try {
 
         const response = await fetch(
-            "https://onlinehobbycommunity-1.onrender.com/reports",
+            "https://onlinehobbycommunity-1.onrender.com/api/reports",
             {
                 method: "POST",
 

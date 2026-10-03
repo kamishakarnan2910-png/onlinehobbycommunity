@@ -29,7 +29,7 @@ form.addEventListener("submit", async function (event) {
     try {
 
         const response = await fetch(
-             "https://onlinehobbycommunity-1.onrender.com/users/verify-otp",
+             "https://onlinehobbycommunity-1.onrender.com/api/users/verify-otp",
             {
                 method: "POST",
 

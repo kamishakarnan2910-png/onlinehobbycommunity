@@ -1,3 +1,4 @@
+```js
 const urlParams =
     new URLSearchParams(
         window.location.search
@@ -54,7 +55,7 @@ async function loadProfile() {
 
         const userResponse =
             await fetch(
-                `${API_BASE}/users/${encodeURIComponent(
+                `${API_BASE}/api/users/${encodeURIComponent(
                     selectedUserId
                 )}`
             );
@@ -88,7 +89,7 @@ async function loadProfile() {
 
         const profileResponse =
             await fetch(
-                `${API_BASE}/profiles/${encodeURIComponent(
+                `${API_BASE}/api/profiles/${encodeURIComponent(
                     selectedUserId
                 )}?viewerId=${encodeURIComponent(
                     loggedInUserId
@@ -379,7 +380,7 @@ async function loadFollowStatus() {
 
         const response =
             await fetch(
-                `${API_BASE}/follows/status?followerId=${encodeURIComponent(
+                `${API_BASE}/api/follows/status?followerId=${encodeURIComponent(
                     loggedInUserId
                 )}&followingId=${encodeURIComponent(
                     selectedUserId
@@ -482,7 +483,7 @@ async function handleFollow() {
 
             const response =
                 await fetch(
-                    `${API_BASE}/follows?followerId=${encodeURIComponent(
+                    `${API_BASE}/api/follows?followerId=${encodeURIComponent(
                         loggedInUserId
                     )}&followingId=${encodeURIComponent(
                         selectedUserId
@@ -519,7 +520,7 @@ async function handleFollow() {
 
         const response =
             await fetch(
-                `${API_BASE}/follows?followerId=${encodeURIComponent(
+                `${API_BASE}/api/follows?followerId=${encodeURIComponent(
                     loggedInUserId
                 )}&followingId=${encodeURIComponent(
                     selectedUserId
@@ -575,7 +576,7 @@ async function loadFollowerCount() {
 
         const response =
             await fetch(
-                `${API_BASE}/follows/${encodeURIComponent(
+                `${API_BASE}/api/follows/${encodeURIComponent(
                     selectedUserId
                 )}/followers/count`
             );
@@ -762,6 +763,8 @@ function showPrivateProfile(
             "—";
     }
 }
+
+
 // =====================================================
 // HOBBIES
 // =====================================================
@@ -784,7 +787,7 @@ async function loadMyHobbies() {
 
         const response =
             await fetch(
-                `${API_BASE}/user-hobbies/user/${encodeURIComponent(
+                `${API_BASE}/api/user-hobbies/user/${encodeURIComponent(
                     selectedUserId
                 )}`
             );
@@ -826,7 +829,7 @@ async function loadMyHobbies() {
 
             const hobbyResponse =
                 await fetch(
-                    `${API_BASE}/hobbies/${encodeURIComponent(
+                    `${API_BASE}/api/hobbies/${encodeURIComponent(
                         userHobby.hobbyId
                     )}`
                 );
@@ -938,7 +941,7 @@ async function loadMyCommunities() {
 
         const response =
             await fetch(
-                `${API_BASE}/community-members/user/${encodeURIComponent(
+                `${API_BASE}/api/community-members/user/${encodeURIComponent(
                     selectedUserId
                 )}`
             );
@@ -998,7 +1001,7 @@ async function loadMyCommunities() {
 
             const communityResponse =
                 await fetch(
-                    `${API_BASE}/communities/${encodeURIComponent(
+                    `${API_BASE}/api/communities/${encodeURIComponent(
                         membership.communityId
                     )}`
                 );
@@ -1151,7 +1154,7 @@ async function loadPostCount() {
 
         const response =
             await fetch(
-                `${API_BASE}/posts`
+                `${API_BASE}/api/posts`
             );
 
 
@@ -1351,6 +1354,8 @@ function getCommunityIcon(
 
     return "👥";
 }
+
+
 // =====================================================
 // FOLLOWERS
 // =====================================================
@@ -1361,7 +1366,7 @@ async function loadFollowers() {
 
         const response =
             await fetch(
-                `${API_BASE}/follows/${encodeURIComponent(
+                `${API_BASE}/api/follows/${encodeURIComponent(
                     selectedUserId
                 )}/followers`
             );
@@ -1404,7 +1409,7 @@ async function loadFollowers() {
 
                 const userResponse =
                     await fetch(
-                        `${API_BASE}/users/${encodeURIComponent(
+                        `${API_BASE}/api/users/${encodeURIComponent(
                             follow.followerId
                         )}`
                     );
@@ -1532,3 +1537,4 @@ window.openUserProfile =
 // =====================================================
 
 loadProfile();
+```

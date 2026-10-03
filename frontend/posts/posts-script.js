@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "https://onlinehobbycommunity-1.onrender.com";
 
 const urlParams =
     new URLSearchParams(window.location.search);

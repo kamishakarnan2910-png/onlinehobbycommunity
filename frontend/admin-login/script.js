@@ -1,3 +1,4 @@
+```js
 const form = document.getElementById("adminLoginForm");
 const message = document.getElementById("message");
 
@@ -13,7 +14,7 @@ form.addEventListener("submit", async function (event) {
     try {
 
         const response = await fetch(
-            "https://onlinehobbycommunity-1.onrender.com/users/admin-login",
+            "https://onlinehobbycommunity-1.onrender.com/api/users/admin-login",
             {
                 method: "POST",
 
@@ -60,3 +61,4 @@ form.addEventListener("submit", async function (event) {
         console.error(error);
     }
 });
+```

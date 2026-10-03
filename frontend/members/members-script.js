@@ -30,7 +30,7 @@ async function loadUsers() {
 
         const response =
             await fetch(
-                "https://onlinehobbycommunity-1.onrender.com/users"
+                "https://onlinehobbycommunity-1.onrender.com/api/users"
             );
 
 

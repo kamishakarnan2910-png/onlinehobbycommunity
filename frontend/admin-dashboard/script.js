@@ -28,7 +28,7 @@ async function loadDashboardData() {
 
     try {
         const response = await fetch(
-            "http://localhost:8080/api/users"
+            "https://onlinehobbycommunity-1.onrender.com/api/users"
         );
 
         if (response.ok) {
@@ -43,7 +43,7 @@ async function loadDashboardData() {
 
     try {
         const response = await fetch(
-            "http://localhost:8080/api/communities"
+            "https://onlinehobbycommunity-1.onrender.com/api/communities"
         );
 
         if (response.ok) {
@@ -62,7 +62,7 @@ async function loadDashboardData() {
 
     try {
         const response = await fetch(
-            "http://localhost:8080/api/posts"
+             "https://onlinehobbycommunity-1.onrender.com/api/posts"
         );
 
         if (response.ok) {
@@ -77,7 +77,7 @@ async function loadDashboardData() {
 
     try {
         const response = await fetch(
-            "http://localhost:8080/api/reports"
+            " https://onlinehobbycommunity-1.onrender.com/api/reports"
         );
 
         if (response.ok) {
@@ -112,7 +112,7 @@ async function loadContactMessages() {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/api/contact"
+            "https://onlinehobbycommunity-1.onrender.com/api/contact"
         );
 
         if (!response.ok) {
@@ -263,7 +263,7 @@ async function deleteContactMessage(id) {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/api/contact/" + id,
+            "https://onlinehobbycommunity-1.onrender.com/api/contact/" + id,
             {
                 method: "DELETE"
             }

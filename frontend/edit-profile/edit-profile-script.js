@@ -65,7 +65,7 @@ async function loadProfile() {
 
         const profileResponse =
             await fetch(
-                `${API_BASE}/profiles/${loggedInUserId}`
+                `${API_BASE}/api/profiles/${loggedInUserId}`
             );
 
 
