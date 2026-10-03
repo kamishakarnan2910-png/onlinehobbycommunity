@@ -26,7 +26,7 @@ public class EmailVerificationService {
     }
 
     @Transactional
-public EmailVerificationToken createToken(User user) { {
+public EmailVerificationToken createToken(User user) { 
 
         tokenRepository.deleteByUserId(user.getId());
 
