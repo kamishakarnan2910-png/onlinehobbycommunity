@@ -311,15 +311,19 @@ async function loadHobbies() {
         // Floating Hobby Cards
         // ================================
 
-        updateFloatingHobby(
-            "floatingHobbyOne",
-            hobbies[1]
-        );
+        if (hobbies.length > 1) {
+    updateFloatingHobby(
+        "floatingHobbyOne",
+        hobbies[1]
+    );
+}
 
-        updateFloatingHobby(
-            "floatingHobbyTwo",
-            hobbies[2]
-        );
+if (hobbies.length > 2) {
+    updateFloatingHobby(
+        "floatingHobbyTwo",
+        hobbies[2]
+    );
+}
 
     }
     catch (error) {
