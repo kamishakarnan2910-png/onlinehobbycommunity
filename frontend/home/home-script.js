@@ -10,9 +10,9 @@ async function loadHomeData() {
 
         const [communitiesResponse, postsResponse, commentsResponse] =
             await Promise.all([
-                fetch("http://localhost:8080/api/communities"),
-                fetch("http://localhost:8080/api/posts"),
-                fetch("http://localhost:8080/api/comments")
+                fetch("https://onlinehobbycommunity.onrender.com/api/communities"),
+                fetch("https://onlinehobbycommunity.onrender.com/api/posts"),
+                fetch("https://onlinehobbycommunity.onrender.com/api/comments")
             ]);
 
         if (!communitiesResponse.ok ||
@@ -45,7 +45,7 @@ async function loadHomeData() {
 
                 const userResponse =
                     await fetch(
-                        `http://localhost:8080/api/users/${userId}`
+                        `https://onlinehobbycommunity.onrender.com/api/users/${userId}`
                     );
 
                 if (userResponse.ok) {
