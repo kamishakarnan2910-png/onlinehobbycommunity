@@ -1,3 +1,4 @@
+```javascript
 const userId = sessionStorage.getItem("userId");
 
 if (!userId) {
@@ -8,19 +9,43 @@ async function loadHomeData() {
 
     try {
 
-        const [communitiesResponse, postsResponse, commentsResponse] =
-            await Promise.all([
-                fetch("https://onlinehobbycommunity.onrender.com/api/communities"),
-                fetch("https://onlinehobbycommunity.onrender.com/api/posts"),
-                fetch("https://onlinehobbycommunity.onrender.com/api/comments")
-            ]);
+        const [
+            hobbiesResponse,
+            communitiesResponse,
+            postsResponse,
+            commentsResponse
+        ] = await Promise.all([
 
-        if (!communitiesResponse.ok ||
+            fetch(
+                "https://onlinehobbycommunity.onrender.com/api/hobbies"
+            ),
+
+            fetch(
+                "https://onlinehobbycommunity.onrender.com/api/communities"
+            ),
+
+            fetch(
+                "https://onlinehobbycommunity.onrender.com/api/posts"
+            ),
+
+            fetch(
+                "https://onlinehobbycommunity.onrender.com/api/comments"
+            )
+        ]);
+
+
+        if (
+            !hobbiesResponse.ok ||
+            !communitiesResponse.ok ||
             !postsResponse.ok ||
-            !commentsResponse.ok) {
-
+            !commentsResponse.ok
+        ) {
             throw new Error("Failed to load home data");
         }
+
+
+        const hobbies =
+            await hobbiesResponse.json();
 
         const communities =
             await communitiesResponse.json();
@@ -77,17 +102,21 @@ async function loadHomeData() {
 
         if (statCards.length >= 4) {
 
+            // Hobbies Joined
             statCards[0].textContent =
-                communities.length;
+                hobbies.length;
 
+            // Communities
             statCards[1].textContent =
                 communities.length;
 
+            // Discussions
             statCards[2].textContent =
-                comments.length;
-
-            statCards[3].textContent =
                 posts.length;
+
+            // Activities
+            statCards[3].textContent =
+                comments.length;
         }
 
 
@@ -102,8 +131,8 @@ async function loadHomeData() {
 
             hobbyGrid.innerHTML = "";
 
-            communities.slice(0, 3).forEach(
-                function(community) {
+            hobbies.slice(0, 3).forEach(
+                function(hobby) {
 
                     const card =
                         document.createElement("div");
@@ -117,21 +146,22 @@ async function loadHomeData() {
                         </div>
 
                         <h3>
-                            ${community.name}
+                            ${hobby.name}
                         </h3>
 
                         <p>
-                            ${community.description || "Explore this community and connect with others."}
+                            ${hobby.description ||
+                            "Explore this hobby and connect with others."}
                         </p>
 
                         <div class="card-bottom">
 
                             <span>
-                                👥 Community
+                                🎯 ${hobby.category || "Hobby"}
                             </span>
 
                             <button type="button">
-                                View
+                                Explore
                             </button>
 
                         </div>
@@ -145,7 +175,7 @@ async function loadHomeData() {
                         function() {
 
                             window.location.href =
-                                `../community-details/community-details.html?id=${community.id}`;
+                                "../explore/explore.html";
 
                         }
                     );
@@ -168,7 +198,7 @@ async function loadHomeData() {
             communityGrid.innerHTML = "";
 
             communities.slice(0, 3).forEach(
-                async function(community) {
+                function(community) {
 
                     const card =
                         document.createElement("div");
@@ -188,7 +218,8 @@ async function loadHomeData() {
                             </h3>
 
                             <p>
-                                ${community.description || "Community"}
+                                ${community.description ||
+                                "Community"}
                             </p>
 
                         </div>
@@ -226,5 +257,9 @@ async function loadHomeData() {
 }
 
 
-// Start
+// -------------------------
+// START
+// -------------------------
+
 loadHomeData();
+```
