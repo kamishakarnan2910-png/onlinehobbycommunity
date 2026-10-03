@@ -5,6 +5,7 @@ import com.hobbycommunity.entity.User;
 import com.hobbycommunity.repository.EmailVerificationTokenRepository;
 import com.hobbycommunity.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -24,7 +25,8 @@ public class EmailVerificationService {
         this.userRepository = userRepository;
     }
 
-    public EmailVerificationToken createToken(User user) {
+    @Transactional
+public EmailVerificationToken createToken(User user) { {
 
         tokenRepository.deleteByUserId(user.getId());
 
