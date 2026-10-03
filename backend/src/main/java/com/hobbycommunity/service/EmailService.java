@@ -16,7 +16,7 @@ public class EmailService {
     public void sendVerificationEmail(String toEmail, String token) {
 
         String verificationLink =
-                "http://localhost:8080/api/email-verification/verify?token=" + token;
+    "https://onlinehobbycommunity.onrender.com/api/email-verification/verify?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
 
