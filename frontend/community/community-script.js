@@ -1,3 +1,4 @@
+```js
 const communityGrid =
     document.querySelector(".community-grid");
 
@@ -15,7 +16,7 @@ let communities = [];
 let selectedCategory = "all";
 
 const API_BASE =
-    "http://localhost:8080/api";
+    "https://onlinehobbycommunity-1.onrender.com";
 
 
 // =====================================================
@@ -381,3 +382,4 @@ function escapeHtml(value) {
 // =====================================================
 
 loadCommunities();
+```

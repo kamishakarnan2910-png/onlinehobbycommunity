@@ -15,7 +15,7 @@ const selectedUserId =
     loggedInUserId;
 
 const API_BASE =
-    "http://localhost:8080/api";
+    "https://onlinehobbycommunity-1.onrender.com";
 
 let currentProfileIsPrivate =
     false;

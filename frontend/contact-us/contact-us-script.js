@@ -1,3 +1,4 @@
+```js
 const USER_ID = localStorage.getItem("userId");
 
 const form = document.getElementById("contactForm");
@@ -44,7 +45,7 @@ if (!USER_ID) {
         try {
 
             const response = await fetch(
-                "http://localhost:8080/api/contact",
+                "https://onlinehobbycommunity-1.onrender.com/api/contact",
                 {
                     method: "POST",
 
@@ -110,3 +111,4 @@ if (!USER_ID) {
         }
     });
 }
+```

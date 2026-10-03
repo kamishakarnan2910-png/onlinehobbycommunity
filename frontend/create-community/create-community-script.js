@@ -99,7 +99,7 @@ communityForm.addEventListener(
 
             const response =
                 await fetch(
-                    "http://localhost:8080/api/communities",
+                    "https://onlinehobbycommunity-1.onrender.com/communities",
                     {
                         method: "POST",
                         body: formData

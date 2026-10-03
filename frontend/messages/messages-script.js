@@ -37,7 +37,7 @@ async function loadChatUsers() {
 
         const response =
             await fetch(
-                "http://localhost:8080/api/users/chat-users/"
+                "https://onlinehobbycommunity-1.onrender.com/users/chat-users/"
                 + USER_ID
             );
 
@@ -205,7 +205,7 @@ async function loadMessages() {
 
         const response =
             await fetch(
-                "http://localhost:8080/api/messages/conversation/"
+                "https://onlinehobbycommunity-1.onrender.com/messages/conversation/"
                 + USER_ID
                 + "/"
                 + currentReceiverId
@@ -379,7 +379,7 @@ async function sendMessage() {
 
         const response =
             await fetch(
-                "http://localhost:8080/api/messages",
+                "https://onlinehobbycommunity-1.onrender.com/messages",
                 {
 
                     method: "POST",

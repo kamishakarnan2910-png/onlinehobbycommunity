@@ -1,3 +1,4 @@
+```js
 const reportsContainer =
     document.getElementById("reportsContainer");
 
@@ -19,7 +20,7 @@ async function loadReports() {
     try {
 
         let url =
-            "http://localhost:8080/api/reports";
+            "https://onlinehobbycommunity-1.onrender.com/api/reports";
 
         if (
             statusFilter &&
@@ -27,7 +28,7 @@ async function loadReports() {
         ) {
 
             url =
-                "http://localhost:8080/api/reports/status/"
+                "https://onlinehobbycommunity-1.onrender.com/api/reports/status/"
                 + statusFilter.value;
         }
 
@@ -244,7 +245,7 @@ async function updateStatus(
 
         const response =
             await fetch(
-                "http://localhost:8080/api/reports/"
+                "https://onlinehobbycommunity-1.onrender.com/api/reports/"
                 + reportId
                 + "/status?status="
                 + newStatus,
@@ -300,7 +301,7 @@ async function deleteReport(reportId) {
 
         const response =
             await fetch(
-                "http://localhost:8080/api/reports/"
+                "https://onlinehobbycommunity-1.onrender.com/api/reports/"
                 + reportId,
                 {
                     method: "DELETE"
@@ -392,3 +393,4 @@ if (backButton) {
 // ===============================
 
 loadReports();
+```

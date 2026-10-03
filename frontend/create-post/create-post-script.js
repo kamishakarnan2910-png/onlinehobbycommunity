@@ -578,7 +578,7 @@ form.addEventListener(
 
             const response =
                 await fetch(
-                    "http://localhost:8080/api/posts",
+                    "https://onlinehobbycommunity-1.onrender.com/posts",
                     {
                         method: "POST",
                         body: formData
