@@ -1,4 +1,4 @@
-﻿package com.hobbycommunity.config;
+package com.hobbycommunity.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -51,6 +51,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "DELETE",
                         "OPTIONS"
                 )
-                .allowedHeaders("*")
+                .allowedHeaders("*");
     }
 }
+
