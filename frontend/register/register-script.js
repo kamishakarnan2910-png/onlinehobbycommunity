@@ -1,11 +1,15 @@
-const form = document.getElementById("registerForm");
+﻿const form = document.getElementById("registerForm");
 
 form.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
     const submitButton = form.querySelector("button[type=\"submit\"]");
-    if (submitButton.disabled) return;
+
+    if (submitButton.disabled) {
+        return;
+    }
+
     submitButton.disabled = true;
 
     const name = document.getElementById("name").value.trim();
@@ -52,17 +56,20 @@ form.addEventListener("submit", async function(event) {
 
     try {
 
-        const response = await fetch("https://onlinehobbycommunity-1.onrender.com/api/users", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                password: password
-            })
-        });
+        const response = await fetch(
+            "https://onlinehobbycommunity-1.onrender.com/api/users",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    password: password
+                })
+            }
+        );
 
         if (response.ok) {
 
@@ -74,24 +81,26 @@ form.addEventListener("submit", async function(event) {
                 window.location.href = "../login/login.html";
             }, 1000);
 
+            return;
+        }
+
+        const errorText = await response.text();
+
+        if (errorText.includes("already registered") ||
+            errorText.includes("Duplicate") ||
+            errorText.includes("duplicate")) {
+
+            message.textContent =
+                "This email is already registered.";
+
         } else {
 
-            const errorText = await response.text();
-
-            if (errorText.includes("Duplicate") ||
-                errorText.includes("duplicate")) {
-
-                message.textContent =
-                    "This email is already registered.";
-
-            } else {
-
-                message.textContent =
-                    "Registration failed. Please try again.";
-            }
-
-            message.style.color = "#d14b5a";
+            message.textContent =
+                "Registration failed. Please try again.";
         }
+
+        message.style.color = "#d14b5a";
+        submitButton.disabled = false;
 
     } catch (error) {
 
@@ -100,6 +109,7 @@ form.addEventListener("submit", async function(event) {
         message.style.color = "#d14b5a";
 
         console.error(error);
+
         submitButton.disabled = false;
     }
 
