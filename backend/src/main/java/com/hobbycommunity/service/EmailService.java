@@ -33,7 +33,7 @@ public class EmailService {
                 "\n\nThis link is valid for 24 hours."
         );
 
-        mailSender.send(message);
+        try { mailSender.send(message); } catch (Exception e) { System.out.println("Email sending failed: " + e.getMessage()); }
     }
 
     public void sendLoginOtpEmail(
@@ -53,6 +53,7 @@ public class EmailService {
                 "\n\nThis OTP is valid for 5 minutes."
         );
 
-        mailSender.send(message);
+        try { mailSender.send(message); } catch (Exception e) { System.out.println("Email sending failed: " + e.getMessage()); }
     }
 }
+
