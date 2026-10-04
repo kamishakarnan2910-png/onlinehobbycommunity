@@ -4,6 +4,10 @@ form.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
+    const submitButton = form.querySelector("button[type=\"submit\"]");
+    if (submitButton.disabled) return;
+    submitButton.disabled = true;
+
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
@@ -19,6 +23,7 @@ form.addEventListener("submit", async function(event) {
     if (name === "") {
         message.textContent = "Please enter your name.";
         message.style.color = "#d14b5a";
+        submitButton.disabled = false;
         return;
     }
 
@@ -26,12 +31,14 @@ form.addEventListener("submit", async function(event) {
         message.textContent =
             "Password must contain 8+ characters, uppercase, lowercase, number and special character.";
         message.style.color = "#d14b5a";
+        submitButton.disabled = false;
         return;
     }
 
     if (password !== confirmPassword) {
         message.textContent = "Passwords do not match.";
         message.style.color = "#d14b5a";
+        submitButton.disabled = false;
         return;
     }
 
@@ -39,6 +46,7 @@ form.addEventListener("submit", async function(event) {
         message.textContent =
             "Please accept the Terms & Conditions.";
         message.style.color = "#d14b5a";
+        submitButton.disabled = false;
         return;
     }
 
@@ -92,6 +100,7 @@ form.addEventListener("submit", async function(event) {
         message.style.color = "#d14b5a";
 
         console.error(error);
+        submitButton.disabled = false;
     }
 
 });
