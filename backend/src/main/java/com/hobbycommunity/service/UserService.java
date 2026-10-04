@@ -34,6 +34,12 @@ public class UserService {
 
         user.setEmail(user.getEmail().trim());
 
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException(
+                    "Email already registered"
+            );
+        }
+
         user.setPassword(
                 passwordEncoder.encode(user.getPassword())
         );
