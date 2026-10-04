@@ -1,4 +1,4 @@
-﻿package com.hobbycommunity.service;
+package com.hobbycommunity.service;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
