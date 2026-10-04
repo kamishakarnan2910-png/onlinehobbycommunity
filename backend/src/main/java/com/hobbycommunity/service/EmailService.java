@@ -1,4 +1,4 @@
-package com.hobbycommunity.service;
+﻿package com.hobbycommunity.service;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,7 +16,7 @@ public class EmailService {
     public void sendVerificationEmail(String toEmail, String token) {
 
         String verificationLink =
-    "https://onlinehobbycommunity.onrender.com/api/email-verification/verify?token=" + token;
+    "https://onlinehobbycommunity-1.onrender.com/api/email-verification/verify?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
 

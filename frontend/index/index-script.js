@@ -1,5 +1,5 @@
-const API_BASE_URL =
-    "https://onlinehobbycommunity.onrender.com";
+﻿const API_BASE_URL =
+    "https://onlinehobbycommunity-1.onrender.com";
 
 
 // ================================
@@ -186,7 +186,7 @@ async function loadHobbies() {
             else {
 
                 imageContainer.textContent =
-                    "🎯";
+                    "ðŸŽ¯";
 
             }
 
@@ -376,7 +376,7 @@ function updateFloatingHobby(
 
 
     element.innerHTML = `
-        🎯
+        ðŸŽ¯
         <span>
             ${escapeHTML(
                 hobby.name ||
@@ -513,3 +513,4 @@ function escapeHTML(value) {
     return div.innerHTML;
 
 }
+

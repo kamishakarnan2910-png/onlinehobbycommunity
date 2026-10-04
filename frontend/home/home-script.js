@@ -1,4 +1,4 @@
-```javascript
+﻿```javascript
 const userId = sessionStorage.getItem("userId");
 
 if (!userId) {
@@ -17,19 +17,19 @@ async function loadHomeData() {
         ] = await Promise.all([
 
             fetch(
-                "https://onlinehobbycommunity.onrender.com/api/hobbies"
+                "https://onlinehobbycommunity-1.onrender.com/api/hobbies"
             ),
 
             fetch(
-                "https://onlinehobbycommunity.onrender.com/api/communities"
+                "https://onlinehobbycommunity-1.onrender.com/api/communities"
             ),
 
             fetch(
-                "https://onlinehobbycommunity.onrender.com/api/posts"
+                "https://onlinehobbycommunity-1.onrender.com/api/posts"
             ),
 
             fetch(
-                "https://onlinehobbycommunity.onrender.com/api/comments"
+                "https://onlinehobbycommunity-1.onrender.com/api/comments"
             )
         ]);
 
@@ -70,7 +70,7 @@ async function loadHomeData() {
 
                 const userResponse =
                     await fetch(
-                        `https://onlinehobbycommunity.onrender.com/api/users/${userId}`
+                        `https://onlinehobbycommunity-1.onrender.com/api/users/${userId}`
                     );
 
                 if (userResponse.ok) {
@@ -142,7 +142,7 @@ async function loadHomeData() {
 
                     card.innerHTML = `
                         <div class="hobby-image purple-bg">
-                            🎨
+                            ðŸŽ¨
                         </div>
 
                         <h3>
@@ -157,7 +157,7 @@ async function loadHomeData() {
                         <div class="card-bottom">
 
                             <span>
-                                🎯 ${hobby.category || "Hobby"}
+                                ðŸŽ¯ ${hobby.category || "Hobby"}
                             </span>
 
                             <button type="button">
@@ -208,7 +208,7 @@ async function loadHomeData() {
 
                     card.innerHTML = `
                         <div class="community-icon">
-                            👥
+                            ðŸ‘¥
                         </div>
 
                         <div>
@@ -225,7 +225,7 @@ async function loadHomeData() {
                         </div>
 
                         <span class="arrow">
-                            →
+                            â†’
                         </span>
                     `;
 
@@ -263,3 +263,4 @@ async function loadHomeData() {
 
 loadHomeData();
 ```
+
