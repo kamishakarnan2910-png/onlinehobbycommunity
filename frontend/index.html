@@ -1,45 +1,44 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>HobbyHub | Home</title>
+    <title>HobbyHub | Find Your Community</title>
 
-    <link rel="stylesheet" href="home/home-style.css">
+    <link rel="stylesheet" href="index/index-style.css">
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-
 <nav class="navbar">
 
-    <a href="home.html" class="logo">
-        ✦ HobbyHub
-    </a>
+    <div class="logo">
+        <span>âœ¦</span> HobbyHub
+    </div>
 
     <div class="nav-links">
 
-        <a href="home.html" class="active">
+        <a href="index.html">
             Home
         </a>
 
-        <a href="../explore/explore.html">
+        <a href="#hobbies">
             Explore
         </a>
 
-        <a href="../community/community.html">
-            Communities
+        <a href="#about">
+            About
         </a>
 
-        <a href="../notifications/notifications.html">
-            🔔
+        <a href="../login/login.html">
+            Login
         </a>
 
-        <a href="../profile/profile.html" class="profile-btn">
-            👤
+        <a href="../register/register.html"
+           class="join-btn">
+            Join Community
         </a>
 
     </div>
@@ -47,392 +46,323 @@
 </nav>
 
 
-<!-- MAIN -->
+<section class="hero">
 
-<main>
+    <div class="hero-content">
 
-    <!-- WELCOME -->
-
-    <section class="welcome">
-
-        <div>
-
-            <p class="small-title">
-                ✨ YOUR HOBBY SPACE
-            </p>
-
-            <h1>
-                Welcome back,<br>
-                <span>Hobby Explorer!</span>
-            </h1>
-
-            <p class="welcome-text">
-                Discover new interests, connect with people
-                and continue doing what you love.
-            </p>
-
-            <div class="welcome-buttons">
-
-                <a href="../explore/explore.html"
-                   class="primary-btn">
-                    Explore Hobbies →
-                </a>
-
-                <a href="../community/community.html"
-                   class="secondary-btn">
-                    My Communities
-                </a>
-
-            </div>
-
+        <div class="badge">
+            âœ¨ A place for every passion
         </div>
 
-
-        <div class="welcome-art">
-
-            <div class="circle"></div>
-
-            <div class="art-emoji">
-                🎨
-            </div>
-
-            <div class="floating hobby-one">
-                📷 Photography
-            </div>
-
-            <div class="floating hobby-two">
-                📚 Reading
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- QUICK STATS -->
-
-    <section class="stats">
-
-        <div class="stat-card">
-
-            <div class="stat-icon purple">
-                🌟
-            </div>
-
-            <div>
-                <strong>6</strong>
-                <small>Hobbies Joined</small>
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon pink">
-                👥
-            </div>
-
-            <div>
-                <strong>3</strong>
-                <small>Communities</small>
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon blue">
-                💬
-            </div>
-
-            <div>
-                <strong>24</strong>
-                <small>Discussions</small>
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon yellow">
-                ⭐
-            </div>
-
-            <div>
-                <strong>12</strong>
-                <small>Activities</small>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- POPULAR HOBBIES -->
-
-    <section class="popular">
-
-        <div class="section-heading">
-
-            <div>
-
-                <p class="small-title">
-                    DISCOVER
-                </p>
-
-                <h2>
-                    Popular Hobbies
-                </h2>
-
-                <p>
-                    Find something interesting and start exploring.
-                </p>
-
-            </div>
-
-            <a href="../explore/explore.html">
-                View All →
-            </a>
-
-        </div>
-
-
-        <div class="hobby-grid">
-
-            <div class="hobby-card">
-
-                <div class="hobby-image purple-bg">
-                    🎨
-                </div>
-
-                <h3>
-                    Art & Design
-                </h3>
-
-                <p>
-                    Creative minds sharing their artwork.
-                </p>
-
-                <div class="card-bottom">
-
-                    <span>
-                        👥 245 members
-                    </span>
-
-                    <button>
-                        Join
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="hobby-card">
-
-                <div class="hobby-image pink-bg">
-                    📷
-                </div>
-
-                <h3>
-                    Photography
-                </h3>
-
-                <p>
-                    Capture moments and share stories.
-                </p>
-
-                <div class="card-bottom">
-
-                    <span>
-                        👥 189 members
-                    </span>
-
-                    <button>
-                        Join
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="hobby-card">
-
-                <div class="hobby-image blue-bg">
-                    💻
-                </div>
-
-                <h3>
-                    Technology
-                </h3>
-
-                <p>
-                    Learn, build and discuss technology.
-                </p>
-
-                <div class="card-bottom">
-
-                    <span>
-                        👥 320 members
-                    </span>
-
-                    <button>
-                        Join
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- COMMUNITIES -->
-
-    <section class="communities">
-
-        <div class="section-heading">
-
-            <div>
-
-                <p class="small-title">
-                    YOUR SPACE
-                </p>
-
-                <h2>
-                    Your Communities
-                </h2>
-
-            </div>
-
-            <a href="../community/community.html">
-                View All →
-            </a>
-
-        </div>
-
-
-        <div class="community-grid">
-
-            <div class="community-card">
-
-                <div class="community-icon">
-                    🎨
-                </div>
-
-                <div>
-
-                    <h3>
-                        Creative Artists
-                    </h3>
-
-                    <p>
-                        120 members · Active today
-                    </p>
-
-                </div>
-
-                <span class="arrow">
-                    →
-                </span>
-
-            </div>
-
-
-            <div class="community-card">
-
-                <div class="community-icon">
-                    📚
-                </div>
-
-                <div>
-
-                    <h3>
-                        Book Lovers
-                    </h3>
-
-                    <p>
-                        86 members · Active today
-                    </p>
-
-                </div>
-
-                <span class="arrow">
-                    →
-                </span>
-
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<!-- FOOTER -->
-
-<footer>
-
-    <div>
-
-        <strong>
-            ✦ HobbyHub
-        </strong>
+        <h1>
+            Your Hobby.<br>
+            <span>Your People.</span><br>
+            Your Community.
+        </h1>
 
         <p>
-            Connect through hobbies. Grow together.
+            Discover hobbies you love, meet like-minded people,
+            share your creativity and grow together.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="../register/register.html"
+               class="primary-btn">
+                Start Exploring <span>â†’</span>
+            </a>
+
+            <a href="#hobbies"
+               class="explore-btn">
+                Explore Hobbies
+            </a>
+
+        </div>
+
+
+        <!-- Dynamic Stats -->
+
+        <div class="stats">
+
+            <div>
+                <strong id="hobbyCount">
+                    0
+                </strong>
+
+                <small>
+                    Hobbies
+                </small>
+            </div>
+
+
+            <div>
+                <strong id="communityCount">
+                    0
+                </strong>
+
+                <small>
+                    Communities
+                </small>
+            </div>
+
+
+            <div>
+                <strong id="memberCount">
+                    0
+                </strong>
+
+                <small>
+                    Members
+                </small>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-visual">
+
+        <div class="glow"></div>
+
+
+        <!-- Dynamic Popular Hobby -->
+
+        <div class="main-card">
+
+            <div class="card-top">
+
+                <span>
+                    Popular Hobby
+                </span>
+
+                <span class="heart">
+                    â™¡
+                </span>
+
+            </div>
+
+
+            <div class="art-box"
+                 id="popularHobbyIcon">
+                ðŸŽ¨
+            </div>
+
+
+            <h3 id="popularHobbyName">
+                Loading...
+            </h3>
+
+
+            <p id="popularHobbyDescription">
+                Loading hobby information...
+            </p>
+
+
+            <div class="members">
+                <span>ðŸ‘©</span>
+                <span>ðŸ‘¨</span>
+                <span>ðŸ‘©â€ðŸŽ¨</span>
+                <span class="more">
+                    +
+                </span>
+            </div>
+
+
+            <a href="#hobbies">
+                <button type="button">
+                    Explore Hobby
+                </button>
+            </a>
+
+        </div>
+
+
+        <div class="floating-card card-one"
+             id="floatingHobbyOne">
+            ðŸŽ¯ <span>Loading...</span>
+        </div>
+
+
+        <div class="floating-card card-two"
+             id="floatingHobbyTwo">
+            ðŸŽ¯ <span>Loading...</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="hobbies"
+         id="hobbies">
+
+    <div class="section-heading">
+
+        <div class="badge">
+            EXPLORE
+        </div>
+
+        <h2>
+            Find What You <span>Love</span>
+        </h2>
+
+        <p>
+            There is always something new to discover.
+            Explore hobbies and find your community.
         </p>
 
     </div>
 
 
-    <div class="footer-links">
+    <!-- Dynamic Hobby Cards -->
 
-        <a href="../explore/explore.html">
-            Explore
-        </a>
+    <div class="hobby-grid"
+         id="hobbyGrid">
 
-        <a href="../community/community.html">
-            Communities
-        </a>
+        <p>
+            Loading hobbies...
+        </p>
 
-        <a href="../profile/profile.html">
-            Profile
-        </a>
+    </div>
 
-        <a href="../messages/messages.html">
-            Messages
-        </a>
+</section>
 
-        <a href="../contact-us/contact-us.html">
-            Contact Us
-        </a>
 
-        <a href="../about/about.html">
-            About
-        </a>
 
-        <a href="../settings/settings.html">
-            Settings
-        </a>
+<section class="about"
+         id="about">
 
-        <a href="../help-support/help-support.html">
-            Help & Support
+    <div class="about-content">
+
+        <div class="badge">
+            WHY HOBBYHUB?
+        </div>
+
+        <h2>
+            More Than A Hobby.<br>
+            <span>It's A Community.</span>
+        </h2>
+
+        <p>
+            HobbyHub brings people together through the things
+            they love. Learn new skills, share your creativity
+            and make meaningful connections.
+        </p>
+
+        <a href="../register/register.html"
+           class="primary-btn">
+            Create Your Account â†’
         </a>
 
     </div>
 
+
+    <div class="about-cards">
+
+        <div class="mini-card">
+
+            <div>ðŸ¤</div>
+
+            <h3>
+                Meet People
+            </h3>
+
+            <p>
+                Connect with people who share your interests.
+            </p>
+
+        </div>
+
+
+        <div class="mini-card">
+
+            <div>ðŸŒŸ</div>
+
+            <h3>
+                Build Communities
+            </h3>
+
+            <p>
+                Create or join communities around hobbies.
+            </p>
+
+        </div>
+
+
+        <div class="mini-card">
+
+            <div>ðŸš€</div>
+
+            <h3>
+                Grow Together
+            </h3>
+
+            <p>
+                Learn, share and improve together.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="cta">
+
+    <div class="cta-glow"></div>
+
+    <div class="cta-content">
+
+        <div class="badge light">
+            READY TO CONNECT?
+        </div>
+
+        <h2>
+            Find Your People.<br>
+            Start Your Journey.
+        </h2>
+
+        <p>
+            Your next favorite hobby and your next community
+            are waiting for you.
+        </p>
+
+        <a href="../register/register.html">
+            Join HobbyHub âœ¦
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<footer>
+
+    <div class="footer-logo">
+        âœ¦ HobbyHub
+    </div>
+
+    <p>
+        Connect through hobbies. Grow together.
+    </p>
+
+    <div class="footer-line"></div>
+
+    <small>
+        Â© 2026 HobbyHub. All Rights Reserved.
+    </small>
+
 </footer>
 
 
-<script src="home/home-script.js"></script>
+
+<script src="index/index-script.js"></script>
 
 </body>
+
 </html>
